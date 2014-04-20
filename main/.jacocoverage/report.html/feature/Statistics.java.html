@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Statistics.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">feature</a> &gt; <span class="el_source">Statistics.java</span></div><h1>Statistics.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package feature;
+
+import db.*;
+import dbfunctions.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ *
+ * @author sumit
+ */
+<span class="nc" id="L19">public class Statistics {</span>
+   public static List&lt;Sales&gt; getAllSaleswithinPeriod(Date d1,Date d2)
+   {
+<span class="nc" id="L22">       List&lt;Sales&gt; list=new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L23">       list.addAll(Manager.em.createQuery(&quot;SELECT s FROM Sales s WHERE s.date&gt;=:d1 AND s.date&lt;=:d2&quot;).setParameter(&quot;d1&quot;, d1)</span>
+               .setParameter(&quot;d2&quot;, d2).getResultList());
+<span class="nc" id="L25">       return list;</span>
+   }
+   public static List&lt;Book&gt; getBooksBelowThreshold(int threshold)
+   {
+<span class="nc" id="L29">       return Manager.em.createQuery(&quot;SELECT b FROM Book b WHERE b.copiesPresent&lt;:thres&quot;).setParameter(&quot;thres&quot;, threshold)</span>
+               .getResultList();
+   }
+   public static List&lt;Object[]&gt; getSoldBooksInDescendingOrder(Date d1,Date d2)
+   {
+       
+<span class="nc" id="L35">       d1=new Date();d2=new Date();</span>
+       
+<span class="nc" id="L37">       List&lt;Object[]&gt; queryList=Manager.em.createQuery(&quot;SELECT s.book.id,SUM(s.copies) FROM Sales s WHERE s.date&gt;=:d1 AND s.date&lt;=:d2  GROUP BY s.book.id&quot;).</span>
+               setParameter(&quot;d1&quot;, d1).
+               setParameter(&quot;d2&quot;, d2)
+               .getResultList();
+<span class="nc" id="L41">       List&lt;Object[]&gt; returnList = new LinkedList&lt;&gt;();</span>
+       
+<span class="nc bnc" id="L43" title="All 2 branches missed.">       for (Object[] queryObjects : queryList) {</span>
+<span class="nc" id="L44">           Book b=Manager.em.find(Book.class, (Integer)queryObjects[0]);</span>
+<span class="nc" id="L45">           Object [] returnObjects=new Object[3];</span>
+<span class="nc" id="L46">           returnObjects[0]=b;</span>
+<span class="nc" id="L47">           returnObjects[1]=queryObjects[1];</span>
+           
+           
+<span class="nc" id="L50">           List&lt;Invoice&gt; invoices=Manager.em.createQuery(&quot;SELECT i FROM Invoice i WHERE i.book=:book&quot;).setParameter(&quot;book&quot;, b)</span>
+                   .getResultList();
+           
+<span class="nc" id="L53">           float orderCostperOrder=0;</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">           for (Invoice invoice : invoices) {</span>
+<span class="nc" id="L55">               orderCostperOrder+=invoice.getCopies()*b.getBuyingprice();</span>
+<span class="nc" id="L56">           }</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">           if(!invoices.isEmpty())</span>
+<span class="nc" id="L58">               orderCostperOrder/=invoices.size();</span>
+           else
+<span class="nc" id="L60">               orderCostperOrder=b.getBuyingprice();</span>
+           
+<span class="nc" id="L62">           Long demand=(Long) returnObjects[1];</span>
+<span class="nc" id="L63">           float holdingCostPerUnit=b.getBuyingprice()/50;</span>
+<span class="nc" id="L64">           float inventoryLevel=(float) Math.sqrt(2*orderCostperOrder*demand/holdingCostPerUnit);</span>
+<span class="nc" id="L65">           returnObjects[2]=inventoryLevel; </span>
+<span class="nc" id="L66">           returnList.add(returnObjects);</span>
+<span class="nc" id="L67">       }</span>
+       
+       
+       
+<span class="nc" id="L71">       return returnList;</span>
+   }
+   
+   
+   public static String getAllDetailsOfABook(Book book)
+   {
+<span class="nc" id="L77">       String statString=&quot;&quot;;</span>
+<span class="nc" id="L78">       statString+=&quot;TOTAL PURCHASES FOR THIS BOOK\n&quot;;</span>
+<span class="nc" id="L79">           List&lt;Invoice&gt; invoices=Manager.em.createQuery(&quot;SELECT i FROM Invoice i WHERE i.book=:book&quot;).setParameter(&quot;book&quot;, book)</span>
+                   .getResultList();
+<span class="nc" id="L81">           statString+=&quot;COPIES\t\tPRICE\n&quot;;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">           for (Invoice invoice : invoices) {</span>
+<span class="nc" id="L83">           statString+=&quot;&quot;+invoice.getCopies()+&quot;\t\t&quot;+invoice.getBook().getBuyingprice()+&quot;\n&quot;;</span>
+<span class="nc" id="L84">       }</span>
+<span class="nc" id="L85">       return statString;</span>
+   }
+    public static void main(String[] args) {
+<span class="nc" id="L88">        Manager em=new Manager(); </span>
+//        System.out.println(getAllDetailsOfABook(Manager.em.find(Book.class, 64)));
+        
+<span class="nc" id="L91">        List&lt;Object[]&gt; objectsList=getSoldBooksInDescendingOrder(null, null);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        for (Object[] objects : objectsList) {</span>
+<span class="nc" id="L93">            System.out.println(objects[0]);</span>
+<span class="nc" id="L94">            System.out.println(objects[1]);</span>
+<span class="nc" id="L95">            System.out.println(objects[2]);</span>
+<span class="nc" id="L96">        }</span>
+        
+        
+<span class="nc" id="L99">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

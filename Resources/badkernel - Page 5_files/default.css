@@ -1,0 +1,525 @@
+@charset "utf-8";
+/* 
+HeatMap Theme 2
+Author: Stuart Wider
+Copyright: Stuart Wider 2009
+Website: HeatMapTheme.com
+This file last updated: 16/2/2010
+
+This file is part of HeatMap Theme 2
+	
+HeatMap Theme 2 is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+HeatMap Theme 2 is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.	
+*/
+
+/* 	
+	This CSS file groups together all css definitions for elements relating to
+	colour, style, borders, background images etc. You'll find the structural elements
+	in style.css.
+	
+	If you just want to tweak a few colours then you can do that in here,
+	**HOWEVER**
+	I would highly recommend you do it by using a Child Theme instead
+	so that you can easily upgrade HeatMap Theme with the latest release and still
+	keep your tweaks intact. 
+	
+	Child Themes come in a number colours and styles for HeatMap Theme. 
+	You can purchase Child Themes from from HeatMapTheme.com. 
+	Pick one that you like and then start styling from there. 
+	
+	The great thing about Child Themes is you can override any of the core Heatmap Theme
+	files with any customisation you like but still keep the core files intact.
+	
+	It's an eminently sensible way to go and I recommend it to you.
+	
+	Happy styling fellow HeatMapsters!
+*/
+ 
+ 
+body { 
+	background: #eaeef6 url(images/wallpaper-bg.jpg) repeat-x;
+	font-family: Verdana, Geneva, sans-serif;
+}
+
+
+/* Link Elements 
+-------------------------------------------------------------- */
+
+	a {color: #006; text-decoration:none;}
+	a:link, a:visited {color: #006;}
+	a:hover {color: #F00; text-decoration:underline;}
+	
+	a:link img, a:visited img { border: none;}
+	
+
+/* Main 
+-------------------------------------------------------------- */
+#main {	
+	background-color:#FFF;
+/*	border-left:solid #000 1px; */
+}
+
+
+/* Header Bar
+-------------------------------------------------------------- */
+
+#header-bar {
+	background: url(images/header-bg.jpg) #4c78d7 repeat-x;
+}
+
+#header-bar #header-bar-content .blog-title a,
+#header-bar #header-bar-content .blog-title a:visited {color: #FFF;}
+
+#header-bar #header-bar-content .blog-tagline a,
+#header-bar #header-bar-content .blog-tagline a:visited {color: #FFF;}
+	
+	
+/* Nav Bar
+-------------------------------------------------------------- */
+
+#nav-bar {background: url(images/nav-bar-bg.jpg) #1c1c76 repeat-x;}
+
+
+#nav-bar ul li a {
+	color:#FFF;
+	text-decoration:none;
+}
+
+#nav-bar ul li a:hover {
+	color: #FC0;
+	text-decoration:underline;
+}
+
+
+/* Search Bar
+-------------------------------------------------------------- */
+
+#search-bar {background: url(images/nav-bar-bg.jpg) #1c1c76 repeat-x;}
+
+#searchform input{ /*added 3/1/2010 */
+	border: 1px solid #153a81; 
+}
+
+
+/* Categories Bar
+-------------------------------------------------------------- */
+
+#cat-bar {
+	background: url(images/cat-bar-bg.jpg) #1b479e repeat-x;
+}
+
+
+#cat-bar ul li a {
+	color:#FFF;
+	text-decoration:none;
+}
+
+#cat-bar ul li a:hover {
+	color:#FC0;
+	text-decoration:underline;
+}
+
+
+/* RSS Bar
+-------------------------------------------------------------- */
+
+#rss-bar {
+	color:#FFF;
+	background: url(images/cat-bar-bg.jpg) #1b479e repeat-x;
+}
+
+#rss-bar a {
+	color:#FFF;
+	text-decoration:none;
+}
+
+#rss-bar a:hover {
+	color:#FC0;
+	text-decoration:underline;
+}
+
+#rss-bar .rss-feedburner {background: url(images/rss-red.gif) no-repeat;}
+
+#rss-bar .rss-posts {background: url(images/rss-orange.gif) no-repeat;}
+
+#rss-bar .rss-comments {background: url(images/rss-cyan.gif) no-repeat;}
+
+
+/* Wrap around the entire contents of the page below the nav
+-------------------------------------------------------------- */
+
+#google-results-body-wrapper {background-color:#FFF;}
+
+
+/* Post Content (ie Content of a Post)
+-------------------------------------------------------------- */
+
+.post-content h1.h1-underline,
+.featured-page-content h1.h1-underline {border-bottom:solid 1px #9cb6e9;}
+
+.post-content h2.h2-simulate-h1-size-underline,
+.featured-page-content h2.h2-simulate-h1-size-underline {border-bottom:solid 1px #9cb6e9;}
+ 
+.post-content .more-link,
+.featured-page-content .more-link {text-decoration: underline;}
+
+
+/* Post Details (ie The details of a post)
+-------------------------------------------------------------- */
+
+.post-details, 
+.featured-page-details {
+	background: url(images/comment-bg.jpg) #FFF repeat-x;
+	border:solid 1px #9cb6e9;
+}
+
+.post-details .comment-button,
+.featured-page-details .comment-button {
+	background: #2c58b7; 
+	border:solid 1px #9cb6e9;
+	color: #FFF;
+}
+
+.post-details .comment-button a,
+.featured-page-details .comment-button a {
+	color:#FFF;
+	text-decoration: underline;
+}
+	
+.post-details .comment-button a:hover,
+.featured-page-details .comment-button a:hover {
+	color: #FC0;
+	text-decoration: underline;
+}
+
+/* Post Navigation
+-------------------------------------------------------------- */
+
+.post-nav p a {text-decoration: underline;}
+	
+.post-nav p a:hover {text-decoration: underline;}
+
+
+/* Comments
+-------------------------------------------------------------- */
+
+#respond {
+	background: url(images/comment-bg.jpg) #FFF repeat-x;
+	border:solid 1px #9cb6e9;
+}
+
+#respond textarea {   /*added 3/1/2010 */
+border : 1px solid #9cb6e9;
+}
+
+#submit {
+	border: 1px solid #153a81;   /* edited 3/1/2010 */
+	color: #FFF;
+	background: url(images/button-bg.jpg) #949494 repeat-x;
+}
+
+#submit:hover {
+	border: 1px solid #FC0;
+	cursor: pointer;
+}
+
+
+/* Style Threaded Comments - added 19/10/09
+-------------------------------------------------------------- */
+
+.comment-item .comment-body {
+	background: url(images/comment-bg.jpg) repeat-x; 
+	border:solid 1px #9cb6e9;
+	background-color:#FFF;
+}
+
+.comment-item .comment-reply-link {
+	background: #2c58b7;    /*edited 3/1/2010 */
+	border:solid 1px #9cb6e9;  /*edited 3/1/2010 */
+}
+
+.comment-item .reply a {
+	color:#FFF;
+	text-decoration: underline;
+}
+
+.comment-item .reply a:hover {
+	color: #FC0;
+	text-decoration: underline;
+}
+
+
+/* Sidebars
+-------------------------------------------------------------- */
+
+#top-widebar a,
+#bottom-widebar a,
+#left-sidebar a,
+#right-sidebar a {
+	color: #006; 
+	text-decoration:none;				
+}
+
+#top-widebar a:link, 
+#top-widebar a:visited,
+#bottom-widebar a:link, 
+#bottom-widebar a:visited,
+#left-sidebar a:link, 
+#left-sidebar a:visited,
+#right-sidebar a:link, 
+#right-sidebar a:visited {
+	color: #006;
+}
+
+#top-widebar a:hover,
+#bottom-widebar a:hover,
+#left-sidebar a:hover,
+#right-sidebar a:hover {
+	color: #F00; text-decoration:underline;
+}
+
+
+/* Widgets Areas
+-------------------------------------------------------------- */
+
+/* Widget title
+-----------------------*/
+
+#top-widebar .widgettitle,
+#bottom-widebar .widgettitle,
+#left-sidebar .widgettitle, 
+#right-sidebar .widgettitle {
+	background: url(images/widget-heading-bg.jpg) #2e539a repeat-x;
+	color:#FFF;
+	border:solid 1px #9cb6e9; 
+}
+
+#top-widebar .widgettitle a,
+#bottom-widebar .widgettitle a,
+#left-sidebar .widgettitle a,
+#right-sidebar .widgettitle a {
+	color:#FFF;
+}
+
+/* Widget outline for input boxes added 3/10/2010
+-----------------------*/
+
+#top-widebar input,
+#bottom-widebar input,
+#left-sidebar input, 
+#right-sidebar input{
+border : 1px solid #153a81;
+}
+
+
+/* Blog Search Widget
+-----------------------*/
+
+#top-widebar .widget_search,
+#bottom-widebar .widget_search,
+#left-sidebar .widget_search,
+#right-sidebar .widget_search {
+	color:#FFF;
+	background: url(images/search-bg.jpg) #6084d2 repeat-x; /*edited 3/02/10 */
+}
+
+
+#top-widebar .widget_search form,
+#bottom-widebar .widget_search form,
+#left-sidebar .widget_search form,
+#right-sidebar .widget_search form
+{
+	color:#FFF;				
+}
+
+#searchsubmit {
+	border: 1px solid #333;
+	color: #FFF;
+	background: url(images/button-bg.jpg) #949494 repeat-x;	
+}
+
+#searchsubmit:hover {
+	border: 1px solid #FC0;
+	cursor: pointer;
+}
+
+
+/* Calendar Widget
+-----------------------*/
+
+#top-widebar .widget_calendar table a,
+#bottom-widebar .widget_calendar table a,
+#left-sidebar .widget_calendar table a,
+#right-sidebar .widget_calendar table a { 
+	text-decoration:underline;
+}
+
+#top-widebar .widget_calendar thead th,	
+#bottom-widebar .widget_calendar thead th,
+#left-sidebar .widget_calendar thead th, 	
+#right-sidebar .widget_calendar thead th {
+	background: #4d73c8; 
+}
+					
+#top-widebar .widget_calendar tr.even td,  
+#bottom-widebar .widget_calendar tr.even td,
+#left-sidebar .widget_calendar tr.even td,  
+#right-sidebar .widget_calendar tr.even td {
+	background: #c3cee4; 
+}
+					
+#top-widebar .widget_calendar caption,
+#bottom-widebar .widget_calendar caption,
+#left-sidebar .widget_calendar caption,
+#right-sidebar .widget_calendar caption { 
+	background: #c3cee4;
+}
+
+#top-widebar .more-link,
+#bottom-widebar .more-link,
+#left-sidebar .more-link,
+#right-sidebar .more-link {
+	text-decoration: underline;
+}
+
+/* Feedburner Widget
+-----------------------*/
+
+#header-bar-right .hmt_widget_feedburner {color: #FFF;}
+
+
+#fbsubmit {
+	border: 1px solid #333;
+	color: #FFF;
+	background: url(images/button-bg.jpg) #949494 repeat-x;	
+}
+
+#fbsubmit:hover {
+	border: 1px solid #FC0;			
+}
+
+#top-widebar .hmt_widget_feedburner,
+#bottom-widebar .hmt_widget_feedburner,
+#left-sidebar .hmt_widget_feedburner,
+#right-sidebar .hmt_widget_feedburner {
+	color:#FFF;				
+}
+
+
+
+/* Footer
+-------------------------------------------------------------- */
+
+#footer {
+	color:#FFF;
+	background: url(images/footer-bg.jpg) #1c1c76 repeat-x; /* fixed background colour 16/2/2010 */
+}
+
+#footer a {
+	color: #FFF;
+	text-decoration:none;
+}
+
+#footer a:hover {
+	color:#FC0;
+	text-decoration:underline;
+}
+
+
+/* Sub-footer
+-----------------------*/
+
+#sub-footer {
+	background: url(images/subfooter-bg.jpg) #1b479e repeat-x;  /* fixed background colour 16/2/2010 */
+}
+
+#sub-footer-content {color:#FFF;}
+
+
+/* Sub-Footer Left and Right
+-----------------------*/
+
+#sub-footer a {
+	color: #FFF;
+	text-decoration:none;
+}
+
+#sub-footer a:hover {
+	color:#FC0;
+	text-decoration:underline;
+}
+
+
+/* Making things nice and rounded for browsers that support it 
+-------------------------------------------------------------- */
+
+#main,
+#header-bar {
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-khtml-border-top-left-radius: 5px;
+	-khtml-border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+#main, 
+#sub-footer {
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-khtml-border-bottom-left-radius: 5px;
+	-khtml-border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.post-details .comment-button,
+.featured-page-details .comment-button {
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+
+/* Rounded corners for everything that needs the same generic type 
+-------------------------------------------------------------- */
+
+.post-details, 
+.featured-page-details,
+#respond,
+#submit,
+.comment-item .comment-body, 
+
+#top-widebar .widgettitle,
+#bottom-widebar .widgettitle,
+#left-sidebar .widgettitle, 
+#right-sidebar .widgettitle,
+
+#top-widebar .widget_search,
+#bottom-widebar .widget_search,
+#left-sidebar .widget_search,
+#right-sidebar .widget_search,
+
+#searchsubmit,
+
+#fbsubmit {
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}

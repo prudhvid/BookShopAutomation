@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Reservesf.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dbfunctions</a> &gt; <span class="el_source">Reservesf.java</span></div><h1>Reservesf.java</h1><pre class="source lang-java linenums">
+
+package dbfunctions;
+
+import db.*;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import main.UserSession;
+import org.eclipse.persistence.sessions.SessionProfiler;
+
+
+
+
+<span class="nc" id="L14">public class Reservesf {</span>
+    
+//    public static Reserves getReserves(Book b)
+//    {
+//        Book x=Bookf.search(b);
+//        if(x!=null)
+//        {
+//            
+//        }
+//    }
+    final public static char INCREMENT_TYPE='C';
+    final public static char REQUEST_TYPE='R';
+    final public static char ARRIVED_TYPE='A';
+    final public static char ACCEPTED_TYPE='T';
+<span class="nc" id="L28">    public static Character GIVEN_TYPE='G';</span>
+    public static Reserves addReserve(Book book,Customer c,int copies)//assuming book is already there in db and refernce of it is given 
+    {
+<span class="nc" id="L31">        copies=1;</span>
+<span class="nc" id="L32">        Book indbBook=Bookf.search(book);</span>
+<span class="nc bnc" id="L33" title="All 4 branches missed.">        if(indbBook!=null&amp;&amp;indbBook.getState()==Bookf.COMPLETE_BOOK_STATE)</span>
+        {
+<span class="nc bnc" id="L35" title="All 2 branches missed.">            if(indbBook.getCopiesPresent()!=0)</span>
+            {
+<span class="nc" id="L37">                JOptionPane.showMessageDialog(null, &quot;Sorry already enough copies present&quot;);</span>
+<span class="nc" id="L38">                return null;</span>
+            }
+<span class="nc" id="L40">            System.out.println(&quot;inDB&quot;);</span>
+<span class="nc" id="L41">            indbBook.setState(Bookf.INCREMENT_STATE);</span>
+<span class="nc" id="L42">            Reserves rs=new Reserves();</span>
+<span class="nc" id="L43">            rs.setBook(indbBook);</span>
+<span class="nc" id="L44">            rs.setCopies(1);</span>
+<span class="nc" id="L45">            rs.setDate(new Date());</span>
+<span class="nc" id="L46">            rs.setType(INCREMENT_TYPE);</span>
+<span class="nc" id="L47">            rs.setCustomer(c);</span>
+<span class="nc bnc" id="L48" title="All 4 branches missed.">            if( Manager.commit(indbBook)&amp;&amp;Manager.commit(rs))</span>
+<span class="nc" id="L49">                return rs;</span>
+<span class="nc" id="L50">            return null;  </span>
+        }
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if(indbBook==null)</span>
+<span class="nc" id="L53">            book=Bookf.addBook(book);</span>
+        else
+<span class="nc" id="L55">            book=Bookf.search(book);</span>
+<span class="nc" id="L56">        System.out.println(book);</span>
+<span class="nc" id="L57">        System.out.println(&quot;in db not&quot;);</span>
+<span class="nc" id="L58">        Reserves rs=new Reserves();</span>
+<span class="nc" id="L59">        rs.setBook(book);</span>
+<span class="nc" id="L60">        rs.setCopies(1);</span>
+<span class="nc" id="L61">        rs.setDate(new Date());</span>
+<span class="nc" id="L62">        rs.setType(REQUEST_TYPE);</span>
+<span class="nc" id="L63">        rs.setCustomer(c);</span>
+<span class="nc" id="L64">        book.setState(Bookf.REQUEST_STATE);</span>
+        
+<span class="nc bnc" id="L66" title="All 4 branches missed.">        if(Manager.commit(book)&amp;&amp;Manager.commit(rs))</span>
+<span class="nc" id="L67">            return rs;</span>
+        
+<span class="nc" id="L69">        return null;</span>
+    }
+    public static void main(String[] args) {
+<span class="nc" id="L72">        Manager manager=new Manager();</span>
+<span class="nc" id="L73">        Book b=new Book(&quot;Devil home&quot;);</span>
+<span class="nc" id="L74">       Customer customer= UserSession.giveCustomerDetails(&quot;Prudhvi&quot;, &quot;dharmana.prudhvi@gmial.co&quot;, &quot;87236871263&quot;);</span>
+        
+<span class="nc bnc" id="L76" title="All 2 branches missed.">       if(addReserve(b, customer, 1)==null)</span>
+<span class="nc" id="L77">            System.out.println(false);</span>
+        
+<span class="nc" id="L79">    }</span>
+       
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

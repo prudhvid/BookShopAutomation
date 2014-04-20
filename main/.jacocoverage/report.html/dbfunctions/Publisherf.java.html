@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Publisherf.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dbfunctions</a> &gt; <span class="el_source">Publisherf.java</span></div><h1>Publisherf.java</h1><pre class="source lang-java linenums">
+
+package dbfunctions;
+
+import db.*;
+import java.util.List;
+
+public class Publisherf extends Publisher{
+
+<span class="nc" id="L10">    public Publisherf() {</span>
+<span class="nc" id="L11">    }</span>
+    
+    public static void main(String[] args) {
+        
+<span class="nc" id="L15">    }</span>
+    
+    private static Publisher search(String a)
+    {
+<span class="nc" id="L19">        List&lt;Publisher&gt; list=(List&lt;Publisher&gt;)Manager.em.createNamedQuery(&quot;Publisher.findByName&quot;).setParameter(&quot;name&quot;, a).getResultList();</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        if(list.isEmpty())</span>
+<span class="nc" id="L21">            return null;</span>
+<span class="nc" id="L22">        return list.get(0); </span>
+    }
+    
+    public static Publisher addPublisher(String pub,String vendorString){
+<span class="nc" id="L26">        Publisher p=new Publisher();</span>
+<span class="nc" id="L27">        p.setName(pub);</span>
+<span class="nc" id="L28">        p.setVendor(vendorString);</span>
+<span class="nc" id="L29">        return addPublisher(p);</span>
+        
+    }
+    
+    public static Publisher addPublisher(Publisher pub){
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if(pub==null)</span>
+<span class="nc" id="L35">            return null;</span>
+<span class="nc" id="L36">        System.out.println(&quot;received to add&quot;+pub);</span>
+<span class="nc" id="L37">        Publisher t=search(pub.getName());</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if(t!=null)</span>
+        {
+<span class="nc" id="L40">            System.out.println(&quot;already present publisher &quot;);</span>
+<span class="nc" id="L41">            t.setVendor(pub.getVendor());</span>
+<span class="nc" id="L42">            t.setAddress(pub.getAddress());</span>
+<span class="nc" id="L43">            t.setMail(pub.getMail());</span>
+<span class="nc" id="L44">            t.setPhone(pub.getPhone());</span>
+<span class="nc" id="L45">            Manager.commit(t);</span>
+<span class="nc" id="L46">            return t;</span>
+        }
+<span class="nc" id="L48">        System.out.println(&quot;adding new publisher&quot;);</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if(Manager.commit(pub))</span>
+<span class="nc" id="L50">            return pub; </span>
+<span class="nc" id="L51">        return null;</span>
+    }
+    
+    
+    public static Publisher getEmptyPublisher()
+    {
+<span class="nc" id="L57">        Publisher pub=new Publisher();</span>
+<span class="nc" id="L58">        pub.setName(&quot;UNKNOWN&quot;);</span>
+<span class="nc" id="L59">        pub=addPublisher(pub);</span>
+<span class="nc" id="L60">        return pub;</span>
+    }
+    public static boolean isComplete(Publisher publisher)
+    {
+<span class="nc bnc" id="L64" title="All 6 branches missed.">        return !&quot;&quot;.equals(publisher.getName())&amp;&amp;!&quot;&quot;.equals(publisher.getVendor())&amp;&amp;!&quot;&quot;.equals(publisher.getAddress());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

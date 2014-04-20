@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AutoCompletion.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">AutoCompletion.java</span></div><h1>AutoCompletion.java</h1><pre class="source lang-java linenums">
+
+package test;
+
+
+
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.ComboBoxEditor;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.PlainDocument;
+
+/* This work is hereby released into the Public Domain.
+ * To view a copy of the public domain dedication, visit
+ * http://creativecommons.org/licenses/publicdomain/
+ */
+public class AutoCompletion extends PlainDocument {
+    JComboBox comboBox;
+    ComboBoxModel model;
+    JTextComponent editor;
+    // flag to indicate if setSelectedItem has been called
+    // subsequent calls to remove/insertString should be ignored
+<span class="nc" id="L38">    boolean selecting=false;</span>
+    boolean hidePopupOnFocusLoss;
+<span class="nc" id="L40">    boolean hitBackspace=false;</span>
+    boolean hitBackspaceOnSelection;
+  
+    KeyListener editorKeyListener;
+    FocusListener editorFocusListener;
+  
+<span class="nc" id="L46">    public AutoCompletion(final JComboBox comboBox) {</span>
+<span class="nc" id="L47">        this.comboBox = comboBox;</span>
+<span class="nc" id="L48">        model = comboBox.getModel();</span>
+<span class="nc" id="L49">        comboBox.addActionListener(new ActionListener() {</span>
+            public void actionPerformed(ActionEvent e) {
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                if (!selecting) highlightCompletedText(0);</span>
+<span class="nc" id="L52">            }</span>
+        });
+<span class="nc" id="L54">        comboBox.addPropertyChangeListener(new PropertyChangeListener() {</span>
+            public void propertyChange(PropertyChangeEvent e) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                if (e.getPropertyName().equals(&quot;editor&quot;)) configureEditor((ComboBoxEditor) e.getNewValue());</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                if (e.getPropertyName().equals(&quot;model&quot;)) model = (ComboBoxModel) e.getNewValue();</span>
+<span class="nc" id="L58">            }</span>
+        });
+<span class="nc" id="L60">        editorKeyListener = new KeyAdapter() {</span>
+            public void keyPressed(KeyEvent e) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                if (comboBox.isDisplayable()) comboBox.setPopupVisible(true);</span>
+<span class="nc" id="L63">                hitBackspace=false;</span>
+<span class="nc bnc" id="L64" title="All 3 branches missed.">                switch (e.getKeyCode()) {</span>
+                    // determine if the pressed key is backspace (needed by the remove method)
+<span class="nc" id="L66">                    case KeyEvent.VK_BACK_SPACE : hitBackspace=true;</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                    hitBackspaceOnSelection=editor.getSelectionStart()!=editor.getSelectionEnd();</span>
+<span class="nc" id="L68">                    break;</span>
+                    // ignore delete key
+<span class="nc" id="L70">                    case KeyEvent.VK_DELETE : e.consume();</span>
+<span class="nc" id="L71">                    comboBox.getToolkit().beep();</span>
+                    break;
+                }
+<span class="nc" id="L74">            }</span>
+        };
+        // Bug 5100422 on Java 1.5: Editable JComboBox won't hide popup when tabbing out
+<span class="nc" id="L77">        hidePopupOnFocusLoss=System.getProperty(&quot;java.version&quot;).startsWith(&quot;1.5&quot;);</span>
+        // Highlight whole text when gaining focus
+<span class="nc" id="L79">        editorFocusListener = new FocusAdapter() {</span>
+            public void focusGained(FocusEvent e) {
+<span class="nc" id="L81">                highlightCompletedText(0);</span>
+<span class="nc" id="L82">            }</span>
+            public void focusLost(FocusEvent e) {
+                // Workaround for Bug 5100422 - Hide Popup on focus loss
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                if (hidePopupOnFocusLoss) comboBox.setPopupVisible(false);</span>
+<span class="nc" id="L86">            }</span>
+        };
+<span class="nc" id="L88">        configureEditor(comboBox.getEditor());</span>
+        // Handle initially selected object
+<span class="nc" id="L90">        Object selected = comboBox.getSelectedItem();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (selected!=null) setText(selected.toString());</span>
+<span class="nc" id="L92">        highlightCompletedText(0);</span>
+<span class="nc" id="L93">    }</span>
+  
+    public static void enable(JComboBox comboBox) {
+        // has to be editable
+<span class="nc" id="L97">        comboBox.setEditable(true);</span>
+        // change the editor's document
+<span class="nc" id="L99">        new AutoCompletion(comboBox);</span>
+<span class="nc" id="L100">    }</span>
+  
+    void configureEditor(ComboBoxEditor newEditor) {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (editor != null) {</span>
+<span class="nc" id="L104">            editor.removeKeyListener(editorKeyListener);</span>
+<span class="nc" id="L105">            editor.removeFocusListener(editorFocusListener);</span>
+        }
+      
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        if (newEditor != null) {</span>
+<span class="nc" id="L109">            editor = (JTextComponent) newEditor.getEditorComponent();</span>
+<span class="nc" id="L110">            editor.addKeyListener(editorKeyListener);</span>
+<span class="nc" id="L111">            editor.addFocusListener(editorFocusListener);</span>
+<span class="nc" id="L112">            editor.setDocument(this);</span>
+        }
+<span class="nc" id="L114">    }</span>
+  
+    public void remove(int offs, int len) throws BadLocationException {
+        // return immediately when selecting an item
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (selecting) return;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (hitBackspace) {</span>
+            // user hit backspace =&gt; move the selection backwards
+            // old item keeps being selected
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            if (offs&gt;0) {</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">                if (hitBackspaceOnSelection) offs--;</span>
+            } else {
+                // User hit backspace with the cursor positioned on the start =&gt; beep
+<span class="nc" id="L126">                comboBox.getToolkit().beep(); // when available use: UIManager.getLookAndFeel().provideErrorFeedback(comboBox);</span>
+            }
+<span class="nc" id="L128">            highlightCompletedText(offs);</span>
+        } else {
+<span class="nc" id="L130">            super.remove(offs, len);</span>
+        }
+<span class="nc" id="L132">    }</span>
+  
+    public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+        // return immediately when selecting an item
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (selecting) return;</span>
+        // insert the string into the document
+<span class="nc" id="L138">        super.insertString(offs, str, a);</span>
+        // lookup and select a matching item
+<span class="nc" id="L140">        Object item = lookupItem(getText(0, getLength()));</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (item != null) {</span>
+<span class="nc" id="L142">            setSelectedItem(item);</span>
+        } else {
+            // keep old item selected if there is no match
+<span class="nc" id="L145">            item = comboBox.getSelectedItem();</span>
+            // imitate no insert (later on offs will be incremented by str.length(): selection won't move forward)
+<span class="nc" id="L147">            offs = offs-str.length();</span>
+            // provide feedback to the user that his input has been received but can not be accepted
+<span class="nc" id="L149">            comboBox.getToolkit().beep(); // when available use: UIManager.getLookAndFeel().provideErrorFeedback(comboBox);</span>
+        }
+<span class="nc" id="L151">        setText(item.toString());</span>
+        // select the completed part
+<span class="nc" id="L153">        highlightCompletedText(offs+str.length());</span>
+<span class="nc" id="L154">    }</span>
+  
+    private void setText(String text) {
+        try {
+            // remove all text and insert the completed string
+<span class="nc" id="L159">            super.remove(0, getLength());</span>
+<span class="nc" id="L160">            super.insertString(0, text, null);</span>
+<span class="nc" id="L161">        } catch (BadLocationException e) {</span>
+<span class="nc" id="L162">            throw new RuntimeException(e.toString());</span>
+<span class="nc" id="L163">        }</span>
+<span class="nc" id="L164">    }</span>
+  
+    private void highlightCompletedText(int start) {
+<span class="nc" id="L167">        editor.setCaretPosition(getLength());</span>
+<span class="nc" id="L168">        editor.moveCaretPosition(start);</span>
+<span class="nc" id="L169">    }</span>
+  
+    private void setSelectedItem(Object item) {
+<span class="nc" id="L172">        selecting = true;</span>
+<span class="nc" id="L173">        model.setSelectedItem(item);</span>
+<span class="nc" id="L174">        selecting = false;</span>
+<span class="nc" id="L175">    }</span>
+  
+    private Object lookupItem(String pattern) {
+<span class="nc" id="L178">        Object selectedItem = model.getSelectedItem();</span>
+        // only search for a different item if the currently selected does not match
+<span class="nc bnc" id="L180" title="All 4 branches missed.">        if (selectedItem != null &amp;&amp; startsWithIgnoreCase(selectedItem.toString(), pattern)) {</span>
+<span class="nc" id="L181">            return selectedItem;</span>
+        } else {
+            // iterate over all items
+<span class="nc bnc" id="L184" title="All 2 branches missed.">            for (int i=0, n=model.getSize(); i &lt; n; i++) {</span>
+<span class="nc" id="L185">                Object currentItem = model.getElementAt(i);</span>
+                // current item starts with the pattern?
+<span class="nc bnc" id="L187" title="All 4 branches missed.">                if (currentItem != null &amp;&amp; startsWithIgnoreCase(currentItem.toString(), pattern)) {</span>
+<span class="nc" id="L188">                    return currentItem;</span>
+                }
+            }
+        }
+        // no item starts with the pattern =&gt; return null
+<span class="nc" id="L193">        return null;</span>
+    }
+  
+    // checks if str1 starts with str2 - ignores case
+    private boolean startsWithIgnoreCase(String str1, String str2) {
+<span class="nc" id="L198">        return str1.toUpperCase().startsWith(str2.toUpperCase());</span>
+    }
+  
+  
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

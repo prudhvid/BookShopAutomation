@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Employee.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">db</a> &gt; <span class="el_source">Employee.java</span></div><h1>Employee.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package db;
+
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ *
+ * @author Prudhvi
+ */
+@Entity
+@Table(name = &quot;EMPLOYEE&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Employee.findAll&quot;, query = &quot;SELECT e FROM Employee e&quot;),
+    @NamedQuery(name = &quot;Employee.findById&quot;, query = &quot;SELECT e FROM Employee e WHERE e.id = :id&quot;),
+    @NamedQuery(name = &quot;Employee.findByName&quot;, query = &quot;SELECT e FROM Employee e WHERE e.name = :name&quot;),
+    @NamedQuery(name = &quot;Employee.findByMail&quot;, query = &quot;SELECT e FROM Employee e WHERE e.mail = :mail&quot;),
+    @NamedQuery(name = &quot;Employee.findByPhone&quot;, query = &quot;SELECT e FROM Employee e WHERE e.phone = :phone&quot;),
+    @NamedQuery(name = &quot;Employee.findByLoginid&quot;, query = &quot;SELECT e FROM Employee e WHERE e.loginid = :loginid&quot;),
+    @NamedQuery(name = &quot;Employee.findByPassword&quot;, query = &quot;SELECT e FROM Employee e WHERE e.password = :password&quot;),
+    @NamedQuery(name = &quot;Employee.findByType&quot;, query = &quot;SELECT e FROM Employee e WHERE e.type = :type&quot;)})
+public class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = &quot;ID&quot;)
+    private Integer id;
+    @Column(name = &quot;NAME&quot;)
+    private String name;
+    @Column(name = &quot;MAIL&quot;)
+    private String mail;
+    @Column(name = &quot;PHONE&quot;)
+    private String phone;
+    @Column(name = &quot;LOGINID&quot;)
+    private String loginid;
+    @Column(name = &quot;PASSWORD&quot;)
+    private String password;
+    @Column(name = &quot;TYPE&quot;)
+    private Character type;
+
+<span class="fc" id="L57">    public Employee() {</span>
+<span class="fc" id="L58">    }</span>
+
+<span class="nc" id="L60">    public Employee(Integer id) {</span>
+<span class="nc" id="L61">        this.id = id;</span>
+<span class="nc" id="L62">    }</span>
+
+    public Integer getId() {
+<span class="nc" id="L65">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L69">        this.id = id;</span>
+<span class="nc" id="L70">    }</span>
+
+    public String getName() {
+<span class="nc" id="L73">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L77">        this.name = name.toUpperCase();</span>
+<span class="nc" id="L78">    }</span>
+
+    public String getMail() {
+<span class="nc" id="L81">        return mail;</span>
+    }
+
+    public void setMail(String mail) {
+<span class="nc" id="L85">        this.mail = mail;</span>
+<span class="nc" id="L86">    }</span>
+
+    public String getPhone() {
+<span class="nc" id="L89">        return phone;</span>
+    }
+
+    public void setPhone(String phone) {
+<span class="nc" id="L93">        this.phone = phone;</span>
+<span class="nc" id="L94">    }</span>
+
+    public String getLoginid() {
+<span class="nc" id="L97">        return loginid;</span>
+    }
+
+    public void setLoginid(String loginid) {
+<span class="nc" id="L101">        this.loginid = loginid;</span>
+<span class="nc" id="L102">    }</span>
+
+    public String getPassword() {
+<span class="nc" id="L105">        return password;</span>
+    }
+
+    public void setPassword(String password) {
+<span class="nc" id="L109">        this.password = password;</span>
+<span class="nc" id="L110">    }</span>
+
+    public Character getType() {
+<span class="nc" id="L113">        return type;</span>
+    }
+
+    public void setType(Character type) {
+<span class="nc" id="L117">        this.type = type;</span>
+<span class="nc" id="L118">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L122">        int hash = 0;</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L124">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (!(object instanceof Employee)) {</span>
+<span class="nc" id="L131">            return false;</span>
+        }
+<span class="nc" id="L133">        Employee other = (Employee) object;</span>
+<span class="nc bnc" id="L134" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L135">            return false;</span>
+        }
+<span class="nc" id="L137">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L142">        return &quot;main.Employee[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

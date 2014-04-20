@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BookSuggest.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">BookSuggest.java</span></div><h1>BookSuggest.java</h1><pre class="source lang-java linenums">
+
+package test;
+
+
+
+
+
+
+
+
+
+import db.Author;
+import db.Bisac;
+import db.Book;
+import db.Manager;
+import db.Publisher;
+import dbfunctions.Authorf;
+import feature.Library;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.AbstractListModel;
+import javax.swing.ComboBoxEditor;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
+
+public class BookSuggest extends AbstractListModel
+                implements ComboBoxModel, KeyListener, ItemListener
+{
+<span class="fc" id="L37">    public List&lt;Book&gt; database = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L38">    List&lt;String&gt; data = new LinkedList&lt;&gt;();</span>
+    String selection;
+    JComboBox cb;
+    ComboBoxEditor cbe;
+<span class="fc" id="L42">    int currPos = 0;</span>
+
+    public BookSuggest(JComboBox jcb)
+<span class="fc" id="L45">    {</span>
+
+<span class="fc" id="L47">        cb = jcb;</span>
+<span class="fc" id="L48">        cbe = jcb.getEditor();</span>
+        //here we add the key listener to the text field that the combobox is wrapped around
+<span class="fc" id="L50">        cbe.getEditorComponent().addKeyListener(this);</span>
+
+//set up our &quot;database&quot; of items - in practice you will usuallu have a proper database.
+        
+<span class="fc" id="L54">    }</span>
+
+    public void updateModel(String in)
+    {
+<span class="nc" id="L58">        data.clear();</span>
+//        //lets find any items which start with the string the user typed, and add it to the popup list
+//        //here you would usually get your items from a database, or some other storage...
+//        for(String s:database)
+//            if(s.startsWith(in))
+//                data.add(s);
+<span class="nc" id="L64">        database.clear();</span>
+<span class="nc" id="L65">        database=Library.suggestBooks(in);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        for (Book book : database) {</span>
+<span class="nc" id="L67">            data.add(book.getTitle());</span>
+<span class="nc" id="L68">        }</span>
+        
+<span class="nc" id="L70">        super.fireContentsChanged(this, 0, data.size());</span>
+
+//this is a hack to get around redraw problems when changing the list length of the displayed popups
+<span class="nc" id="L73">        cb.hidePopup();</span>
+<span class="nc" id="L74">        cb.showPopup();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if(database.size() != 0)</span>
+<span class="nc" id="L76">            cb.setSelectedIndex(0);</span>
+<span class="nc" id="L77">    }</span>
+
+<span class="fc" id="L79">    public int getSize(){return data.size();}</span>
+<span class="nc" id="L80">    public Object getElementAt(int index){return data.get(index);}</span>
+    public void setSelectedItem(Object anItem)
+<span class="nc" id="L82">                                 {selection = (String) anItem;}</span>
+<span class="fc" id="L83">    public Object getSelectedItem(){return selection;}</span>
+<span class="nc" id="L84">    public void keyTyped(KeyEvent e){}</span>
+<span class="nc" id="L85">    public void keyPressed(KeyEvent e){}</span>
+
+    public void keyReleased(KeyEvent e)
+    {
+<span class="nc" id="L89">        String str = cbe.getItem().toString();</span>
+<span class="nc" id="L90">        JTextField jtf = (JTextField)cbe.getEditorComponent();</span>
+<span class="nc" id="L91">        currPos = jtf.getCaretPosition();</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if(e.getKeyChar() == KeyEvent.CHAR_UNDEFINED)</span>
+        {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            if(e.getKeyCode() != KeyEvent.VK_ENTER )</span>
+            {
+<span class="nc" id="L97">                cbe.setItem(str);</span>
+<span class="nc" id="L98">                jtf.setCaretPosition(currPos);</span>
+            }
+        }
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        else if(e.getKeyCode() == KeyEvent.VK_ENTER)</span>
+<span class="nc" id="L102">            cb.setSelectedIndex(cb.getSelectedIndex());</span>
+        else
+        {
+<span class="nc" id="L105">            updateModel(cb.getEditor().getItem().toString());</span>
+<span class="nc" id="L106">            cbe.setItem(str);</span>
+<span class="nc" id="L107">            jtf.setCaretPosition(currPos);</span>
+        }
+<span class="nc" id="L109">    }</span>
+
+    @Override
+    public void itemStateChanged(ItemEvent e)
+    {
+<span class="nc" id="L114">        cbe.setItem(e.getItem().toString());</span>
+<span class="nc" id="L115">        cb.setSelectedItem(e.getItem());</span>
+<span class="nc" id="L116">    }</span>
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

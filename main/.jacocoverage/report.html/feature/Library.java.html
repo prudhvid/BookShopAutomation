@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Library.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">feature</a> &gt; <span class="el_source">Library.java</span></div><h1>Library.java</h1><pre class="source lang-java linenums">
+
+package feature;
+
+import db.*;
+import dbfunctions.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import main.UserSession;
+
+public class Library {
+
+<span class="nc" id="L16">    Library lib=null;</span>
+<span class="nc" id="L17">    private Library(){</span>
+
+<span class="nc" id="L19">    }</span>
+    public static void main(String[] args) {
+<span class="nc" id="L21">        Manager manager=new Manager();</span>
+        
+//        List&lt;Book&gt; books=suggestBooks(&quot;harry&quot;, &quot;rowling&quot;);
+//        for (Book book : books) {
+//            System.out.println(book.getTitle());
+//        }
+<span class="nc" id="L27">       List&lt;Reserves&gt; list=getCustomerReservedBooks();</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        for (Reserves book : list) {</span>
+<span class="nc" id="L29">            System.out.println(book);</span>
+<span class="nc" id="L30">        }</span>
+        
+        
+<span class="nc" id="L33">    }</span>
+    public Library createLibrary()
+    {
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if(lib==null)</span>
+        {
+<span class="nc" id="L38">            lib= new Library();</span>
+<span class="nc" id="L39">            return lib;</span>
+        }
+<span class="nc" id="L41">        return lib;</span>
+    }
+
+
+    public static List&lt;Book&gt; suggestBooks(String par_title)
+    {
+<span class="nc" id="L47">        return Bookf.getSuggestions(par_title);</span>
+    }
+    
+    public static List&lt;Book&gt; suggestBooks(String title,List&lt;Author&gt; authors)
+    {
+<span class="nc" id="L52">        List&lt;Book&gt; list=new ArrayList&lt;Book&gt;();</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        for (Author author : authors) {</span>
+<span class="nc" id="L54">            boolean addAll = list.addAll(Manager.em.createQuery(&quot;SELECT ba.book FROM Bookauthor ba WHERE ba.book.title LIKE :title AND ba.author LIKE :par2&quot;)</span>
+                    .setParameter(&quot;title&quot;, title+&quot;%&quot;).setParameter(&quot;par2&quot;, author.getName()+&quot;%&quot;).getResultList());
+<span class="nc" id="L56">        }</span>
+
+<span class="nc" id="L58">        return list;</span>
+    }
+    public static List&lt;Book&gt; suggestBooks(List&lt;Author&gt; authors){
+
+<span class="nc" id="L62">        List&lt;Book&gt; list=new ArrayList&lt;Book&gt;();</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        for (Author author : authors) {</span>
+<span class="nc" id="L64">            list.addAll(Manager.em.createQuery(&quot;SELECT ba.book FROM Bookauthor ba WHERE ba.author LIKE :par1 Order By ba.book.views DESC&quot;).</span>
+                    setParameter(&quot;par1&quot;, author.getName()+&quot;%&quot;).setMaxResults(10).getResultList() );
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">        return list;</span>
+    }
+    public static List&lt;Book&gt; suggestBooks(String authorString,int forauthorsDeafault){
+
+<span class="nc" id="L71">        List&lt;Book&gt; list=new ArrayList&lt;Book&gt;();</span>
+<span class="nc" id="L72">        list.addAll(Manager.em.createQuery(&quot;SELECT ba.book FROM Bookauthor ba WHERE ba.author.name LIKE :par1 and ba.book.state=:state &quot;</span>
+                + &quot; ORDER BY  ba.book.views DESC&quot;).setParameter(&quot;state&quot;, Bookf.COMPLETE_BOOK_STATE).
+                    setParameter(&quot;par1&quot;, &quot;%&quot;+authorString.toUpperCase()+&quot;%&quot;).setMaxResults(10).getResultList() );
+<span class="nc" id="L75">        return list;</span>
+    }
+    public static List&lt;Book&gt; suggestBooks(String titleString,String authorString )
+    {
+<span class="nc" id="L79">        List&lt;Book&gt; list=new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L80">        list.addAll(Manager.em.createQuery(&quot;SELECT ba.book FROM Bookauthor ba WHERE ba.author.name LIKE :par1 &quot;</span>
+                + &quot;and ba.book.state=:state and ba.book.title LIKE :title&quot;
+                + &quot; ORDER BY  ba.book.views DESC&quot;).setParameter(&quot;state&quot;, Bookf.COMPLETE_BOOK_STATE).
+                    setParameter(&quot;title&quot;, &quot;%&quot;+titleString.toUpperCase()+&quot;%&quot;).
+                    setParameter(&quot;par1&quot;, &quot;%&quot;+authorString.toUpperCase()+&quot;%&quot;).setMaxResults(10).getResultList() );
+<span class="nc" id="L85">        return list;</span>
+    }
+    
+    
+    public static List&lt;Author&gt; suggestAuthors(String par_author){
+<span class="nc" id="L90">        return Authorf.getSuggestions(par_author);</span>
+    }
+    
+    
+    public static List&lt;Book&gt; getRequestSuggestions(String bookname){
+<span class="nc" id="L95">        List&lt;Book&gt; books=Manager.em.createQuery(&quot;SELECT rs.book FROM Reserves rs WHERE rs.book.title LIKE :title AND RS.type=:type&quot;)</span>
+                .setParameter(&quot;type&quot;, Reservesf.REQUEST_TYPE)
+                .setParameter(&quot;title&quot;, bookname).getResultList();
+<span class="nc" id="L98">        return books;</span>
+    }
+
+    
+    
+    
+    //increments and requests
+    
+    public static Book requestBook(Book b,int copies){
+<span class="nc" id="L107">        copies=1;</span>
+<span class="nc" id="L108">        Customer customer=UserSession.getCustomer();</span>
+<span class="nc" id="L109">        Publisherf.addPublisher(b.getPublisher());</span>
+<span class="nc" id="L110">        Book book=Bookf.search(b);</span>
+        
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (book==null) {</span>
+<span class="nc" id="L113">            book=new Book(b.getTitle());</span>
+<span class="nc" id="L114">            book.setPublisher(b.getPublisher());</span>
+<span class="nc" id="L115">            book.setState(Bookf.DATA_GIVEN);</span>
+<span class="nc" id="L116">            book.setCopiesReserved(1);</span>
+<span class="nc" id="L117">            book.setViews(1);</span>
+<span class="nc" id="L118">            book=Bookf.addBook(book);</span>
+            
+<span class="nc" id="L120">            System.out.println(&quot;added new Book in Database &quot;);</span>
+<span class="nc" id="L121">            Reservesf.addReserve(book,customer,copies);</span>
+        }
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        else if(book.getState()==Bookf.DATA_GIVEN){</span>
+<span class="nc" id="L124">            book.setViews(book.getViews()+1);</span>
+<span class="nc" id="L125">            book.setCopiesReserved(book.getCopiesReserved()+copies);</span>
+<span class="nc" id="L126">            Manager.commit(book);</span>
+<span class="nc" id="L127">            System.out.println(&quot;Incremented total Requests for that book&quot;);</span>
+<span class="nc" id="L128">            Reservesf.addReserve(book,customer,copies);</span>
+        }
+        else
+        {
+<span class="nc" id="L132">            book.setViews(book.getViews()+1);</span>
+<span class="nc" id="L133">            book.setCopiesReserved(book.getCopiesReserved()+copies);</span>
+<span class="nc" id="L134">            Manager.commit(book);</span>
+<span class="nc" id="L135">            System.out.println(&quot;Incremented total Requests for that complete book&quot;);</span>
+<span class="nc" id="L136">            Reservesf.addReserve(book, customer, copies);</span>
+        }
+<span class="nc" id="L138">        return book;</span>
+    }
+    
+    
+//    public static Book requestIncrementBook(Book b,int copies){
+//       
+//        Customer customer=UserSession.getCustomer();
+//        if(Manager.em.contains(b)&amp;&amp;b.getCopiesPresent()==0)
+//        {
+//            b.setViews(b.getViews()+1);
+//            b.setCopiesReserved(b.getCopiesReserved()+copies);
+//            Manager.persist(b);
+//            Reservesf.addReserve(b, customer, copies);
+//        }
+//        JOptionPane.showMessageDialog(null, &quot;Sorry book already present in available quantity or not in request form&quot;);
+//        return null;
+//        
+//    }
+    
+    public static Book storeCompleteBook(String isbn,Book b,Publisher publisher,Bisac bisac,List&lt;Author&gt; AuthStrings)
+    {
+<span class="nc" id="L159">        publisher=Publisherf.addPublisher(publisher);</span>
+<span class="nc" id="L160">        bisac=Bisacf.getBisac(bisac.getSubject());</span>
+<span class="nc" id="L161">        List&lt;Book&gt; books=Manager.em.createNamedQuery(&quot;Book.findByIsbn&quot;).setParameter(&quot;isbn&quot;, isbn).getResultList();</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        if(Bookf.checkISBN(isbn))</span>
+        {
+<span class="nc bnc" id="L164" title="All 2 branches missed.">            if(books.isEmpty())</span>
+            {
+<span class="nc" id="L166">                System.out.println(&quot;adding book&quot;);</span>
+<span class="nc" id="L167">                b.setPublisher(publisher);</span>
+<span class="nc" id="L168">                b.setBisac(bisac);</span>
+<span class="nc" id="L169">                b.setState(Bookf.COMPLETE_BOOK_STATE);</span>
+<span class="nc" id="L170">                b.setIsbn(isbn);</span>
+<span class="nc" id="L171">                b=Bookf.addBook(b, AuthStrings);</span>
+<span class="nc" id="L172">                b=Bookf.addBook(b);</span>
+<span class="nc" id="L173">                JOptionPane.showMessageDialog(null, &quot;Book added !!&quot;);</span>
+<span class="nc" id="L174">                return b;</span>
+            }
+            else
+            {
+<span class="nc" id="L178">                JOptionPane.showMessageDialog(null, &quot;Please check your ISBN \n ISBN already given!!&quot;);</span>
+<span class="nc" id="L179">                return null;</span>
+            }
+        }
+        else
+        {
+<span class="nc" id="L184">            JOptionPane.showMessageDialog(null, &quot;Wrong ISBN&quot;);</span>
+        }
+<span class="nc" id="L186">        return null;</span>
+    }
+    
+    
+    
+    
+    
+    
+    public static Book viewBook(Book book){
+<span class="nc" id="L195">        book.setViews(book.getViews()+1);</span>
+<span class="nc" id="L196">        Manager.commit(book);</span>
+<span class="nc" id="L197">        return book;</span>
+    }
+    
+ public static boolean sellBooks(List&lt;Sales&gt; booksSalesList)
+    {
+        
+<span class="nc bnc" id="L203" title="All 2 branches missed.">        for (Sales sales : booksSalesList) {</span>
+<span class="nc" id="L204">            Book b=sales.getBook();</span>
+<span class="nc" id="L205">            b.setCopiesPresent(b.getCopiesPresent()-sales.getCopies());</span>
+<span class="nc" id="L206">            b.setCopiesSold(b.getCopiesSold()+sales.getCopies());</span>
+<span class="nc" id="L207">            float sellprice=sales.getBook().getSellprice()*sales.getCopies();</span>
+<span class="nc" id="L208">            float profit=sellprice-sales.getBook().getBuyingprice()*sales.getCopies();</span>
+<span class="nc" id="L209">            sales.setPrice(sellprice);</span>
+<span class="nc" id="L210">            sales.setProfit(profit);</span>
+<span class="nc" id="L211">            sales.setDate(new Date());</span>
+<span class="nc" id="L212">            Manager.persist(sales);</span>
+<span class="nc" id="L213">            Manager.persist(b);</span>
+<span class="nc" id="L214">        }</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">        if(Manager.commit())</span>
+<span class="nc" id="L216">            return true;</span>
+<span class="nc" id="L217">        return false; </span>
+    } 
+    
+    public static Book getBookByIsbn(String isbn)
+    {
+<span class="nc" id="L222">        List&lt;Book&gt; books=Manager.em.createNamedQuery(&quot;Book.findByIsbn&quot;).setParameter(&quot;isbn&quot;, isbn).getResultList();</span>
+<span class="nc bnc" id="L223" title="All 2 branches missed.">        if(books.isEmpty())</span>
+<span class="nc" id="L224">            return null;</span>
+<span class="nc" id="L225">        return books.get(0);</span>
+    }
+
+        public static List&lt;Book&gt; getTrendingBooks()
+    {
+<span class="fc" id="L230">        List&lt;Book&gt; list =new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L231">        list=Manager.em.createQuery(&quot;SELECT b FROM Book b WHERE b.state=:state ORDER BY b.views DESC&quot;).</span>
+                setParameter(&quot;state&quot;, Bookf.COMPLETE_BOOK_STATE).
+                setMaxResults(20).getResultList();
+<span class="fc" id="L234">        return list;</span>
+    }
+    
+    public static List&lt;Book&gt; getIncompleteBooks()
+    {
+        try {
+<span class="nc" id="L240">            return Manager.em.createQuery(&quot;SELECT b FROM Book b WHERE b.state=:state ORDER BY b.title&quot;).</span>
+                    setParameter(&quot;state&quot;, Bookf.ORDER_ARRIVED_STATE)
+                    .getResultList();
+<span class="nc" id="L243">        } catch (Exception e) {</span>
+<span class="nc" id="L244">            return null;</span>
+        }
+    }
+    
+    public static List&lt;Book&gt; getAllRequestedBookList()
+    {
+        try {
+//            return Manager.em.createQuery(&quot;SELECT rs.book FROM Reserves rs WHERE rs.type=:type1 OR rs.type=:type2 ORDER BY rs.date&quot;).
+//                    setParameter(&quot;type1&quot;, Reservesf.INCREMENT_TYPE).setParameter(&quot;type2&quot;, Reservesf.REQUEST_TYPE).
+//                    getResultList();
+<span class="nc" id="L254">            return Manager.em.createQuery(&quot;SELECT b FROM Book b WHERE b.state=:type1 OR b.state=:type2 and b.copiesReserved&gt;0 ORDER BY b.copiesReserved DESC&quot;)</span>
+                    .setParameter(&quot;type1&quot;, Bookf.INCREMENT_STATE).setParameter(&quot;type2&quot;, Bookf.REQUEST_STATE).
+                    getResultList();
+<span class="nc" id="L257">        } catch (Exception e) {</span>
+        }
+<span class="nc" id="L259">        return null;</span>
+    }
+    
+    public static List&lt;Book&gt; getIncompleteBooksList(){
+<span class="nc" id="L263">        return Manager.em.createQuery(&quot;SELECT b from Book b WHERE b.state=:state ORDER BY b.copiesReserved&quot;)</span>
+                .setParameter(&quot;state&quot;, Bookf.ORDER_ARRIVED_STATE).getResultList();
+    }
+    
+    public static void deleteBookRequests(Book book){
+<span class="nc" id="L268">        List&lt;Reserves&gt; reserveses=Manager.em.createQuery(&quot;SELECT rs FROM Reserves rs WHERE rs.book=:book and RS.type=:type1 OR RS.type=:type2&quot;).</span>
+                setParameter(&quot;type1&quot;, Reservesf.INCREMENT_TYPE).setParameter(&quot;type2&quot;, Reservesf.REQUEST_TYPE).
+                setParameter(&quot;book&quot;, book).getResultList();
+<span class="nc bnc" id="L271" title="All 2 branches missed.">        for (Reserves reserves : reserveses) {</span>
+<span class="nc" id="L272">            Manager.em.remove(reserves);</span>
+<span class="nc" id="L273">            Manager.commit();</span>
+<span class="nc" id="L274">        }</span>
+<span class="nc" id="L275">        book.setCopiesReserved(0);</span>
+<span class="nc" id="L276">        Manager.commit(book);</span>
+<span class="nc" id="L277">        JOptionPane.showMessageDialog(null, &quot;Succesfully deleted all requests to this book&quot;);</span>
+<span class="nc" id="L278">    }</span>
+    
+    public static List&lt;Reserves&gt; getCustomerReservedBooks()
+    {
+<span class="nc" id="L282">        return Manager.em.createQuery(&quot;SELECT rs FROM Reserves rs WHERE rs.book.requestedCopiesPresent&gt;=1 ORDER BY rs.date DESC&quot;)</span>
+                .getResultList();
+    }
+            
+    public static void giveReservedBook(Reserves rs)
+    {
+<span class="nc" id="L288">        rs.setType(Reservesf.GIVEN_TYPE);</span>
+<span class="nc" id="L289">        Book b=rs.getBook();</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">        if(b.getRequestedCopiesPresent()&gt;=1)</span>
+<span class="nc" id="L291">            b.setRequestedCopiesPresent(b.getRequestedCopiesPresent()-1);</span>
+<span class="nc" id="L292">        Manager.commit(b);</span>
+<span class="nc" id="L293">        Manager.commit(rs);</span>
+<span class="nc" id="L294">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

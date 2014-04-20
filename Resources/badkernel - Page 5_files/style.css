@@ -1,0 +1,1386 @@
+@charset "utf-8";
+/* 
+Theme Name: HeatMap Adsense Theme
+Theme URI: http://heatmaptheme.com
+Description: HeatMap Theme has 12 widget positions, an extensive options page, is SEO optimised, and hooks right into your Google Analytics and Google FeedBurner. As the name suggests its Adsense ready (yes, you can also use other ad networks too) with options specifically designed for creating ad widgets. This theme is now officially known as HeatMap Ads Theme on <a href="http://heatmaptheme.com">HeatMapTheme.com</a>, where you will also find a user guide to help you get up and running quickly.
+Author: Stuart Wider
+Author URI: http://stuartwider.com
+Version: 2.5.4
+Tags: blue, dark, light, white, two-columns, three-columns, fixed-width, custom-header, theme-options, threaded-comments, sticky-post
+	
+This file last updated 10/3/2010
+	
+Copyright Stuart Wider 2009
+	
+This file is part of HeatMap Adsense Theme 2
+	
+HeatMap Adsense Theme 2 is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+HeatMap Adsense Theme 2 is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+CSS Reset and Typography Set Up Portions of this code
+are based upon the BluePrint CSS Framework released under GPL
+Copyright (c) 2007-2008 blueprintcss.org and modified
+to suit HeatMap Theme May 2009
+
+The Image Styles Portion of this code are based upon the recommended
+styling specified at http://codex.wordpress.org/CSS.
+*/
+
+/* 	
+	This CSS file groups together all css definitions for the structural elements
+	of HeatMap Theme. 
+	
+	If you just want to tweak the colours and images then open up default.css 
+	and change them there, 
+	**HOWEVER** 
+	I would highly recommend you do it by using a Child Theme instead
+	so that you can easily upgrade HeatMap Theme with the latest release and still
+	keep your tweaks intact. 
+	
+	Child Themes come in a number colours and styles for HeatMap Theme. 
+	You can purchase Child Themes from from HeatMapTheme.com. 
+	Pick one that you like and then start styling from there. 
+	
+	The great thing about Child Themes is you can override any of the core Heatmap Theme
+	files with any customisation you like but still keep the core files intact.
+	
+	It's an eminently sensible way to go and I recommend it to you.
+	
+	Happy styling fellow HeatMapsters!
+*/
+  
+/* Browser Reset
+-------------------------------------------------------------- */
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, code,
+del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+}
+
+/* Tables still need 'cellspacing="0"' in the markup. */
+table { border-collapse: separate; border-spacing: 0; }
+caption, th, td { text-align: left; font-weight: normal; }
+table, td, th { vertical-align: middle; }
+
+/* Remove possible quote marks (") from <q>, <blockquote>. */
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+
+/* Remove annoying border on linked images. */
+a img { border: none; }
+
+
+/* Typography Set Up
+-------------------------------------------------------------- */
+
+/* Default font settings. 
+   The font-size percentage is of 16px. (0.75 * 16px = 12px)  
+-------------------------------------------------------------- */
+
+body { 
+  font-size: 75%;
+  line-height: 1.5; 
+  width: 100%;
+}
+
+
+/* Headings
+-------------------------------------------------------------- */
+
+h1,h2,h3,h4,h5,h6 { font-weight: bold; color: #000; }
+
+h1 { font-size: 1.8em; line-height: 1; margin-bottom: 0.6em;}
+h2 { font-size: 1.5em; line-height: 1; margin-bottom: 0.6em; }
+h3 { font-size: 1.2em; line-height: 1; margin-bottom: 0.6em; }
+h4 { font-size: 1em; line-height: 1.25; margin-bottom:0.6em; }
+h5 { font-size: 1em; line-height: 1.25; margin-bottom:0.6em; }
+h6 { font-size: 1em; line-height: 1.25; margin-bottom:0.6em; }
+
+h1 img, h2 img, h3 img, h4 img, h5 img, h6 img {
+  margin: 0;
+}
+
+
+/* Text elements
+-------------------------------------------------------------- */
+
+p           { margin: 0 0 1.5em; font-size: 1em;}
+p img.left  { float: left; margin: 1.5em 1.5em 1.5em 0; padding: 0; }
+p img.right { float: right; margin: 1.5em 0 1.5em 1.5em; }
+blockquote  { margin: 1.5em; color: #666; font-style: italic; }
+strong      { font-weight: bold; }
+em,dfn      { font-style: italic; }
+dfn         { font-weight: bold; }
+sup, sub    { line-height: 0; }
+
+abbr, 
+acronym     { border-bottom: 1px dotted #666; }
+address     { margin: 0 0 1.5em; font-style: italic; }
+del         { color:#666; }
+
+pre 				{ margin: 1.5em 0; white-space: pre; }
+pre,code,tt { font: 1em 'andale mono', 'lucida console', monospace; line-height: 1.5; }
+hr {color: #CCC; background-color: #CCC; height: 1px; border:none; margin-top: 1.5em; margin-bottom: 1.5em; }
+
+
+/* Lists
+-------------------------------------------------------------- */
+
+li ul, 
+li ol       { margin:0 0 0 1.5em;}
+ul, ol      { margin: 0 0 15px 1.5em; }
+
+ul          { list-style-type: disc; }
+ol          { list-style-type: decimal; }
+
+dl          { margin: 0 0 1.5em 0; }
+dl dt       { font-weight: bold; }
+dd          { margin-left: 1.5em;}
+
+
+/* Tables
+-------------------------------------------------------------- */
+
+table       { margin-bottom: 1.4em; width:100%; }
+th          { font-weight: bold; }
+thead th 		{ background: #c3d9ff; }
+th,td,caption { padding: 4px 10px 4px 5px; }
+tr.even td  { background: #e5ecf9; }
+tfoot       { font-style: italic; }
+caption     { background: #eee; }
+
+
+/* Main Theme CSS
+-------------------------------------------------------------- */
+
+div.clearFloat {
+	clear: both;
+	font-size: 0;
+	height: 0;
+	line-height: 0px;
+}
+
+div.clearFloat-spacer {
+	clear: both;
+	font-size: 0;
+	height: 8px;
+	line-height: 0px;
+}
+
+li.clearFloat {
+	clear: both;
+}
+
+ul.symbolList {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	float: left;
+	list-style-type: none;
+}
+
+
+/* Main 
+-------------------------------------------------------------- */
+
+#main {
+	width: 980px;
+	margin: 10px auto 20px;
+	overflow: hidden;
+}
+
+
+/* High Bar
+-------------------------------------------------------------- */
+
+#high-bar {
+	width: 980px;
+	margin: 0px auto 0px;
+	display:inline;
+	overflow:hidden;
+}
+
+#high-bar .widget { 
+	width: 728px;
+	margin: 0px auto 0px;
+	padding-top: 10px;
+}
+
+
+/* Header Bar
+-------------------------------------------------------------- */
+
+#header-bar {
+	width: 980px;
+	height: 110px;
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+	overflow: hidden;
+	float: left;
+}
+
+#header-bar-logo {
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+
+#header-bar #header-bar-content {
+	width:auto;
+	margin-left: 15px;
+	margin-top: 25px;
+	float:left;
+}
+
+#header-bar #header-bar-right {
+	margin-top: 25px;
+	margin-right: 10px;
+	float:right;
+}
+
+
+#header-bar #header-bar-content .blog-title a,
+#header-bar #header-bar-content .blog-title a:visited {
+	padding: 0;
+	margin: 0;
+	font-size: 2.1em;
+	font-weight:bold;
+	text-decoration: none;
+}
+
+#header-bar #header-bar-content .blog-tagline a,
+#header-bar #header-bar-content .blog-tagline a:visited {
+	padding: 0;
+	margin-top: 0px;
+	font-size: 1.4em;
+	font-weight: bold;
+	text-decoration: none;				
+}
+	
+	
+/* Nav Bar
+-------------------------------------------------------------- */
+
+#nav-bar {
+	width: 653px;
+	height: 33px;
+	min-height: 33px;
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+	overflow: hidden;
+	float: left;
+}
+
+#nav-bar-content {
+	margin-left: 15px;
+	line-height: 33px; /* added this to fix vertical centering of text 17/11/09 */
+}
+
+
+#nav-bar ul{
+	width: 653px; /* fix added v2.2 12/08/09 */
+	margin: 0;
+	padding: 0;
+	list-style:none;
+}
+
+#nav-bar ul li {
+	float:left;
+}
+
+#nav-bar ul li a {
+	margin-right: 20px;
+	font-size: 1.2em;
+	font-weight: bold;
+	overflow:hidden;
+}
+
+
+/* Search Bar
+-------------------------------------------------------------- */
+
+#search-bar {
+	width: 327px;
+	height: 33px;
+	min-height: 33px;
+	padding: 0px;
+	display: inline;
+	overflow: hidden;
+	float: right;
+}
+
+#search-bar-content {
+	margin-right: 10px;
+	margin-top: 6px;  /* change 3/1/2010 added 2 px to make things sit better for the most popular browser Firefox! */ 
+	float: right;
+}
+
+#cse-search-box input {
+	border:0px;
+	font-weight: bold;
+}
+
+
+/* Categories Bar
+-------------------------------------------------------------- */
+
+#cat-bar {
+	width: 618px;	/*changed from 628px to 618px to fix reported issues with MAC chrome and Firefox - thanks gthiruva */
+	height:28px;
+	min-height: 28px;
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+	overflow: hidden;
+	font-size: 1em;
+	float: left;
+
+}
+
+#cat-bar-content {
+	margin-left: 15px;
+	min-height: 28px;
+	overflow: hidden;
+	line-height: 28px; /* added this to fix vertical centering of text 17/11/09 */
+}
+
+
+#cat-bar ul{
+	margin: 0;
+	padding: 0;
+	list-style:none;
+}
+
+#cat-bar ul li {
+	float:left;
+}
+
+#cat-bar ul li a {
+	margin-right: 20px;
+	font-weight: bold;
+	overflow:hidden;
+}
+
+
+/* RSS Bar
+-------------------------------------------------------------- */
+
+#rss-bar {
+	width: 362px; /*changed from 352px to 362px to fix reported issues with MAC chrome and Firefox - thanks gthiruva */
+	height:28px;
+	min-height: 28px;
+	padding: 0px;
+	display: inline;
+	overflow: hidden;
+	font-size: 1em;
+	float: right;
+}
+
+
+#rss-bar-content {
+	height: 28px;
+	margin-right: 12px;
+	padding-top: 0px;
+	float: right;
+	overflow: hidden;
+	line-height: 28px; /* added this to fix vertical centering of text 17/11/09 */
+}
+
+#rss-bar a {
+	font-weight: bold;
+}
+
+
+#rss-bar .rss-feedburner {
+	height: 28px;
+	padding-left: 27px;
+	padding-right: 0px;
+/*	padding-top: 4px; */
+	float: right;
+}
+
+#rss-bar .rss-posts {;
+	height: 28px;
+	padding-left: 27px;
+	padding-right: 15px;
+/*	padding-top: 4px; */
+	float: right;
+}
+
+#rss-bar .rss-comments {
+	height: 28px;
+	padding-left: 27px;
+	padding-right: 15px;
+/*	padding-top: 4px; */
+	float: right;
+}
+
+
+/* Wrap around the entire contents of the page below the nav
+-------------------------------------------------------------- */
+
+#page-body-wrapper {
+	max-height: 9999px;
+/*seems to fix matching heights column problem!*/
+}
+
+#google-results-body-wrapper {
+	margin-top: -5px;
+}
+
+.google-search-content {
+	/* this min-height is set to allow for a decorative background wallpaper */
+	min-height: 500px;
+}
+
+/* Content Area
+-------------------------------------------------------------- */
+
+
+#content {
+	width: 650px;
+	/* this min-height is set to allow for a decorative background wallpaper */
+	min-height: 500px;
+	margin: 0px;
+	padding: 0px;
+	margin-left:10px;
+	margin-right:10px;
+	margin-bottom: 10px;
+	display: inline;
+	float:left;
+	overflow: hidden;
+}
+
+
+/* Post Content (ie Content of a Post)
+-------------------------------------------------------------- */
+.post-content,
+.featured-page-content {
+	margin-left: 5px;
+}
+
+.post-content ul, 		/* styling for bullet list so they sit nicely beside things which are floated left - added 23/10/09 */
+.post-content ol,
+.featured-page-content ul, 
+.featured-page-content ol {
+	zoom: 1; /* IE ONLY HACK - hasLayout for IE<= 6 */
+	overflow: auto; /* shrink the list to sit beside floats in compliant browsers */
+	margin: 0; 
+	padding: 0; 
+	margin-bottom: 5px;
+}
+
+.post-content ul li,   /* styling for bullet list so they sit nicely beside things which are floated left - added 23/10/09 */
+.featured-page-content ul li{
+   list-style-type: disc;
+   margin-left: 2em;
+}
+
+.post-content ol li,
+.featured-page-content ol li {
+   list-style-type: decimal;
+   margin-left: 2em;
+} 
+
+.post-content h1,		
+.featured-page-content h1 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.post-content h1.h1-underline,
+.featured-page-content h1.h1-underline  {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+.post-content h2.h2-simulate-h1-size,
+.featured-page-content h2.h2-simulate-h1-size {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 1.8em; 
+}
+
+
+.post-content h2.h2-simulate-h1-size-underline, 
+.featured-page-content h2.h2-simulate-h1-size-underline {
+	margin-top: 10px;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+	font-size: 1.8em; 
+}
+ 
+.post-content p, 
+.featured-page-content p {
+	line-height: 1.3em;
+	margin-bottom: .8em;
+}
+
+.post-content .more-link,
+.featured-page-content .more-link {
+    font-weight: bold;
+}
+
+.post-content #left-content, 
+.featured-page-content #left-content {
+	float: left;
+	width: 300px; /* changed width from 400px 24/10/09 */
+}
+
+.post-content #right-content, 
+.featured-page-content #right-content {
+	float: right;
+	margin-left:10px;
+	width: 335px; /* changed width from 235 24/10/09 */
+}
+
+.post-content .common-page-thumbnail-left,
+.featured-page-content .common-page-thumbnail-left{
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+
+.post-content .common-page-thumbnail-right,
+.featured-page-content .common-page-thumbnail-right {
+	float: right;
+	margin-left: 10px;
+	margin-bottom: 5px;
+}
+
+.post-content .post-thumbnail-left {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+
+.post-content .post-thumbnail-right {
+	float: right;
+	margin-left: 10px;
+	margin-bottom: 5px;
+}
+
+.post-content .page-thumbnail-left {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+
+.post-content .page-thumbnail-right {
+	float: right;
+	margin-left: 10px;
+	margin-bottom: 5px;
+}
+
+
+/* Multipage post links
+-------------------------------------------------------------- */
+
+.multi-page {font-weight:bold;}
+
+/* Post Details (ie The details of a post)
+-------------------------------------------------------------- */
+
+.post-details,
+.featured-page-details {
+
+	/* knock 12px off this because of the padding and outline (10px + 7px)*/
+	width: 633px; /* 31/1/10 changes from 638px to make box line up properly - it was out by 5px */
+	padding: 5px;
+	margin-bottom:10px;
+	margin-left: 5px; /* 31/1/10 added 5px here to adjust suit 633px width */
+}
+
+.post-details p,
+.featured-page-details p {
+	padding: 0px;
+	margin:0px;
+	margin-bottom: 0px;
+	font-size: .9em; /* made this smaller 9/9/09 */
+}
+
+.post-details .comment-button,
+.featured-page-details .comment-button {
+	padding: 1px;
+	font-weight: bold;
+}
+
+p.comment-button-box {
+	padding: 0px;
+	margin:0px;
+	margin-bottom: 5px;
+}
+
+/* Post Divider added 31/01/10
+-------------------------------------------------------------- */
+
+.post-divider {
+	margin-left: 5px;
+}
+
+
+/* Post Navigation
+-------------------------------------------------------------- */
+
+.post-nav p {
+	padding: 0px;
+	margin:0px;
+	margin-left: 5px;
+	margin-top: 10px;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+
+/* Comments
+-------------------------------------------------------------- */
+
+.comment-item {
+	width: 650px;	
+	padding: 0px;
+	margin-top: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 15px;
+} 
+
+.comment-item h3, .comment-item ol {margin-left:5px;}
+
+.comment-item #respond h3 {margin-left: 0px;}
+ 
+#respond {
+	/* knock 12px off this because of the padding and outline (10px + 7px)*/
+	width: 633px; /* 31/1/10 changed from 638px to fix up alignment on the left */
+	padding: 5px;
+	margin-left: 5px; /* 31/1/10 extra space to push the box right a little to correct alignment */
+}
+
+
+.comment-item #respond textarea{
+	width: 400px;
+}
+
+#submit {
+	font-weight: bold;			
+}
+
+/* Style Threaded Comments - added 19/10/09
+-------------------------------------------------------------- */
+
+.comment-item .comment-reply-link {
+	font-size: .9em;
+	font-weight: bold;
+	padding: 1px;
+}
+
+.comment-item .reply {
+	margin-top: -15px;
+}
+
+.comment-item ul li {
+	list-style-type: none;
+	margin-top: 10px;
+}
+
+.comment-item .comment-body {
+	padding: 5px;
+}
+
+.comment-item .comment-meta {
+	font-size: .9em;	
+}
+
+.comment-item .fn {
+	font-style: normal;
+	font-weight:bold;
+}
+
+.comment-item .comment {
+	margin-bottom: 10px;
+}
+
+
+/* Google search results page
+-------------------------------------------------------------- */
+
+.google-search-content {
+	margin: 5px 15px 15px 15px;
+}
+
+/* Sidebar Wrapper
+-------------------------------------------------------------- */
+#sidebar-wrapper {
+    width: 310px;
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: 15px;
+    float: right;
+}
+
+#sidebar-wrapper h4 {
+	font-size: 1.1em;
+}
+
+#sidebar-wrapper h5 {
+	font-size: 1.1em;
+	line-height: 1.05em;
+	margin: 0;
+	padding: 0;
+	margin-bottom:3px;
+}
+
+#sidebar-wrapper p {
+	font-size: 1em;
+	margin: 0;
+	padding: 0;
+}
+
+/* Sidebars
+-------------------------------------------------------------- */
+#bottom-widebar,
+#top-widebar {
+	width: 300px;
+	margin: 0px;
+	padding: 0px;
+	margin-right:10px;
+	margin-left:0px;
+	float: left;
+	display: inline;
+	overflow: hidden;
+}
+
+
+#left-sidebar {
+	width: 170px;
+	margin: 0px;
+	padding: 0px;
+	margin-right: 5px; /* made this gap a bit smaller 4/09/09 */
+	float: left;
+	display: inline;
+	overflow: hidden;
+}
+
+#right-sidebar {
+	width: 125px; /* made this a bit wider to accommodate 125x125 ads 4/09/09 */
+	margin: 0px;
+	padding: 0px;
+	margin-right: 10px;
+	display: inline;
+	overflow:hidden;
+	float: right;
+}
+
+
+/* Widgets Areas
+-------------------------------------------------------------- */
+
+#top-widebar .widget,
+#bottom-widebar .widget,
+#left-sidebar .widget,
+#right-sidebar .widget {
+	padding: 0px;
+	margin: 0px;
+	margin-top:10px;
+	overflow:hidden;
+}
+
+.all-content-above {
+	margin-top:10px;
+	margin-left: 0px;
+}
+
+.all-content-below {
+	margin-left: 5px;
+	margin-top: 10px;
+}
+
+.content-item-above {
+	margin-top: 7px;
+	margin-bottom: 10px;
+}
+
+.content-item-below {
+	margin-top:15px;
+	margin-bottom: 15px;
+}
+
+.content-item-left  {
+	float: left;
+	margin-top: 0px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.content-item-right  {
+	float: right;
+	margin-top: 0px;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+/* Widget title
+-----------------------*/
+
+#top-widebar .widgettitle,
+#bottom-widebar .widgettitle,
+#left-sidebar .widgettitle, 
+#right-sidebar .widgettitle {
+	height: 20px;
+	padding: 0px;
+	margin: 0px;
+	padding-top: 2px; 
+	padding-left: 5px;
+	margin-bottom: 8px; 
+	font-weight:bold;
+}
+
+#top-widebar .widgettitle a,
+#bottom-widebar .widgettitle a,
+#left-sidebar .widgettitle a,
+#right-sidebar .widgettitle a {
+	padding: 0px;
+	margin: 0px;
+	padding: 5px; 
+	font-weight:bold;
+}
+
+
+/* Widget UL sidebar list definitions
+-----------------------*/
+
+#top-widebar ul,
+#bottom-widebar ul,
+#left-sidebar ul,
+#right-sidebar ul{
+	padding: 0px;
+	margin: 0px;
+	list-style-type:none;
+}
+
+#top-widebar ul li,
+#bottom-widebar ul li,
+#left-sidebar ul li,
+#right-sidebar ul li{
+	padding: 0px;
+	margin: 0px;
+}
+
+#top-widebar ul li ul li,
+#bottom-widebar ul li ul li,
+#left-sidebar ul li ul li
+ {
+	padding: 0px;
+	margin: 0px;
+	margin-left: 6px;
+	line-height: 1.2em;
+	margin-bottom: 6px;
+	margin-right: 6px;
+	font-weight: normal;
+}
+
+#right-sidebar ul li ul li {
+	padding: 0px;
+	margin: 0px;
+	margin-left: 6px;
+	line-height: 1.2em;
+	margin-bottom: 6px;
+	padding-right: 10px;
+	font-weight: normal;
+	font-size: .9em; /*add to make the font in the right sidebar smaller 4/09/09 */
+}
+
+#top-widebar ul li ul li ul li,
+#bottom-widebar ul li ul li ul li,
+#left-sidebar ul li ul li ul li
+{
+	padding: 0px;
+	margin: 0px;
+	font-weight: normal;
+	margin-left: 25px;
+	list-style-type: disc;
+}
+
+#right-sidebar ul li ul li ul li {
+	padding: 0px;
+	margin: 0px;
+	margin-left: 6px;
+	font-weight: normal;
+}
+
+#top-widebar ul li ul li ul li ul li,
+#bottom-widebar ul li ul li ul li ul li,
+#left-sidebar ul li ul li ul li ul li {
+	padding:0px;
+	margin: 0px;
+	margin-left: 12px;
+	font-weight: normal;
+	list-style-type: disc;
+}
+
+#top-widebar ul li ul li ul li ul li ul li,
+#bottom-widebar ul li ul li ul li ul li ul li,
+#left-sidebar ul li ul li ul li ul li ul li {
+	padding: 0px;
+	margin: 0px;
+	margin-left: 12px;
+	font-weight: normal;
+	list-style-type: disc;
+}
+
+
+/* Blog Search Widget
+-----------------------*/
+
+#top-widebar .widget_search,
+#bottom-widebar .widget_search,
+#left-sidebar .widget_search,
+#right-sidebar .widget_search {
+	padding: 0px;
+	margin: 0px;
+	margin-top: 10px;
+	padding-top: 0px;
+	font-weight:bold;
+	line-height: 1.2em;
+}
+
+#top-widebar .widget_search form,
+#bottom-widebar .widget_search form,
+#left-sidebar .widget_search form,
+#right-sidebar .widget_search form
+{
+	padding: 5px;
+	margin: 0px;
+	margin-top: -5px;
+	font-weight:bold;			
+}
+
+#top-widebar .widget_search #s,
+#bottom-widebar .widget_search #s,
+#left-sidebar .widget_search #s,
+#right-sidebar .widget_search #s {
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+
+
+#top-widebar .widget_search #s,
+#bottom-widebar .widget_search #s
+{
+	width: 200px;
+}
+
+#top-widebar .widget_search #searchsubmit,
+#bottom-widebar .widget_search #searchsubmit
+{
+	margin-bottom: 5px;
+}
+
+
+#searchsubmit {
+	font-weight: bold;
+}
+
+#searchforminput #s {
+	border-color:#FFF;
+}
+
+
+
+#left-sidebar .widget_search #s
+{
+	width: 140px;
+}
+
+#right-sidebar .widget_search #s
+{
+	width: 100px;
+}
+
+
+/* Text Widget
+-----------------------*/
+
+#top-widebar .textwidget,
+#bottom-widebar .textwidget,
+#left-sidebar .textwidget,
+#right-sidebar .textwidget {
+	padding: 0px;
+	margin: 0px;
+	margin-left: 6px;
+	line-height: 1.1em;
+	margin-bottom: 6px;
+	padding-right: 10px;	
+}
+
+
+/* Calendar Widget
+-----------------------*/
+
+#top-widebar .widget_calendar table,
+#bottom-widebar .widget_calendar table,
+#left-sidebar .widget_calendar table,
+#right-sidebar .widget_calendar table { 
+	width:100%; 
+	font-size: .9em;
+}
+
+#top-widebar .widget_calendar table a,
+#bottom-widebar .widget_calendar table a,
+#left-sidebar .widget_calendar table a,
+#right-sidebar .widget_calendar table a{ 
+	font-weight:bold;
+}
+
+#top-widebar .widget_calendar th, 
+#bottom-widebar .widget_calendar th, 
+#left-sidebar .widget_calendar th, 
+#right-sidebar .widget_calendar th { 
+	font-weight: bold; 
+}
+
+#top-widebar .widget_calendar th, 
+#top-widebar td, 
+#top-widebar caption,
+#bottom-widebar .widget_calendar th, 
+#bottom-widebar td, 
+#bottom-widebar caption,
+#left-sidebar .widget_calendar th, 
+#left-sidebar td, 
+#left-sidebar caption,
+#right-sidebar .widget_calendar th, 
+#right-sidebar td, 
+#right-sidebar caption { 
+	padding: 2px 5px 2px 3px; 
+}
+
+#top-widebar .widget_calendar tfoot,
+#bottom-widebar .widget_calendar tfoot, 
+#left-sidebar .widget_calendar tfoot,
+#right-sidebar .widget_calendar tfoot { 
+	font-style: italic; }
+
+/* gets rid of annoying extra line under calendar */
+#top-widebar #wp-calendar,
+#bottom-widebar #wp-calendar,
+#left-sidebar #wp-calendar,
+#right-sidebar #wp-calendar {
+	margin: 0px;
+	padding: 0px;
+}
+
+/* RSS Widget
+-----------------------*/
+
+#top-widebar h4.widgettitle a.rsswidget img,
+#bottom-widebar h4.widgettitle a.rsswidget img,
+#left-sidebar h4.widgettitle a.rsswidget img,
+#right-sidebar h4.widgettitle a.rsswidget img {
+	padding:0px;
+	margin:0px;
+	margin-left:5px;
+}
+
+#top-widebar h4.widgettitle a.rsswidget,
+#bottom-widebar h4.widgettitle a.rsswidget,
+#left-sidebar h4.widgettitle a.rsswidget,
+#right-sidebar h4.widgettitle a.rsswidget {
+	font-weight: bold;
+	margin-left: -10px;
+}
+
+#top-widebar  a.rsswidget,
+#top-widebar  .rss-date,
+#bottom-widebar  a.rsswidget,
+#bottom-widebar  .rss-date,
+#left-sidebar a.rsswidget,
+#left-sidebar .rss-date,
+#right-sidebar a.rsswidget,
+#right-sidebar .rss-date {
+	font-weight: normal;
+}
+
+#top-widebar .rssSummary,
+#bottom-widebar .rssSummary,
+#left-sidebar .rssSummary,
+#right-sidebar .rssSummary {
+	margin-top:3px;
+	margin-bottom:3px;
+}
+
+/* Categories Widget
+-----------------------*/
+
+#top-widebar .widget_categories select,
+#bottom-widebar .widget_categories select,
+#left-sidebar .widget_categories select,
+#right-sidebar .widget_categories select {
+	margin-left: 6px;
+}
+
+
+/* Recent Posts 'PLUS' Widget
+-----------------------*/
+
+#top-widebar .hmt_widget_recent_posts_plus p,
+#bottom-widebar .hmt_widget_recent_posts_plus p,
+#left-sidebar .hmt_widget_recent_posts_plus p,
+#right-sidebar .hmt_widget_recent_posts_plus p {
+	margin:0px;
+	padding: 0px;
+}
+
+#top-widebar .hmt_widget_recent_posts_plus .thumbnail,
+#bottom-widebar .hmt_widget_recent_posts_plus .thumbnail,
+#left-sidebar .hmt_widget_recent_posts_plus .thumbnail,
+#right-sidebar .hmt_widget_recent_posts_plus .thumbnail {
+	float:left;
+	margin-right: 10px;
+	margin-left: 0px;
+	margin-top:2px;
+	margin-bottom:3px;
+}
+
+#top-widebar .more-link,
+#bottom-widebar .more-link,
+#left-sidebar .more-link,
+#right-sidebar .more-link {
+    margin: 0px;
+	padding: 0px;
+    font-weight: bold;
+}
+
+/* Feedburner Widget
+-----------------------*/
+
+#header-bar-right .hmt_widget_feedburner {
+	font-weight: bold;
+	font-size: 1.2em;
+	margin-top: 5px;
+}
+
+#header-bar-right .hmt_widget_feedburner #fbinput
+{
+	width: 190px;
+	margin-right: 5px;
+}
+
+#fbsubmit {
+	font-weight: bold;			
+}
+
+#top-widebar .hmt_widget_feedburner,
+#bottom-widebar .hmt_widget_feedburner,
+#left-sidebar .hmt_widget_feedburner,
+#right-sidebar .hmt_widget_feedburner {
+	margin:0px;
+	padding:0px;
+	margin-top: 10px;
+	margin-left: 0px;			
+}
+
+#top-widebar .hmt_widget_feedburner form,
+#bottom-widebar .hmt_widget_feedburner form,
+#left-sidebar .hmt_widget_feedburner form, 
+#right-sidebar .hmt_widget_feedburner form {
+	padding: 5px;
+	padding-top: 0px;
+	margin: 0px;
+	font-weight:bold;
+}
+
+#top-widebar .hmt_widget_feedburner #fbinput,
+#bottom-widebar .hmt_widget_feedburner #fbinput,
+#left-sidebar .hmt_widget_feedburner #fbinput,
+#right-sidebar .hmt_widget_feedburner #fbinput {
+	margin-bottom: 5px;
+}
+
+#top-widebar .hmt_widget_feedburner #fbinput,
+#bottom-widebar .hmt_widget_feedburner #fbinput
+{
+	width: 185px;
+	margin-right: 5px;
+}
+
+#top-widebar .hmt_widget_feedburner #fbsubmit,
+#bottom-widebar .hmt_widget_feedburner #fbsubmit {
+	margin-bottom: 5px;
+}
+
+#left-sidebar .hmt_widget_feedburner #fbinput
+{
+	width: 140px;
+}
+
+#right-sidebar .hmt_widget_feedburner #fbinput
+{
+	width: 100px;
+}
+
+
+/* Footer
+-------------------------------------------------------------- */
+
+#footer {
+	width: 980px;
+	height: 27px;
+	margin: 0px;
+	display: inline;
+	overflow: hidden;
+	float: left;
+}
+
+#footer-content p {
+margin:0px;
+padding:0px;
+font-size: 1em;
+}
+
+#footer-content {
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 4px;
+	font-weight: bold;
+}
+
+#footer-content .rss-feedburner {
+	padding-left: 16px;
+	padding-right: 10px;
+	display: inline;
+}
+
+#footer-content .rss-posts {;
+	padding-left: 16px;
+	padding-right: 10px;
+	display: inline;
+}
+
+#footer-content .rss-comments {
+	padding-left: 16px;
+	padding-right: 0px;
+	display: inline;
+}
+
+
+/* Footer Left and Right
+-----------------------*/
+
+#footer-content-left {
+	float: left;
+}
+
+#footer-content-right {
+	float: right;
+}
+
+
+/* Sub-footer
+-----------------------*/
+
+#sub-footer {
+	width: 980px;
+	height: 25px;
+	margin: 0px;
+	padding: 0px;
+	font-size: .9em;
+	display: inline;
+	float: left;
+	overflow: hidden;
+}
+
+#sub-footer-content {
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 4px;
+}
+
+/* Sub-Footer Left and Right
+-----------------------*/
+
+#sub-footer-content-left {
+	float: left;
+}
+
+#sub-footer-content-right {
+	float: right;
+}
+
+
+/* Image styles
+-------------------------------------------------------------- */
+
+.attachment-thumbnail {
+	background: #f3f3f3;
+	padding: 5px;
+}
+
+.aligncenter, div.aligncenter {
+   	display: block;
+   	margin-left: auto;
+   	margin-right: auto;
+	}
+
+.alignleft {
+   	float: left;
+	}
+
+.alignright {
+   	float: right;
+	}
+
+.wp-caption {
+   	border: 1px solid #ddd;
+   	text-align: center;
+   	background-color: #f3f3f3;
+   	padding-top: 4px;
+   	margin: 10px;
+	}
+
+.wp-caption img {
+   	margin: 0;
+   	padding: 0;
+   	border: 0 none;
+	}
+
+.wp-caption p.wp-caption-text {
+   	font-size: 11px;
+   	line-height: 17px;
+   	padding: 0 4px 5px;
+   	margin: 0;
+	}
+	
+.attachment img {
+	border:none;
+}
+
+.gallery-caption {
+	font-size: 11px;
+   	line-height: 17px;
+   	padding: 0 4px 5px;
+   	margin: 0;
+}

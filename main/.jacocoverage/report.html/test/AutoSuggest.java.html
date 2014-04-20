@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AutoSuggest.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">test</a> &gt; <span class="el_source">AutoSuggest.java</span></div><h1>AutoSuggest.java</h1><pre class="source lang-java linenums">package test;
+
+
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+
+public class AutoSuggest extends JPanel{
+    private final JTextField tf;
+<span class="nc" id="L11">    private final JComboBox combo = new JComboBox();</span>
+<span class="nc" id="L12">    private final Vector&lt;String&gt; v = new Vector&lt;String&gt;();</span>
+    public AutoSuggest() {
+<span class="nc" id="L14">        super(new BorderLayout());</span>
+<span class="nc" id="L15">        combo.setEditable(true);</span>
+<span class="nc" id="L16">        tf = (JTextField) combo.getEditor().getEditorComponent();</span>
+<span class="nc" id="L17">        tf.addKeyListener(new KeyAdapter() {</span>
+            public void keyTyped(KeyEvent e) {
+<span class="nc" id="L19">               EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L21">                String text = tf.getText();</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">                        if(text.length()==0) {</span>
+<span class="nc" id="L23">                    combo.hidePopup();</span>
+<span class="nc" id="L24">                    setModel(new DefaultComboBoxModel(v), &quot;&quot;);</span>
+                }else{
+<span class="nc" id="L26">                    DefaultComboBoxModel m = getSuggestedModel(v, text);</span>
+<span class="nc bnc" id="L27" title="All 4 branches missed.">                    if(m.getSize()==0 || hide_flag) {</span>
+<span class="nc" id="L28">                          combo.hidePopup();</span>
+<span class="nc" id="L29">                        hide_flag = false;</span>
+                    }else{
+<span class="nc" id="L31">                        setModel(m, text);</span>
+<span class="nc" id="L32">                        combo.showPopup();</span>
+                    }
+                }
+<span class="nc" id="L35">            }</span>
+        });
+<span class="nc" id="L37">            }</span>
+                public void keyPressed(KeyEvent e) {
+<span class="nc" id="L39">               String text = tf.getText();</span>
+<span class="nc" id="L40">         int code = e.getKeyCode();</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">             if(code==KeyEvent.VK_ENTER) {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if(!v.contains(text)) {</span>
+<span class="nc" id="L43">                v.addElement(text);</span>
+<span class="nc" id="L44">                Collections.sort(v);</span>
+<span class="nc" id="L45">                setModel(getSuggestedModel(v, text), text);</span>
+            }
+<span class="nc" id="L47">            hide_flag = true; </span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        }else if(code==KeyEvent.VK_ESCAPE) {</span>
+<span class="nc" id="L49">            hide_flag = true; </span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        }else if(code==KeyEvent.VK_RIGHT) {</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            for(int i=0;i&lt;v.size();i++) {</span>
+<span class="nc" id="L52">                String str = v.elementAt(i);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                if(str.startsWith(text)) {</span>
+<span class="nc" id="L54">                    combo.setSelectedIndex(-1);</span>
+<span class="nc" id="L55">                    tf.setText(str);</span>
+<span class="nc" id="L56">                    return;</span>
+                }
+            }
+        }
+<span class="nc" id="L60">            }</span>
+      });
+<span class="nc" id="L62">        String[] countries = {&quot;Afghanistan&quot;, &quot;Albania&quot;, &quot;Algeria&quot;, &quot;Andorra&quot;, &quot;Angola&quot;,&quot;Argentina&quot;</span>
+,&quot;Armenia&quot;,&quot;Austria&quot;,&quot;Bahamas&quot;,&quot;Bahrain&quot;, &quot;Bangladesh&quot;,&quot;Barbados&quot;, &quot;Belarus&quot;,&quot;Belgium&quot;,
+&quot;Benin&quot;,&quot;Bhutan&quot;,&quot;Bolivia&quot;,&quot;Bosnia &amp; Herzegovina&quot;,&quot;Botswana&quot;,&quot;Brazil&quot;,&quot;Bulgaria&quot;,
+&quot;Burkina Faso&quot;,&quot;Burma&quot;,&quot;Burundi&quot;,&quot;Cambodia&quot;,&quot;Cameroon&quot;,&quot;Canada&quot;, &quot;China&quot;,&quot;Colombia&quot;,
+&quot;Comoros&quot;,&quot;Congo&quot;,&quot;Croatia&quot;,&quot;Cuba&quot;,&quot;Cyprus&quot;,&quot;Czech Republic&quot;,&quot;Denmark&quot;, &quot;Georgia&quot;,
+&quot;Germany&quot;,&quot;Ghana&quot;,&quot;Great Britain&quot;,&quot;Greece&quot;,&quot;Hungary&quot;,&quot;Holland&quot;,&quot;India&quot;,&quot;Iran&quot;,&quot;Iraq&quot;,
+&quot;Italy&quot;,&quot;Somalia&quot;, &quot;Spain&quot;, &quot;Sri Lanka&quot;, &quot;Sudan&quot;,&quot;Suriname&quot;, &quot;Swaziland&quot;,&quot;Sweden&quot;,
+&quot;Switzerland&quot;, &quot;Syria&quot;,&quot;Uganda&quot;,&quot;Ukraine&quot;,&quot;United Arab Emirates&quot;,&quot;United Kingdom&quot;,
+&quot;United States&quot;,&quot;Uruguay&quot;,&quot;Uzbekistan&quot;,&quot;Vanuatu&quot;,&quot;Venezuela&quot;,&quot;Vietnam&quot;,
+&quot;Yemen&quot;,&quot;Zaire&quot;,&quot;Zambia&quot;,&quot;Zimbabwe&quot;};
+<span class="nc bnc" id="L72" title="All 2 branches missed.">          for(int i=0;i&lt;countries.length;i++){</span>
+<span class="nc" id="L73">                  v.addElement(countries[i]);</span>
+          }
+<span class="nc" id="L75">        setModel(new DefaultComboBoxModel(v), &quot;&quot;);</span>
+<span class="nc" id="L76">        JPanel p = new JPanel(new BorderLayout());</span>
+<span class="nc" id="L77">        p.setBorder(BorderFactory.createTitledBorder(&quot;AutoSuggestion Box&quot;));</span>
+<span class="nc" id="L78">        p.add(combo, BorderLayout.NORTH);</span>
+<span class="nc" id="L79">        add(p);</span>
+<span class="nc" id="L80">        setBorder(BorderFactory.createEmptyBorder(5,5,5,5));</span>
+<span class="nc" id="L81">        setPreferredSize(new Dimension(300, 150));</span>
+<span class="nc" id="L82">    }</span>
+<span class="nc" id="L83">    private boolean hide_flag = false;</span>
+       private void setModel(DefaultComboBoxModel mdl, String str) {
+<span class="nc" id="L85">        combo.setModel(mdl);</span>
+<span class="nc" id="L86">        combo.setSelectedIndex(-1);</span>
+<span class="nc" id="L87">        tf.setText(str);</span>
+<span class="nc" id="L88">    }</span>
+private static DefaultComboBoxModel getSuggestedModel(java.util.List&lt;String&gt; list, String text) {
+<span class="nc" id="L90">        DefaultComboBoxModel m = new DefaultComboBoxModel();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        for(String s: list) {</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            if(s.startsWith(text)) m.addElement(s);</span>
+<span class="nc" id="L93">        }</span>
+<span class="nc" id="L94">        return m;</span>
+    }
+
+
+
+    public static void main(String[] args) {
+        try {
+<span class="nc" id="L101">            UIManager.setLookAndFeel(&quot;com.seaglasslookandfeel.SeaGlassLookAndFeel&quot;);</span>
+<span class="nc" id="L102">        } catch (Exception e) {</span>
+<span class="nc" id="L103">        }</span>
+<span class="nc" id="L104">        JFrame frame = new JFrame();</span>
+<span class="nc" id="L105">        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L106">        frame.getContentPane().add(new AutoSuggest());</span>
+<span class="nc" id="L107">        frame.pack();</span>
+<span class="nc" id="L108">        frame.setLocationRelativeTo(null);</span>
+<span class="nc" id="L109">        frame.setVisible(true);</span>
+<span class="nc" id="L110">    }</span>
+    }
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

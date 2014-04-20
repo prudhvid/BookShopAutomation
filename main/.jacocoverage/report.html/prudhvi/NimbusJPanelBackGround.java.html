@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>NimbusJPanelBackGround.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">prudhvi</a> &gt; <span class="el_source">NimbusJPanelBackGround.java</span></div><h1>NimbusJPanelBackGround.java</h1><pre class="source lang-java linenums">
+package prudhvi;
+import java.awt.*;
+import javax.swing.*;
+//import javax.swing.plaf.InsetsUIResource;
+
+
+public class NimbusJPanelBackGround {
+
+<span class="nc" id="L10">    public NimbusJPanelBackGround() {</span>
+<span class="nc" id="L11">        JFrame f = new JFrame();</span>
+<span class="nc" id="L12">        JButton btn = new JButton(&quot;  Whatever  &quot;);</span>
+<span class="nc" id="L13">        JButton btn1 = new JButton(&quot;  Whatever  &quot;);</span>
+<span class="nc" id="L14">        JPanel p = new JPanel();</span>
+<span class="nc" id="L15">        p.add(btn);</span>
+        //UIManager.getLookAndFeelDefaults().put(&quot;Button.contentMargins&quot;, new InsetsUIResource(0, 0, 0, 0));
+        //SwingUtilities.updateComponentTreeUI(f);
+<span class="nc" id="L18">        p.add(btn1);</span>
+<span class="nc" id="L19">        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L20">        f.add(p, BorderLayout.CENTER);</span>
+<span class="nc" id="L21">        f.setSize(200, 100);</span>
+<span class="nc" id="L22">        f.setLocation(150, 150);</span>
+<span class="nc" id="L23">        f.setVisible(true);</span>
+<span class="nc" id="L24">    }</span>
+
+    public static void main(String[] args) {
+
+        /*try {
+        for (UIManager.LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
+        if (&quot;Nimbus&quot;.equals(laf.getName())) {
+        UIManager.setLookAndFeel(laf.getClassName());
+        UIManager.getLookAndFeelDefaults().put(&quot;Panel.background&quot;, Color.white);
+        }
+        }
+        } catch (Exception e) {
+        e.printStackTrace();
+        }*/
+
+        try {
+<span class="nc" id="L40">            UIManager.setLookAndFeel(&quot;com.seaglasslookandfeel.SeaGlassLookAndFeel&quot;);</span>
+<span class="nc" id="L41">        } catch (Exception e) {</span>
+<span class="nc" id="L42">            e.printStackTrace();</span>
+<span class="nc" id="L43">        }</span>
+
+
+<span class="nc" id="L46">        EventQueue.invokeLater(new Runnable() {</span>
+
+            @Override
+            public void run() {
+<span class="nc" id="L50">                NimbusJPanelBackGround nimbusJPanelBackGround = new NimbusJPanelBackGround();</span>
+<span class="nc" id="L51">            }</span>
+        });
+<span class="nc" id="L53">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

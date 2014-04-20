@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Rackf.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dbfunctions</a> &gt; <span class="el_source">Rackf.java</span></div><h1>Rackf.java</h1><pre class="source lang-java linenums">
+
+package dbfunctions;
+
+import db.*;
+import java.util.List;
+
+public class Rackf extends Rack{
+
+<span class="nc" id="L10">    public Rackf() {</span>
+<span class="nc" id="L11">    }</span>
+    
+    public static void main(String[] args) {
+<span class="nc" id="L14">        Manager manager=new Manager();</span>
+<span class="nc" id="L15">        Rack x=new Rack(50);</span>
+<span class="nc" id="L16">        addRack(x);</span>
+        
+        
+<span class="nc" id="L19">    }</span>
+    
+    protected  static void copyBtoA(Rack a,Rack b){
+<span class="nc" id="L22">        a.setIntitial(b.getIntitial());</span>
+<span class="nc" id="L23">        a.setFinal1(b.getFinal1());</span>
+<span class="nc" id="L24">    }</span>
+    public static Rack addRack(int num,char i1,char i2 ){
+<span class="nc" id="L26">        Rack r=new Rack(num);</span>
+<span class="nc" id="L27">        r.setIntitial(i1);</span>
+<span class="nc" id="L28">        r.setFinal1(i1);</span>
+<span class="nc" id="L29">        return addRack(r);</span>
+    }
+    
+    public static Rack addRack(Rack r)
+    {
+        
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if(r.getIntitial()==null)r.setIntitial('A');</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if(r.getFinal1()==null )r.setFinal1('Z');</span>
+            
+<span class="nc" id="L38">        Rack x=Manager.em.find(r.getClass(), r.getNumber());</span>
+//        List&lt;Rack&gt; list =Manager.em.createNamedQuery(&quot;Rack.findByNumber&quot;).setParameter(&quot;number&quot;, r.getNumber())
+//                .getResultList();
+//        if(list.isEmpty())
+//        {
+//            Manager.commit(r);
+//        }
+        
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if(x!=null)</span>
+<span class="nc" id="L47">            copyBtoA(x, r);</span>
+        else
+<span class="nc" id="L49">            x=r;</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if(Manager.commit(x))return x;</span>
+        
+<span class="nc" id="L52">        return null;</span>
+    }
+    
+    public static Rack getRack(int num)
+    {
+<span class="nc" id="L57">        return Manager.em.find(Rack.class, num);</span>
+    }
+    
+    
+    public static boolean addSection(int num,Bisac b)
+    {
+<span class="nc" id="L63">        List&lt;Bisac&gt; list=Manager.em.createNamedQuery(&quot;Bisac.findBySubject&quot;).setParameter(&quot;subject&quot;, b.getSubject()).getResultList();</span>
+<span class="nc" id="L64">        Rack r=getRack(num);</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if(!list.isEmpty())</span>
+        {
+<span class="nc" id="L67">           Racksection rs=new Racksection();</span>
+<span class="nc" id="L68">           rs.setBisac(b);</span>
+<span class="nc" id="L69">           rs.setRack(r);</span>
+<span class="nc" id="L70">            boolean commit = Manager.commit(rs);</span>
+<span class="nc" id="L71">            return commit;</span>
+        }
+<span class="nc" id="L73">        return false;</span>
+        
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

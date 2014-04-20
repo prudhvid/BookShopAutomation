@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Publisher.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">db</a> &gt; <span class="el_source">Publisher.java</span></div><h1>Publisher.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package db;
+
+import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author Prudhvi
+ */
+@Entity
+@Table(name = &quot;PUBLISHER&quot;)
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Publisher.findAll&quot;, query = &quot;SELECT p FROM Publisher p&quot;),
+    @NamedQuery(name = &quot;Publisher.findById&quot;, query = &quot;SELECT p FROM Publisher p WHERE p.id = :id&quot;),
+    @NamedQuery(name = &quot;Publisher.findByName&quot;, query = &quot;SELECT p FROM Publisher p WHERE p.name = :name&quot;),
+    @NamedQuery(name = &quot;Publisher.findByVendor&quot;, query = &quot;SELECT p FROM Publisher p WHERE p.vendor = :vendor&quot;),
+    @NamedQuery(name = &quot;Publisher.findByAddress&quot;, query = &quot;SELECT p FROM Publisher p WHERE p.address = :address&quot;),
+    @NamedQuery(name = &quot;Publisher.findByPhone&quot;, query = &quot;SELECT p FROM Publisher p WHERE p.phone = :phone&quot;),
+    @NamedQuery(name = &quot;Publisher.findByMail&quot;, query = &quot;SELECT p FROM Publisher p WHERE p.mail = :mail&quot;),
+    @NamedQuery(name = &quot;Publisher.findByOrdernum&quot;, query = &quot;SELECT p FROM Publisher p WHERE p.ordernum = :ordernum&quot;)})
+public class Publisher implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = &quot;ID&quot;)
+    private Integer id;
+    @Basic(optional = false)
+    @Column(name = &quot;NAME&quot;)
+    private String name;
+    @Basic(optional = false)
+    @Column(name = &quot;VENDOR&quot;)
+    private String vendor;
+    @Column(name = &quot;ADDRESS&quot;)
+    private String address;
+    @Column(name = &quot;PHONE&quot;)
+    private String phone;
+    @Column(name = &quot;MAIL&quot;)
+    private String mail;
+    @Basic(optional = false)
+    @Column(name = &quot;ORDERNUM&quot;)
+    private int ordernum;
+    @OneToMany(mappedBy = &quot;publisher&quot;)
+    private Collection&lt;Orders&gt; ordersCollection;
+    @OneToMany(mappedBy = &quot;publisher&quot;)
+    private Collection&lt;Book&gt; bookCollection;
+
+<span class="fc" id="L67">    public Publisher() {</span>
+<span class="fc" id="L68">        vendor=name=&quot;&quot;;</span>
+<span class="fc" id="L69">    }</span>
+
+<span class="nc" id="L71">    public Publisher(String nameString) {</span>
+<span class="nc" id="L72">        this.name=nameString.toUpperCase();</span>
+<span class="nc" id="L73">        vendor=&quot;UNKNOWN&quot;;</span>
+<span class="nc" id="L74">    }</span>
+
+<span class="nc" id="L76">    public Publisher(Integer id, String name, String vendor, int ordernum) {</span>
+<span class="nc" id="L77">        this.id = id;</span>
+<span class="nc" id="L78">        this.name = name;</span>
+<span class="nc" id="L79">        this.vendor = vendor;</span>
+<span class="nc" id="L80">        this.ordernum = ordernum;</span>
+<span class="nc" id="L81">    }</span>
+<span class="nc" id="L82">    public Publisher(Publisher p){</span>
+<span class="nc" id="L83">        this.id = p.id;</span>
+<span class="nc" id="L84">        this.name = p.name;</span>
+<span class="nc" id="L85">        this.vendor = p.vendor;</span>
+<span class="nc" id="L86">        address=p.address;</span>
+<span class="nc" id="L87">        phone=p.phone;</span>
+<span class="nc" id="L88">        mail=p.mail;</span>
+<span class="nc" id="L89">        this.ordernum = p.ordernum;</span>
+<span class="nc" id="L90">    }</span>
+    public Integer getId() {
+<span class="nc" id="L92">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L96">        this.id = id;</span>
+<span class="nc" id="L97">    }</span>
+
+    public String getName() {
+<span class="fc" id="L100">        return name.toUpperCase();</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L104">        this.name = name.toUpperCase();</span>
+<span class="nc" id="L105">    }</span>
+
+    public String getVendor() {
+<span class="nc" id="L108">        return vendor;</span>
+    }
+
+    public void setVendor(String vendor) {
+<span class="nc" id="L112">        this.vendor = vendor;</span>
+<span class="nc" id="L113">    }</span>
+
+    public String getAddress() {
+<span class="nc" id="L116">        return address;</span>
+    }
+
+    public void setAddress(String address) {
+<span class="nc" id="L120">        this.address = address;</span>
+<span class="nc" id="L121">    }</span>
+
+    public String getPhone() {
+<span class="nc" id="L124">        return phone;</span>
+    }
+
+    public void setPhone(String phone) {
+<span class="nc" id="L128">        this.phone = phone;</span>
+<span class="nc" id="L129">    }</span>
+
+    public String getMail() {
+<span class="nc" id="L132">        return mail;</span>
+    }
+
+    public void setMail(String mail) {
+<span class="nc" id="L136">        this.mail = mail;</span>
+<span class="nc" id="L137">    }</span>
+
+    public int getOrdernum() {
+<span class="nc" id="L140">        return ordernum;</span>
+    }
+
+    public void setOrdernum(int ordernum) {
+<span class="nc" id="L144">        this.ordernum = ordernum;</span>
+<span class="nc" id="L145">    }</span>
+
+    @XmlTransient
+    public Collection&lt;Orders&gt; getOrdersCollection() {
+<span class="nc" id="L149">        return ordersCollection;</span>
+    }
+
+    public void setOrdersCollection(Collection&lt;Orders&gt; ordersCollection) {
+<span class="nc" id="L153">        this.ordersCollection = ordersCollection;</span>
+<span class="nc" id="L154">    }</span>
+
+    @XmlTransient
+    public Collection&lt;Book&gt; getBookCollection() {
+<span class="nc" id="L158">        return bookCollection;</span>
+    }
+
+    public void setBookCollection(Collection&lt;Book&gt; bookCollection) {
+<span class="nc" id="L162">        this.bookCollection = bookCollection;</span>
+<span class="nc" id="L163">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L167">        int hash = 0;</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L169">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        if (!(object instanceof Publisher)) {</span>
+<span class="nc" id="L176">            return false;</span>
+        }
+<span class="nc" id="L178">        Publisher other = (Publisher) object;</span>
+<span class="nc bnc" id="L179" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L180">            return false;</span>
+        }
+<span class="nc" id="L182">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L187">        return &quot;main.Publisher[ id=&quot; + id + &quot; ] \n name=&quot;+name+&quot;\n vendor=&quot;+vendor+&quot;\nphone=&quot;+phone;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Bookf.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dbfunctions</a> &gt; <span class="el_source">Bookf.java</span></div><h1>Bookf.java</h1><pre class="source lang-java linenums">
+
+package dbfunctions;
+import db.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import main.constraint;
+
+
+public class Bookf extends Book{
+    public static final char ORDER_PLACED_STATE='O';
+    public static final char DATA_GIVEN='D';
+    public static final char INCREMENT_STATE='I';
+    public static final char COMPLETE_BOOK_STATE='C';
+    public static final char REQUEST_STATE='R';
+    public static final char ORDER_ARRIVED_STATE='A';
+    public static final char ADDED_TO_ORDER_STATE='S';
+    
+    
+    public static void copyBtoA(Book a, Book b) {
+<span class="nc" id="L24">        System.out.println(&quot;copying&quot;);</span>
+        
+<span class="nc bnc" id="L26" title="All 4 branches missed.">        if(b.getIsbn()!=null||b.getIsbn()!=&quot;&quot;)</span>
+<span class="nc" id="L27">            a.setIsbn(b.getIsbn());</span>
+        
+<span class="nc" id="L29">        a.setEdition(b.getEdition());</span>
+        
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if(b.getCopiesBought()!=0)</span>
+<span class="nc" id="L32">            a.setCopiesBought(b.getCopiesBought());</span>
+        
+<span class="nc" id="L34">        a.setCopiesPresent(b.getCopiesPresent());</span>
+<span class="nc" id="L35">        a.setCopiesReserved(b.getCopiesReserved());</span>
+<span class="nc" id="L36">        a.setCopiesSold(b.getCopiesSold());</span>
+<span class="nc" id="L37">        a.setBuyingprice(b.getBuyingprice());</span>
+        
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if(b.getBisac()!=null)</span>
+<span class="nc" id="L40">            a.setBisac(b.getBisac());</span>
+        
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if(b.getPublisher()!=null)</span>
+<span class="nc" id="L43">            a.setPublisher(b.getPublisher());</span>
+        
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if(a.getState()!=COMPLETE_BOOK_STATE)</span>
+<span class="nc" id="L46">            a.setState(b.getState());</span>
+        
+<span class="nc" id="L48">        a.setSellprice(b.getSellprice());</span>
+        
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if(b.getViews()&gt;a.getViews())</span>
+<span class="nc" id="L51">            a.setViews(b.getViews());</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if(!&quot;&quot;.equals(b.getDescription()))</span>
+<span class="nc" id="L53">            a.setDescription(b.getDescription());</span>
+<span class="nc" id="L54">    }</span>
+
+    public Bookf(String a) {
+<span class="nc" id="L57">        super(a);</span>
+<span class="nc" id="L58">    }</span>
+    
+    
+    public static Book search(String a,Publisher publisher)
+    {
+        
+<span class="fc" id="L64">        List&lt;Book&gt; list=(List&lt;Book&gt;)Manager.em.createQuery(&quot;SELECT b from Book b WHERE b.title=:title AND b.publisher.name=:pub&quot;).</span>
+                setParameter(&quot;title&quot;, a).setParameter(&quot;pub&quot;, publisher.getName()).getResultList();
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if(list.isEmpty())</span>
+<span class="fc" id="L67">            return null;</span>
+<span class="fc" id="L68">        return list.get(0);</span>
+        
+    }
+    
+    public static Book search(Book b){
+<span class="pc bpc" id="L73" title="2 of 4 branches missed.">        if(b.getTitle()==null||b.getPublisher()==null)</span>
+        {
+<span class="nc" id="L75">            return null;</span>
+        }
+        
+<span class="fc" id="L78">        Book x=search(b.getTitle(),b.getPublisher());</span>
+<span class="fc" id="L79">        return x;</span>
+    }
+    
+    
+    public static Book addBook(String titleString){
+       
+<span class="nc" id="L85">        Book b=new Book(titleString);</span>
+<span class="nc" id="L86">        return addBook(b);</span>
+    }
+    public static Book addBook(String titleString,Publisher p){
+<span class="nc" id="L89">        Book x=new Book(titleString);</span>
+<span class="nc" id="L90">        x.setPublisher(p);</span>
+<span class="nc" id="L91">        return addBook(x);</span>
+    }
+    public static Book addBook(Book book,List&lt;String&gt; authorString,int index){
+<span class="nc" id="L94">        List&lt;Author&gt; list=Authorf.getAuthorList(authorString);</span>
+<span class="nc" id="L95">        Book b=addBook(book, list);</span>
+<span class="nc" id="L96">        return b;</span>
+    }
+    public static Book addBook(Book book,List&lt;Author&gt; list){
+<span class="nc" id="L99">        Book b=addBook(book);</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if(b!=null){</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            for (Author author : list) {</span>
+<span class="nc" id="L102">                author=Authorf.addAuthor(author);</span>
+<span class="nc" id="L103">                Bookauthor ba=new Bookauthor();</span>
+<span class="nc" id="L104">                ba.setBook(b);</span>
+<span class="nc" id="L105">                ba.setAuthor(author);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                if(Manager.em.createQuery(&quot;SELECT ba FROM Bookauthor ba WHERE ba.author=:author AND ba.book=:book&quot;)</span>
+                        .setParameter(&quot;author&quot;, author).setParameter(&quot;book&quot;, b).getResultList().size()==0)
+<span class="nc" id="L108">                    Manager.persist(ba);</span>
+<span class="nc" id="L109">            }</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            if(Manager.commit())</span>
+<span class="nc" id="L111">                return b;  </span>
+        }
+<span class="nc" id="L113">        return null;</span>
+    }
+
+    public static Book addBook(Book b){
+        
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if(Manager.em.contains(b))</span>
+<span class="nc" id="L119">            return b;</span>
+<span class="nc" id="L120">        Book x=Bookf.search(b.getTitle(), b.getPublisher());</span>
+       
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if(x!=null)</span>
+        {
+<span class="nc" id="L124">            System.out.println(&quot;B's copies=&quot;+b.getCopiesReserved());</span>
+<span class="nc" id="L125">            System.out.println(&quot;Initial copies=&quot;+x.getCopiesReserved());</span>
+<span class="nc" id="L126">            copyBtoA(x,b);</span>
+<span class="nc" id="L127">            System.out.println(&quot;FInal copies=&quot;+x.getCopiesReserved());</span>
+<span class="nc" id="L128">            Manager.commit(x);</span>
+<span class="nc" id="L129">            return x;</span>
+        }
+<span class="nc" id="L131">        b.setPublisher(Publisherf.addPublisher(b.getPublisher()));</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if(Manager.commit(b))</span>
+<span class="nc" id="L133">            return b;</span>
+<span class="nc" id="L134">        return null;</span>
+    }
+    
+    
+   
+    public static boolean checkISBN(String IsbnString){
+<span class="nc" id="L140">        System.out.println(IsbnString);</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if(IsbnString.length()==10)</span>
+<span class="nc" id="L142">            return true;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        if(IsbnString==null)</span>
+<span class="nc" id="L144">            return false;</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if(IsbnString.length()!=13)</span>
+<span class="nc" id="L146">            return false;</span>
+        
+        int odd,even;
+<span class="nc" id="L149">        even=odd = 0;</span>
+        
+        
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        for (int i = 0; i &lt; IsbnString.length()-1; i++) {</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">            if(i%2==0)</span>
+<span class="nc" id="L154">                odd+=IsbnString.charAt(i)-'0';</span>
+            else
+<span class="nc" id="L156">                even+=IsbnString.charAt(i)-'0';</span>
+        }
+//        System.out.println(&quot;even=&quot;+even+&quot;\nodd=&quot;+odd+&quot;\ntotal=&quot;+(even*3+odd));
+<span class="nc" id="L159">        int res=(even*3+odd)%10;</span>
+<span class="nc" id="L160">        res=10-res;</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        return res==IsbnString.charAt(12)-'0';</span>
+    }
+    public static void main(String[] args) {
+//        System.out.println(checkISBN(&quot;9780306406157&quot;));
+<span class="nc" id="L165">        Manager m=new Manager();</span>
+//        Book a=new Book(&quot;Love&quot;);
+//        List&lt;String&gt; autStrings = new LinkedList&lt;&gt;();
+//        autStrings.add(&quot;JK Rowling&quot;);
+//        Publisher publisher=new Publisher();
+//        publisher.setName(&quot;PHI&quot;);
+//        a.setPublisher(publisher);
+//        Book b=new Book(&quot;Devil Home&quot;);
+//        Book c=new Book(&quot;House of cards&quot;);
+//        addBook(b,autStrings,1);
+//        addBook(a);
+//        addBook(c);
+<span class="nc" id="L177">        Book x=new Book(&quot;Harry potter and the chamber of secrets&quot;);</span>
+<span class="nc" id="L178">        x=addBook(x);</span>
+<span class="nc" id="L179">        List&lt;Author&gt; list=getAuthors(x);</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">        for (Author author : list) {</span>
+<span class="nc" id="L181">            System.out.println(author.getName());</span>
+<span class="nc" id="L182">        }</span>
+        
+<span class="nc" id="L184">    }</span>
+    
+    
+    public static List&lt;Book&gt; getSuggestions(String bookString){
+<span class="nc" id="L188">        List&lt;Book&gt; list=Manager.em.</span>
+                createQuery(&quot;SELECT DISTINCT b FROM Book b WHERE b.title LIKE :title AND (b.state=:state OR b.state=:state2) &quot;).
+                setParameter(&quot;title&quot;, &quot;%&quot;+bookString.toUpperCase()+&quot;%&quot;).setParameter(&quot;state&quot;, Bookf.COMPLETE_BOOK_STATE).
+                setParameter(&quot;state2&quot;,INCREMENT_STATE).
+                setMaxResults(10).getResultList(); 
+<span class="nc" id="L193">        return list;</span>
+        
+    }
+    
+    public static List&lt;Author&gt; getAuthors(Book b){
+<span class="fc" id="L198">        Book b1=search(b);</span>
+<span class="fc" id="L199">        List&lt;Author&gt; list=(List&lt;Author&gt;)Manager.em.createQuery(&quot;SELECT ba.author FROM Bookauthor ba WHERE BA.book.title=:title &quot;</span>
+                + &quot; ORDER BY ba.author.name&quot;)
+                .setParameter(&quot;title&quot;, b.getTitle()).getResultList();
+<span class="fc bfc" id="L202" title="All 2 branches covered.">        for (int i = 0; i &lt; list.size()-1; i++) {</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">            if(list.get(i)==list.get(i+1))</span>
+<span class="fc" id="L204">            {list.remove(i);i--;}</span>
+        }
+<span class="fc" id="L206">        return list;</span>
+    }
+    public static List&lt;Book&gt; getBook(String titString)
+    {
+        
+<span class="nc" id="L211">        List&lt;Book&gt; list=(List&lt;Book&gt;)Manager.em.createQuery(&quot;SELECT  b from Book b WHERE b.title=:title and b.publisher!=:pub&quot;).</span>
+                setParameter(&quot;title&quot;, titString).setParameter(&quot;pub&quot;, Publisherf.getEmptyPublisher()).getResultList();
+        
+<span class="nc" id="L214">        return list;</span>
+        
+    }
+    public static boolean isComplete(Book b)
+    {
+        
+<span class="nc bnc" id="L220" title="All 8 branches missed.">        if(b.getBisac()!=null&amp;&amp;checkISBN(b.getIsbn())&amp;&amp;b.getPublisher()!=null&amp;&amp;b.getSellprice()!=0)</span>
+<span class="nc" id="L221">            return true;</span>
+<span class="nc" id="L222">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

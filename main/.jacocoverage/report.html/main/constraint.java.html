@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>constraint.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">main</a> &gt; <span class="el_source">constraint.java</span></div><h1>constraint.java</h1><pre class="source lang-java linenums">
+
+package main;
+
+
+import java.util.prefs.Preferences;
+import java.util.regex.Pattern;
+
+/**
+ * 
+ * The below class is to implement all reusable code for checking various constraints generally to be done like phone,email etc.
+ * The user preferences are saved using Preferences API link -- 
+ * http://java.amitph.com/2012/10/java-preferences-api-introduction.html#.Uzbno_mSzL8
+ * 
+ */
+<span class="nc" id="L16">public class constraint {</span>
+    final static String Mob_Num=&quot;MOB_NUM_Length&quot;;
+    final static String PASSWORD=&quot;pasword&quot;;
+<span class="nc" id="L19">    static Preferences userPreferences=Preferences.userRoot();</span>
+    public static boolean checkmobile(String mob)
+    {
+        
+<span class="nc" id="L23">        userPreferences.putInt(Mob_Num, 10);;</span>
+<span class="nc" id="L24">        int length=userPreferences.getInt(Mob_Num, 10);</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if(mob.length()&lt;length)</span>
+<span class="nc" id="L26">            return false;</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        for (int i = 0; i &lt; length; i++) {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">            if(!Character.isDigit(mob.charAt(i)))</span>
+<span class="nc" id="L29">                return false;</span>
+        }
+<span class="nc" id="L31">        return true;</span>
+    }
+    public static void changeMobnumlength(int num)
+    {
+<span class="nc" id="L35">        Preferences userPreferences=Preferences.userRoot();</span>
+<span class="nc" id="L36">        userPreferences.putInt(Mob_Num, num);</span>
+<span class="nc" id="L37">    }</span>
+    
+<span class="nc" id="L39">    private static final Pattern rfc2822 = Pattern.compile(&quot;^[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$&quot;);</span>
+    
+    public static boolean checkemail(String emailString)
+    {
+//        java.util.regex.Pattern p = java.util.regex.Pattern.compile(&quot;.+@.+\\.[a-z]+&quot;);
+//        java.util.regex.Matcher m = p.matcher(emailString);
+//        return m.matches();   
+<span class="nc" id="L46">        return rfc2822.matcher(emailString).matches();</span>
+    }
+    public static void main(String args[])
+    {
+<span class="nc" id="L50">        String email=&quot;dharma@na@h.com&quot;;</span>
+       
+<span class="nc" id="L52">        System.out.println(checkemail(email));</span>
+<span class="nc" id="L53">        System.out.println(checkmobile(&quot;17345&quot;));</span>
+<span class="nc" id="L54">    }</span>
+    public static void setShopPassword(String password)
+    {
+       
+<span class="nc" id="L58">        userPreferences.put(PASSWORD, password);</span>
+<span class="nc" id="L59">    }</span>
+    public static String getShopPassword()
+    {
+<span class="nc" id="L62">        return userPreferences.get(PASSWORD, &quot;password&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

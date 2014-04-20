@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>home.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">main</a> &gt; <span class="el_source">home.java</span></div><h1>home.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package main;
+
+import db.*;
+import dbfunctions.*;
+import feature.*;
+import feature.extrafunctions;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.List;
+import javax.swing.*;
+import javax.swing.table.TableModel;
+import test.*;
+/**
+ *
+ * @author sumit
+ */
+public class home extends javax.swing.JFrame {
+
+    public static home h;
+    /**
+     * Creates new form home
+     */
+<span class="fc" id="L29">    public home() {</span>
+        
+<span class="fc" id="L31">        initComponents();</span>
+<span class="fc" id="L32">        Manager manager=new Manager();</span>
+<span class="fc" id="L33">        setTitle(&quot;Bookshop Automation Software&quot;);</span>
+        
+<span class="fc" id="L35">        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();</span>
+<span class="fc" id="L36">        this.setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);</span>
+        
+<span class="fc" id="L38">        scrollpanecat.setViewportView(categorytable);</span>
+<span class="fc" id="L39">        scrollpanebooks.setViewportView(new JPanel());</span>
+<span class="fc" id="L40">        addtrendingbooks();</span>
+        
+<span class="fc" id="L42">        showrequests.setVisible(false);</span>
+<span class="fc" id="L43">        orders.setVisible(false);</span>
+<span class="fc" id="L44">        receiveorders.setVisible(false);</span>
+<span class="fc" id="L45">        stats.setVisible(false);</span>
+<span class="fc" id="L46">        home.setVisible(false);</span>
+<span class="fc" id="L47">        editbook.setVisible(false);</span>
+
+<span class="fc" id="L49">        comboboxtitle.setEditable(true);</span>
+<span class="fc" id="L50">        comboboxauthor.setEditable(true);</span>
+<span class="fc" id="L51">        AuthorSuggest as=new AuthorSuggest(comboboxauthor);</span>
+<span class="fc" id="L52">        comboboxauthor.setModel(as);</span>
+<span class="fc" id="L53">        comboboxauthor.addItemListener(as);</span>
+<span class="fc" id="L54">        categorytable.setRowHeight(40);</span>
+<span class="fc" id="L55">        categorytable.setAlignmentY(CENTER_ALIGNMENT);</span>
+        
+<span class="fc" id="L57">        BookSuggest bsm=new BookSuggest(comboboxtitle);</span>
+<span class="fc" id="L58">        comboboxtitle.setModel(bsm);</span>
+<span class="fc" id="L59">        comboboxtitle.addItemListener(bsm);</span>
+        
+<span class="fc" id="L61">        final java.util.List&lt;Bisac&gt; categorylist = Bisacf.getList();</span>
+<span class="fc" id="L62">        int i=0;</span>
+<span class="fc" id="L63">        TableModel model = categorytable.getModel();</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        for(Bisac abc : categorylist)</span>
+        {
+<span class="fc" id="L66">            model.setValueAt(abc.getSubject(), i, 0);</span>
+<span class="fc" id="L67">            i++;</span>
+<span class="fc" id="L68">        }</span>
+        
+<span class="fc" id="L70">        categorytable.addMouseListener(new MouseAdapter() {</span>
+            public void mouseClicked(MouseEvent e) {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                if (e.getClickCount() == 1) {</span>
+<span class="nc" id="L73">                    JTable target = (JTable)e.getSource();</span>
+<span class="nc" id="L74">                    int row = target.getSelectedRow();</span>
+                    
+                    // do some action if appropriate column
+<span class="nc" id="L77">                    Bisac obj = new Bisac();</span>
+<span class="nc" id="L78">                    obj = categorylist.get(row);</span>
+<span class="nc" id="L79">                    java.util.List&lt;Book&gt; categorybooks = extrafunctions.getcategoryBooks(obj);</span>
+<span class="nc" id="L80">                    JPanel categorypanel = new JPanel();</span>
+<span class="nc" id="L81">                    categorypanel.setLayout(new GridLayout(0, 1));</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                    for(Book book : categorybooks)</span>
+                    {
+<span class="nc" id="L84">                        showbookintable newbook = new showbookintable(book);</span>
+<span class="nc" id="L85">                        categorypanel.add(newbook);</span>
+<span class="nc" id="L86">                    }</span>
+<span class="nc" id="L87">                    scrollpanebooks.setViewportView(categorypanel);</span>
+                }
+<span class="nc" id="L89">            }</span>
+        });
+        
+<span class="fc" id="L92">        comboboxtitle.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() </span>
+<span class="fc" id="L93">{</span>
+    @Override
+    public void keyPressed(KeyEvent evt)
+    {
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if(evt.getKeyCode()==KeyEvent.VK_ENTER)</span>
+<span class="nc" id="L98">        bytitleActionPerformed(null);</span>
+<span class="nc" id="L99">    }</span>
+});
+
+
+<span class="fc" id="L103">comboboxauthor.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() </span>
+<span class="fc" id="L104">{</span>
+    @Override
+    public void keyPressed(KeyEvent evt)
+    {
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        if(evt.getKeyCode()==KeyEvent.VK_ENTER)</span>
+<span class="nc" id="L109">            byauthorActionPerformed(null);</span>
+<span class="nc" id="L110">    }</span>
+});
+<span class="fc" id="L112">    }</span>
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="fc" id="L118">        jPanel1 = new javax.swing.JPanel();</span>
+<span class="fc" id="L119">        cart = new javax.swing.JButton();</span>
+<span class="fc" id="L120">        bytitle = new javax.swing.JButton();</span>
+<span class="fc" id="L121">        byauthor = new javax.swing.JButton();</span>
+<span class="fc" id="L122">        homebas = new javax.swing.JButton();</span>
+<span class="fc" id="L123">        comboboxtitle = new javax.swing.JComboBox();</span>
+<span class="fc" id="L124">        comboboxauthor = new javax.swing.JComboBox();</span>
+<span class="fc" id="L125">        mainpanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L126">        scrollpanebooks = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L127">        bookpanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L128">        scrollpanecat = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L129">        categorytable = new javax.swing.JTable();</span>
+<span class="fc" id="L130">        shop = new javax.swing.JButton();</span>
+<span class="fc" id="L131">        showrequests = new javax.swing.JButton();</span>
+<span class="fc" id="L132">        orders = new javax.swing.JButton();</span>
+<span class="fc" id="L133">        receiveorders = new javax.swing.JButton();</span>
+<span class="fc" id="L134">        stats = new javax.swing.JButton();</span>
+<span class="fc" id="L135">        jButton1 = new javax.swing.JButton();</span>
+<span class="fc" id="L136">        home = new javax.swing.JButton();</span>
+<span class="fc" id="L137">        editbook = new javax.swing.JButton();</span>
+
+<span class="fc" id="L139">        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);</span>
+
+<span class="fc" id="L141">        jPanel1.setBackground(new java.awt.Color(51, 0, 153));</span>
+
+<span class="fc" id="L143">        cart.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/main/images/cart.jpg&quot;))); // NOI18N</span>
+<span class="fc" id="L144">        cart.setText(&quot;cart&quot;);</span>
+<span class="fc" id="L145">        cart.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);</span>
+<span class="fc" id="L146">        cart.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L148">                cartActionPerformed(evt);</span>
+<span class="nc" id="L149">            }</span>
+        });
+
+<span class="fc" id="L152">        bytitle.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/main/images/search.jpg&quot;))); // NOI18N</span>
+<span class="fc" id="L153">        bytitle.setText(&quot;search&quot;);</span>
+<span class="fc" id="L154">        bytitle.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L156">                bytitleActionPerformed(evt);</span>
+<span class="nc" id="L157">            }</span>
+        });
+
+<span class="fc" id="L160">        byauthor.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/main/images/search.jpg&quot;))); // NOI18N</span>
+<span class="fc" id="L161">        byauthor.setText(&quot;search&quot;);</span>
+<span class="fc" id="L162">        byauthor.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L164">                byauthorActionPerformed(evt);</span>
+<span class="nc" id="L165">            }</span>
+        });
+
+<span class="fc" id="L168">        homebas.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/main/images/logo (2).jpg&quot;))); // NOI18N</span>
+<span class="fc" id="L169">        homebas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);</span>
+<span class="fc" id="L170">        homebas.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="fc" id="L172">                homebasActionPerformed(evt);</span>
+<span class="fc" id="L173">            }</span>
+        });
+
+<span class="fc" id="L176">        comboboxtitle.setModel(new javax.swing.DefaultComboBoxModel(new String[] { &quot;Item 1&quot;, &quot;Item 2&quot;, &quot;Item 3&quot;, &quot;Item 4&quot; }));</span>
+
+<span class="fc" id="L178">        comboboxauthor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { &quot;Item 1&quot;, &quot;Item 2&quot;, &quot;Item 3&quot;, &quot;Item 4&quot; }));</span>
+
+<span class="fc" id="L180">        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);</span>
+<span class="fc" id="L181">        jPanel1.setLayout(jPanel1Layout);</span>
+<span class="fc" id="L182">        jPanel1Layout.setHorizontalGroup(</span>
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(homebas, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(comboboxauthor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, 0)
+                        .addComponent(byauthor, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboboxtitle, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(bytitle, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(cart, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
+                .addGap(52, 52, 52))
+        );
+<span class="fc" id="L201">        jPanel1Layout.setVerticalGroup(</span>
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(homebas, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bytitle, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboboxtitle))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(byauthor, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(cart, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(comboboxauthor, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))))
+                .addGap(30, 30, 30))
+        );
+
+<span class="fc" id="L219">        mainpanel.setBackground(new java.awt.Color(204, 204, 204));</span>
+
+<span class="fc" id="L221">        scrollpanebooks.setAutoscrolls(true);</span>
+
+<span class="fc" id="L223">        bookpanel.setLayout(new java.awt.GridLayout(0, 1));</span>
+<span class="fc" id="L224">        scrollpanebooks.setViewportView(bookpanel);</span>
+
+<span class="fc" id="L226">        categorytable.setFont(new java.awt.Font(&quot;Perpetua Titling MT&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L227">        categorytable.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+                {&quot;&quot;},
+                {&quot;&quot;},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                &quot;                    CATEGORIES&quot;
+            }
+<span class="fc" id="L285">        ) {</span>
+<span class="fc" id="L286">            Class[] types = new Class [] {</span>
+                java.lang.String.class
+            };
+<span class="fc" id="L289">            boolean[] canEdit = new boolean [] {</span>
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+<span class="fc" id="L294">                return types [columnIndex];</span>
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L298">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="fc" id="L301">        scrollpanecat.setViewportView(categorytable);</span>
+
+<span class="fc" id="L303">        javax.swing.GroupLayout mainpanelLayout = new javax.swing.GroupLayout(mainpanel);</span>
+<span class="fc" id="L304">        mainpanel.setLayout(mainpanelLayout);</span>
+<span class="fc" id="L305">        mainpanelLayout.setHorizontalGroup(</span>
+            mainpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainpanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrollpanecat, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollpanebooks, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+<span class="fc" id="L314">        mainpanelLayout.setVerticalGroup(</span>
+            mainpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainpanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrollpanecat, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                    .addComponent(scrollpanebooks))
+                .addContainerGap())
+        );
+
+<span class="fc" id="L324">        shop.setText(&quot;SHOP ACCESS&quot;);</span>
+<span class="fc" id="L325">        shop.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L327">                shopActionPerformed(evt);</span>
+<span class="nc" id="L328">            }</span>
+        });
+
+<span class="fc" id="L331">        showrequests.setText(&quot;SHOW REQUESTS&quot;);</span>
+<span class="fc" id="L332">        showrequests.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L334">                showrequestsActionPerformed(evt);</span>
+<span class="nc" id="L335">            }</span>
+        });
+
+<span class="fc" id="L338">        orders.setText(&quot;ORDERS&quot;);</span>
+<span class="fc" id="L339">        orders.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L341">                ordersActionPerformed(evt);</span>
+<span class="nc" id="L342">            }</span>
+        });
+
+<span class="fc" id="L345">        receiveorders.setText(&quot;RECEIVE ORDERS&quot;);</span>
+<span class="fc" id="L346">        receiveorders.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L348">                receiveordersActionPerformed(evt);</span>
+<span class="nc" id="L349">            }</span>
+        });
+
+<span class="fc" id="L352">        stats.setText(&quot;STATISTICS&quot;);</span>
+<span class="fc" id="L353">        stats.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L355">                statsActionPerformed(evt);</span>
+<span class="nc" id="L356">            }</span>
+        });
+
+<span class="fc" id="L359">        jButton1.setText(&quot;CLEAR SESSION&quot;);</span>
+<span class="fc" id="L360">        jButton1.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L362">                jButton1ActionPerformed(evt);</span>
+<span class="nc" id="L363">            }</span>
+        });
+
+<span class="fc" id="L366">        home.setText(&quot;HOME&quot;);</span>
+<span class="fc" id="L367">        home.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L369">                homeActionPerformed(evt);</span>
+<span class="nc" id="L370">            }</span>
+        });
+
+<span class="fc" id="L373">        editbook.setText(&quot;EDIT BOOK&quot;);</span>
+<span class="fc" id="L374">        editbook.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L376">                editbookActionPerformed(evt);</span>
+<span class="nc" id="L377">            }</span>
+        });
+
+<span class="fc" id="L380">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="fc" id="L381">        getContentPane().setLayout(layout);</span>
+<span class="fc" id="L382">        layout.setHorizontalGroup(</span>
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(shop, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                    .addComponent(showrequests, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(orders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(receiveorders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(stats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(home, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editbook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(mainpanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+<span class="fc" id="L401">        layout.setVerticalGroup(</span>
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mainpanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(shop, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(home, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(editbook, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(showrequests, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(orders, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(receiveorders, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(stats, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+
+<span class="fc" id="L430">        pack();</span>
+<span class="fc" id="L431">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartActionPerformed
+        
+<span class="nc" id="L435">        String result=&quot;In cart \n&quot;;</span>
+<span class="nc" id="L436">        List&lt;Book&gt; cartBooks=UserSession.getBooksList();</span>
+<span class="nc bnc" id="L437" title="All 2 branches missed.">        for (Book book : cartBooks) {</span>
+
+<span class="nc" id="L439">            result+=book.getTitle()+&quot;\n&quot;;</span>
+<span class="nc" id="L440">        }</span>
+<span class="nc" id="L441">        cart usercart = new cart(new JFrame(),true,cartBooks);</span>
+<span class="nc" id="L442">        usercart.setVisible(true);</span>
+        
+<span class="nc" id="L444">    }//GEN-LAST:event_cartActionPerformed</span>
+
+    private void byauthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_byauthorActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L448">        List&lt;Book&gt; books=Library.suggestBooks(comboboxauthor.getEditor().getItem().toString(),3);</span>
+<span class="nc bnc" id="L449" title="All 2 branches missed.">        if(books.isEmpty())</span>
+        {
+            
+<span class="nc bnc" id="L452" title="All 2 branches missed.">            if(UserSession.getCustomer()==null)</span>
+            {
+<span class="nc" id="L454">                Book t=new Book();</span>
+<span class="nc" id="L455">                CustomerRegister cr = new CustomerRegister(h,new bookdetails(t, h),1);</span>
+<span class="nc" id="L456">                cr.setVisible(true);</span>
+<span class="nc" id="L457">                setscrollpanebooks(cr);</span>
+<span class="nc" id="L458">            }else{</span>
+<span class="nc" id="L459">                Request request = new Request(h,new bookdetails(null, h),1);</span>
+<span class="nc" id="L460">                request.setVisible(true);</span>
+<span class="nc" id="L461">                setscrollpanebooks(request);</span>
+<span class="nc" id="L462">            }</span>
+        }else {
+<span class="nc" id="L464">            JPanel newpanel = new JPanel();</span>
+<span class="nc" id="L465">            newpanel.setLayout(new GridLayout(0, 1));</span>
+<span class="nc bnc" id="L466" title="All 2 branches missed.">            for(Book book : books)</span>
+            {
+<span class="nc" id="L468">                showbookintable newbook = new showbookintable(book);</span>
+<span class="nc" id="L469">                newpanel.add(newbook);</span>
+<span class="nc" id="L470">            }</span>
+<span class="nc" id="L471">            scrollpanebooks.setViewportView(newpanel);</span>
+        }
+<span class="nc" id="L473">    }//GEN-LAST:event_byauthorActionPerformed</span>
+
+    private void bytitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bytitleActionPerformed
+<span class="nc" id="L476">        System.out.println(&quot;Searching by title&quot;);</span>
+<span class="nc" id="L477">        List&lt;Book&gt; books=Library.suggestBooks(comboboxtitle.getEditor().getItem().toString());</span>
+<span class="nc bnc" id="L478" title="All 2 branches missed.">        if(books.isEmpty())</span>
+        {
+<span class="nc bnc" id="L480" title="All 2 branches missed.">              if(UserSession.getCustomer()==null)</span>
+            {
+<span class="nc" id="L482">                CustomerRegister cr = new CustomerRegister(h,new bookdetails(Library.suggestBooks(&quot;&quot;).get(0), h),1);</span>
+<span class="nc" id="L483">                cr.setVisible(true);</span>
+<span class="nc" id="L484">                setscrollpanebooks(cr);</span>
+<span class="nc" id="L485">            }else{</span>
+<span class="nc" id="L486">                Request request = new Request(h,new bookdetails(Library.suggestBooks(&quot;&quot;).get(0), h),1);</span>
+<span class="nc" id="L487">                request.setVisible(true);</span>
+<span class="nc" id="L488">                setscrollpanebooks(request);</span>
+<span class="nc" id="L489">            }</span>
+        }else {
+<span class="nc" id="L491">            JPanel newpanel = new JPanel();</span>
+<span class="nc" id="L492">            newpanel.setLayout(new GridLayout(0, 1));</span>
+<span class="nc bnc" id="L493" title="All 2 branches missed.">            for(Book book : books)</span>
+            {        
+<span class="nc" id="L495">                showbookintable newbook = new showbookintable(book);</span>
+<span class="nc" id="L496">                newpanel.add(newbook);</span>
+<span class="nc" id="L497">            }</span>
+<span class="nc" id="L498">            scrollpanebooks.setViewportView(newpanel);</span>
+        }
+<span class="nc" id="L500">    }//GEN-LAST:event_bytitleActionPerformed</span>
+
+    private void shopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shopActionPerformed
+        // TODO add your handling code here:
+        
+<span class="nc" id="L505">        shopaccess abc = new shopaccess(new javax.swing.JFrame(), true);</span>
+<span class="nc" id="L506">        abc.setVisible(true);</span>
+<span class="nc" id="L507">    }//GEN-LAST:event_shopActionPerformed</span>
+
+    private void homebasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homebasActionPerformed
+        // TODO add your handling code here:
+<span class="fc" id="L511">        shop.setEnabled(true);</span>
+<span class="fc" id="L512">        scrollpanecat.setViewportView(categorytable);</span>
+<span class="fc" id="L513">        addtrendingbooks();</span>
+<span class="fc" id="L514">        showrequests.setVisible(false);</span>
+<span class="fc" id="L515">        orders.setVisible(false);</span>
+<span class="fc" id="L516">        receiveorders.setVisible(false);</span>
+<span class="fc" id="L517">        stats.setVisible(false);</span>
+<span class="fc" id="L518">        home.setVisible(false);</span>
+<span class="fc" id="L519">        editbook.setVisible(false);</span>
+<span class="fc" id="L520">    }//GEN-LAST:event_homebasActionPerformed</span>
+
+    private void showrequestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showrequestsActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L524">        List&lt;Book&gt; requestedbooks = Library.getAllRequestedBookList();</span>
+<span class="nc" id="L525">        JPanel pan = new JPanel();</span>
+<span class="nc" id="L526">        pan.setVisible(true);</span>
+<span class="nc" id="L527">        pan.setLayout(new GridLayout(0, 1));</span>
+<span class="nc bnc" id="L528" title="All 2 branches missed.">        for(Book b:requestedbooks)</span>
+        {
+<span class="nc" id="L530">            ShowRequest rb = new ShowRequest(b);</span>
+<span class="nc" id="L531">            pan.add(rb);</span>
+<span class="nc" id="L532">        }</span>
+<span class="nc" id="L533">        setscrollpanebooks(pan);</span>
+<span class="nc" id="L534">    }//GEN-LAST:event_showrequestsActionPerformed</span>
+
+    private void ordersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordersActionPerformed
+<span class="nc" id="L537">     List&lt;Orders&gt; orderses=Ordersf.getOrdersToBePlacedList();</span>
+<span class="nc" id="L538">     order obj = new order(orderses,1);</span>
+<span class="nc" id="L539">        setscrollpanebooks(obj);</span>
+     
+<span class="nc" id="L541">    }//GEN-LAST:event_ordersActionPerformed</span>
+
+    private void receiveordersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiveordersActionPerformed
+<span class="nc" id="L544">        List&lt;Orders&gt; receivedList=Ordersf.getOrdersToBeReceivedList();</span>
+<span class="nc" id="L545">        order obj = new order(receivedList,2);</span>
+<span class="nc" id="L546">        setscrollpanebooks(obj);</span>
+<span class="nc" id="L547">    }//GEN-LAST:event_receiveordersActionPerformed</span>
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L551">        UserSession.clearsession();</span>
+<span class="nc" id="L552">    }//GEN-LAST:event_jButton1ActionPerformed</span>
+
+    private void homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeActionPerformed
+<span class="nc" id="L555">       Employee e = UserSession.getLoggedInEmployee();</span>
+<span class="nc" id="L556">       employeedetails ed = new employeedetails(e);</span>
+<span class="nc" id="L557">        setscrollpanecategory(ed);</span>
+<span class="nc bnc" id="L558" title="All 2 branches missed.">        if(e.getType()==Employeef.CLERK_TYPE)</span>
+        {
+<span class="nc" id="L560">            addclerkpanel();</span>
+        }  
+<span class="nc bnc" id="L562" title="All 2 branches missed.">        else if(e.getType()==Employeef.EMPLOYEE_TYPE)</span>
+        {
+<span class="nc" id="L564">            addincompletebooks();</span>
+        }
+<span class="nc bnc" id="L566" title="All 2 branches missed.">        else if(e.getType()==Employeef.MANAGER_TYPE)</span>
+        {
+<span class="nc" id="L568">            addmanagerpanel();</span>
+        }
+<span class="nc bnc" id="L570" title="All 2 branches missed.">        else if(e.getType()==Employeef.OWNER_TYPE)</span>
+        {
+<span class="nc" id="L572">            addownerpanel();</span>
+        }
+<span class="nc" id="L574">    }//GEN-LAST:event_homeActionPerformed</span>
+
+    private void editbookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbookActionPerformed
+<span class="nc" id="L577">        CompleteBooks cb = new CompleteBooks(new Book());</span>
+<span class="nc" id="L578">        setscrollpanebooks(cb);</span>
+<span class="nc" id="L579">    }//GEN-LAST:event_editbookActionPerformed</span>
+
+    private void statsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsActionPerformed
+      
+<span class="nc" id="L583">      statistics st=new statistics();</span>
+<span class="nc" id="L584">      setscrollpanebooks(st);</span>
+        
+<span class="nc" id="L586">    }//GEN-LAST:event_statsActionPerformed</span>
+
+    /**
+     * @param args the command line arguments
+     */
+ public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="fc" id="L598">            UIManager.setLookAndFeel(&quot;com.seaglasslookandfeel.SeaGlassLookAndFeel&quot;);</span>
+<span class="nc" id="L599">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L600">            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L601">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L602">            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L603">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L604">            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L605">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L606">            java.util.logging.Logger.getLogger(home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="pc" id="L607">        }</span>
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="fc" id="L611">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="fc" id="L613">                h = new home();</span>
+<span class="fc" id="L614">                h.setVisible(true);</span>
+<span class="fc" id="L615">            }</span>
+        });
+<span class="fc" id="L617">    }</span>
+
+public class shopaccess extends javax.swing.JDialog {
+
+    /**
+     * Creates new form shopaccess
+     */
+<span class="nc" id="L624">    public shopaccess(java.awt.Frame parent, boolean modal) {</span>
+<span class="nc" id="L625">        super(parent, modal);</span>
+<span class="nc" id="L626">        initComponents();</span>
+<span class="nc" id="L627">        shoppass.requestFocus();</span>
+<span class="nc" id="L628">        shoppass.addKeyListener(new KeyAdapter() </span>
+<span class="nc" id="L629">        {</span>
+            public void keyPressed(KeyEvent evt)
+               {
+<span class="nc bnc" id="L632" title="All 2 branches missed.">                if(evt.getKeyCode() == KeyEvent.VK_ENTER)</span>
+                {
+<span class="nc" id="L634">                    accessActionPerformed(null);</span>
+                }
+<span class="nc" id="L636">            }</span>
+        });
+<span class="nc" id="L638">    }</span>
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;                          
+    private void initComponents() {
+
+<span class="nc" id="L649">        jPanel1 = new javax.swing.JPanel();</span>
+<span class="nc" id="L650">        shoppass = new javax.swing.JPasswordField();</span>
+<span class="nc" id="L651">        access = new javax.swing.JButton();</span>
+<span class="nc" id="L652">        jLabel1 = new javax.swing.JLabel();</span>
+
+<span class="nc" id="L654">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L655">        setTitle(&quot;SHOP ACCESS&quot;);</span>
+
+<span class="nc" id="L657">        jPanel1.setLayout(null);</span>
+<span class="nc" id="L658">        jPanel1.add(shoppass);</span>
+<span class="nc" id="L659">        shoppass.setBounds(160, 360, 160, 30);</span>
+
+<span class="nc" id="L661">        access.setText(&quot;ACCESS&quot;);</span>
+<span class="nc" id="L662">        access.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L664">                accessActionPerformed(evt);</span>
+<span class="nc" id="L665">            }</span>
+        });
+<span class="nc" id="L667">        jPanel1.add(access);</span>
+<span class="nc" id="L668">        access.setBounds(160, 400, 160, 40);</span>
+
+<span class="nc" id="L670">        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/main/images/lock.jpg&quot;))); // NOI18N</span>
+<span class="nc" id="L671">        jLabel1.setText(&quot;jLabel1&quot;);</span>
+<span class="nc" id="L672">        jPanel1.add(jLabel1);</span>
+<span class="nc" id="L673">        jLabel1.setBounds(0, 0, 479, 457);</span>
+
+<span class="nc" id="L675">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L676">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L677">        layout.setHorizontalGroup(</span>
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+<span class="nc" id="L681">        layout.setVerticalGroup(</span>
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+<span class="nc" id="L686">        pack();</span>
+<span class="nc" id="L687">    }// &lt;/editor-fold&gt;                        </span>
+
+    private void accessActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        // TODO add your handling code here:
+        
+<span class="nc bnc" id="L692" title="All 2 branches missed.">        if(&quot;bas&quot;.equals(String.valueOf(shoppass.getPassword())))</span>
+        {
+<span class="nc" id="L694">            this.dispose();</span>
+<span class="nc" id="L695">            shop.setEnabled(false);</span>
+<span class="nc" id="L696">            login empl = new login(h);</span>
+<span class="nc" id="L697">            setscrollpanebooks(empl);</span>
+<span class="nc" id="L698">        }</span>
+        else
+        {
+<span class="nc" id="L701">            shoppass.setText(null);</span>
+<span class="nc" id="L702">            JOptionPane.showMessageDialog(mainpanel, &quot;IT SEEMS YOU FORGOT THE PASSWORD.\nPLEASE TRY AGAIN.&quot;);</span>
+        }
+        
+<span class="nc" id="L705">    }                                      </span>
+                
+    private javax.swing.JButton access;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField shoppass;
+    // End of variables declaration                   
+}
+
+public void setscrollpanecategory(JPanel panel)
+{
+<span class="nc" id="L716">    scrollpanecat.setViewportView(panel);</span>
+<span class="nc" id="L717">}</span>
+
+public void setscrollpanebooks(JPanel panel)
+{
+<span class="nc" id="L721">    scrollpanebooks.setViewportView(panel);</span>
+<span class="nc" id="L722">}</span>
+
+public void addtrendingbooks()
+{
+    
+<span class="fc" id="L727">    List&lt;Book&gt; tb = Library.getTrendingBooks();</span>
+<span class="fc" id="L728">    JPanel panel = new JPanel();</span>
+<span class="fc" id="L729">    panel.setLayout(new GridLayout(0, 1));</span>
+<span class="fc bfc" id="L730" title="All 2 branches covered.">    for(Book book : tb)</span>
+    {
+<span class="fc" id="L732">        showbookintable newbook = new showbookintable(book);</span>
+<span class="fc" id="L733">        panel.add(newbook);</span>
+<span class="fc" id="L734">    }</span>
+<span class="fc" id="L735">    scrollpanebooks.setViewportView(panel);</span>
+<span class="fc" id="L736">}</span>
+
+public void addincompletebooks()
+{
+<span class="nc" id="L740">    List&lt;Book&gt; books=Library.getIncompleteBooksList();</span>
+<span class="nc" id="L741">    JPanel panel = new JPanel();</span>
+<span class="nc" id="L742">    panel.setLayout(new GridLayout(0, 1));</span>
+<span class="nc bnc" id="L743" title="All 2 branches missed.">    for(Book b:books)</span>
+    {
+<span class="nc" id="L745">        IncompleteBooks newbook = new IncompleteBooks(b);</span>
+<span class="nc" id="L746">        panel.add(newbook);</span>
+<span class="nc" id="L747">    }</span>
+<span class="nc" id="L748">    scrollpanebooks.setViewportView(panel);</span>
+<span class="nc" id="L749">    home.setVisible(true);</span>
+<span class="nc" id="L750">    editbook.setVisible(true);</span>
+<span class="nc" id="L751">}</span>
+
+public void addclerkpanel()
+{
+<span class="nc" id="L755">    home.setVisible(true);</span>
+<span class="nc" id="L756">    setscrollpanebooks(new clerkpanel());</span>
+<span class="nc" id="L757">}</span>
+
+public void addmanagerpanel()
+{
+<span class="nc" id="L761">        home.setVisible(true);</span>
+<span class="nc" id="L762">        showrequests.setVisible(true);</span>
+<span class="nc" id="L763">        orders.setVisible(true);</span>
+<span class="nc" id="L764">        receiveorders.setVisible(true);</span>
+<span class="nc" id="L765">        stats.setVisible(true);</span>
+        
+<span class="nc" id="L767">        List&lt;Book&gt; requestedbooks = Library.getAllRequestedBookList();</span>
+<span class="nc" id="L768">        JPanel pan = new JPanel();</span>
+<span class="nc" id="L769">        pan.setVisible(true);</span>
+<span class="nc" id="L770">        pan.setLayout(new GridLayout(0, 1));</span>
+<span class="nc bnc" id="L771" title="All 2 branches missed.">        for(Book b:requestedbooks)</span>
+        {
+<span class="nc" id="L773">            ShowRequest rb = new ShowRequest(b);</span>
+<span class="nc" id="L774">            pan.add(rb);</span>
+<span class="nc" id="L775">        }</span>
+<span class="nc" id="L776">        setscrollpanebooks(pan);</span>
+<span class="nc" id="L777">}</span>
+
+public void addownerpanel()
+{
+<span class="nc" id="L781">    home.setVisible(true);</span>
+<span class="nc" id="L782">     List&lt;Book&gt; requestedbooks = Statistics.getBooksBelowThreshold(10);//CHANGE TO BOOKS BELOW THRESHOLD</span>
+<span class="nc" id="L783">        JPanel pan = new JPanel();</span>
+<span class="nc" id="L784">        pan.setVisible(true);</span>
+<span class="nc" id="L785">        pan.setLayout(new GridLayout(0, 1));</span>
+<span class="nc bnc" id="L786" title="All 2 branches missed.">        for(Book b:requestedbooks)</span>
+        {
+<span class="nc" id="L788">            booksbelowthreshold rb = new booksbelowthreshold(b);</span>
+<span class="nc" id="L789">            pan.add(rb);</span>
+<span class="nc" id="L790">        }</span>
+<span class="nc" id="L791">        setscrollpanebooks(pan);</span>
+<span class="nc" id="L792">}</span>
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel bookpanel;
+    private javax.swing.JButton byauthor;
+    private javax.swing.JButton bytitle;
+    private javax.swing.JButton cart;
+    private javax.swing.JTable categorytable;
+    private javax.swing.JComboBox comboboxauthor;
+    private javax.swing.JComboBox comboboxtitle;
+    private javax.swing.JButton editbook;
+    private javax.swing.JButton home;
+    private javax.swing.JButton homebas;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel mainpanel;
+    private javax.swing.JButton orders;
+    private javax.swing.JButton receiveorders;
+    public static javax.swing.JScrollPane scrollpanebooks;
+    private javax.swing.JScrollPane scrollpanecat;
+    private javax.swing.JButton shop;
+    private javax.swing.JButton showrequests;
+    private javax.swing.JButton stats;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

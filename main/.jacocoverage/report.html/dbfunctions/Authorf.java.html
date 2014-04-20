@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Authorf.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">dbfunctions</a> &gt; <span class="el_source">Authorf.java</span></div><h1>Authorf.java</h1><pre class="source lang-java linenums">
+
+package dbfunctions;
+import db.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
+
+public class Authorf extends Author{
+
+    public Authorf(String AString) {
+<span class="nc" id="L13">        super(AString);</span>
+<span class="nc" id="L14">    }</span>
+    
+    public static void main(String[] args) {   
+<span class="nc" id="L17">        Manager man=new Manager();</span>
+<span class="nc" id="L18">        getSuggestions(&quot;ro&quot;);</span>
+        
+       
+<span class="nc" id="L21">    }</span>
+    
+    
+    public static Author addAuthor(Author a){
+<span class="nc" id="L25">        Author x=search(a.getName());</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        if(x!=null)</span>
+        {
+//            a.setId(x.getId());
+//            Manager.commit(a);
+//            return a;
+<span class="nc" id="L31">            x.setBio(a.getBio());</span>
+<span class="nc" id="L32">            x.setDob(a.getDob());</span>
+<span class="nc" id="L33">            x.setUrl(a.getUrl());</span>
+<span class="nc" id="L34">            Manager.commit(x);</span>
+<span class="nc" id="L35">            return x;</span>
+        }
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if(Manager.commit(a))</span>
+<span class="nc" id="L38">            return a;</span>
+<span class="nc" id="L39">        return null;</span>
+    }
+    public static Author search(String a)
+    {
+<span class="nc" id="L43">        List&lt;Author&gt; list=(List&lt;Author&gt;)Manager.em.createNamedQuery(&quot;Author.findByName&quot;).setParameter(&quot;name&quot;, a).getResultList();</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if(list.isEmpty())</span>
+<span class="nc" id="L45">            return null;</span>
+<span class="nc" id="L46">        return list.get(0);</span>
+        
+    }
+    public static Author addAuthor(String authString)
+    {
+<span class="nc" id="L51">        Author a=new Author(authString);</span>
+<span class="nc" id="L52">        a.setName(authString);</span>
+<span class="nc" id="L53">        return addAuthor(a); </span>
+    }
+    
+    
+    
+    
+    public static List&lt;Author&gt; getAuthorList(String[] authorStrings){
+<span class="nc" id="L60">        List&lt;Author&gt; list=new LinkedList&lt;&gt;();</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        for (String authorString : authorStrings) {</span>
+<span class="nc" id="L62">            Author a = addAuthor(authorString);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if(a!=null)</span>
+<span class="nc" id="L64">                list.add(a);</span>
+        }
+<span class="nc" id="L66">        return list;</span>
+    }
+    public static List&lt;Author&gt; getAuthorList(List&lt;String&gt; authStrings){
+<span class="nc" id="L69">        List&lt;Author&gt; list = new LinkedList&lt;&gt;();</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (String authorString : authStrings) {</span>
+<span class="nc" id="L71">            Author a = addAuthor(authorString);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if(a!=null)</span>
+<span class="nc" id="L73">                list.add(a);</span>
+<span class="nc" id="L74">        }</span>
+        
+<span class="nc" id="L76">        return list;</span>
+    }
+    
+    public static List&lt;Author&gt;  getSuggestions(String parname){
+        
+<span class="nc" id="L81">        Manager.Activate();</span>
+<span class="nc" id="L82">        List&lt;Author&gt; list=(List&lt;Author&gt;) Manager.em.createQuery(&quot;SELECT a FROM Author a &quot;</span>
+                + &quot; WHERE a.name LIKE :x  ORDER BY a.name&quot;).
+                setParameter(&quot;x&quot;, &quot;%&quot;+parname.toUpperCase()+&quot;%&quot;).getResultList();
+<span class="nc" id="L85">        return list;</span>
+    }
+    
+    public static List&lt;Author&gt; getList()
+    {
+<span class="nc" id="L90">        return Manager.em.createNamedQuery(&quot;Author.findAll&quot;).getResultList();</span>
+    }
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>

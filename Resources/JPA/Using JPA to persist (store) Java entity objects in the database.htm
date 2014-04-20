@@ -1,0 +1,723 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0050)http://www.objectdb.com/java/jpa/persistence/store -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" class="js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" src="./Using JPA to persist (store) Java entity objects in the database_files/auth016.js"></script><link rel="stylesheet" type="text/css" href="./Using JPA to persist (store) Java entity objects in the database_files/widget119.css" media="all">
+
+  <title>Using JPA to persist (store) Java entity objects in the database</title>
+  
+<link rel="shortcut icon" href="http://www.objectdb.com/favicon.ico" type="image/x-icon">
+  <meta http-equiv="cache-control" content="must-revalidate">
+  <meta http-equiv="expires" content="0">
+  <meta name="robots" content="noarchive">
+    <meta name="description" content="Explains how to use JPA to store (persist) entity objects in the database.">
+      <meta name="keywords" content="object, database, java, jpa, persistence, api, jdo, persist, store, create, INSERT INTO, CRUD, transaction, cascade, flush, EntityNotFoundException, TransactionRequiredException, commit, entity, cascade, EntityManager, EntityTransaction, embedded, batch">
+      <link type="text/css" rel="stylesheet" media="all" href="./Using JPA to persist (store) Java entity objects in the database_files/css_23d9524fbc69a8be8479438a9459fca4.css">
+
+
+
+  <!--[if IE]>
+  <style type="text/css">
+  span.ext, span.mailto { zoom: 1; }
+  </style>
+  <![endif]-->
+  <script type="text/javascript" async="" src="./Using JPA to persist (store) Java entity objects in the database_files/ga.js"></script><script type="text/javascript" src="./Using JPA to persist (store) Java entity objects in the database_files/js_18bb0eef8e49475e299b0a79c94e2e08.jsmin.js"></script><style type="text/css"></style>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls|xml|z|zip" }, "hide_submit": { "selector": "input:submit:not(.hide-submit-exclude):not(#search-submit)", "mode": "hide", "keypress": "1", "dbg": false, "message": "\x3cp class=\"hide_submit\"\x3e\x3cimg src=\"/sites/all/modules/public/ui/hide_submit-6.x-1.12/hide_submit/images/loader.gif\" alt=\"\" title=\"\" /\x3e\x26nbsp; Please wait... \x3c/p\x3e", "image": "/sites/all/modules/public/ui/hide_submit-6.x-1.12/hide_submit/images/loader.gif" } });
+//--><!]]>
+</script>
+  <script type="text/javascript" async="" src="./Using JPA to persist (store) Java entity objects in the database_files/in.php"></script><style>[touch-action="none"]{ -ms-touch-action: none; touch-action: none; }[touch-action="pan-x"]{ -ms-touch-action: pan-x; touch-action: pan-x; }[touch-action="pan-y"]{ -ms-touch-action: pan-y; touch-action: pan-y; }[touch-action="scroll"],[touch-action="pan-x pan-y"],[touch-action="pan-y pan-x"]{ -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; }</style><script type="text/javascript" async="" src="./Using JPA to persist (store) Java entity objects in the database_files/in(1).php"></script><script type="text/javascript" async="" src="./Using JPA to persist (store) Java entity objects in the database_files/in(2).php"></script><style id="clearly_highlighting_css" type="text/css">/* selection */ html.clearly_highlighting_enabled ::-moz-selection { background: rgba(246, 238, 150, 0.99); } html.clearly_highlighting_enabled ::selection { background: rgba(246, 238, 150, 0.99); } /* cursor */ html.clearly_highlighting_enabled {    /* cursor and hot-spot position -- requires a default cursor, after the URL one */    cursor: url("chrome-extension://pioclpoplcdbaefihamjohnefbikjilc/clearly/images/highlight--cursor.png") 14 16, text; } /* highlight tag */ em.clearly_highlight_element {    font-style: inherit !important; font-weight: inherit !important;    background-image: url("chrome-extension://pioclpoplcdbaefihamjohnefbikjilc/clearly/images/highlight--yellow.png");    background-repeat: repeat-x; background-position: top left; background-size: 100% 100%; } /* the delete-buttons are positioned relative to this */ em.clearly_highlight_element.clearly_highlight_first { position: relative; } /* delete buttons */ em.clearly_highlight_element a.clearly_highlight_delete_element {    display: none; cursor: pointer;    padding: 0; margin: 0; line-height: 0;    position: absolute; width: 34px; height: 34px; left: -17px; top: -17px;    background-image: url("chrome-extension://pioclpoplcdbaefihamjohnefbikjilc/clearly/images/highlight--delete-sprite.png"); background-repeat: no-repeat; background-position: 0px 0px; } em.clearly_highlight_element a.clearly_highlight_delete_element:hover { background-position: -34px 0px; } /* retina */ @media (min--moz-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {    em.clearly_highlight_element { background-image: url("chrome-extension://pioclpoplcdbaefihamjohnefbikjilc/clearly/images/highlight--yellow@2x.png"); }    em.clearly_highlight_element a.clearly_highlight_delete_element { background-image: url("chrome-extension://pioclpoplcdbaefihamjohnefbikjilc/clearly/images/highlight--delete-sprite@2x.png"); background-size: 68px 34px; } } </style><script type="text/javascript" async="" src="./Using JPA to persist (store) Java entity objects in the database_files/in(3).php"></script><script type="text/javascript" async="" src="./Using JPA to persist (store) Java entity objects in the database_files/in(4).php"></script><script type="text/javascript" async="" src="./Using JPA to persist (store) Java entity objects in the database_files/in(5).php"></script><script type="text/javascript" async="" src="./Using JPA to persist (store) Java entity objects in the database_files/in(6).php"></script><script type="text/javascript" async="" src="./Using JPA to persist (store) Java entity objects in the database_files/in(7).php"></script></head>
+
+<body id="objectdb" class="not-front page-node node-type-page one-sidebar sidebar-left page-java-jpa-persistence-store section-java section-java-jpa">
+<!--[if IE]><div id="IE"><![endif]-->
+<!--[if IE 6]><div id="IE6"><![endif]-->
+<!--[if IE 7]><div id="IE7"><![endif]-->
+  <div id="page-wrapper"><div id="page">
+
+    <!-- Header -->
+    <div id="header">
+
+      <!-- Site Logo -->
+      <div id="site-logo">
+        <a href="http://www.objectdb.com/" title="Home">
+          <img src="./Using JPA to persist (store) Java entity objects in the database_files/logo32.gif" alt="Home">
+        </a>
+      </div>
+
+      <!-- Site Name -->
+              <div id="site-name">
+          <a href="http://www.objectdb.com/" title="Home">
+            <span id="site-name-shadow"><strong class="object">Object</strong><strong class="db">DB</strong></span><span id="site-name-no-shadow"><strong class="object">Object</strong><strong class="db">DB</strong></span>          </a>
+        </div>
+      
+      <!-- Site Slogan -->
+              <div id="site-slogan">Fast Object Database for Java - with JPA/JDO support</div>
+      
+      <!-- Header blocks -->
+              <div id="header-blocks" class="region region-header">
+          
+<div id="block-odbmenu-3" class="block ">
+
+  
+  <div class="content">
+    <div id="top-menu"><ul class="menu"><li class="first"><a href="http://www.objectdb.com/object/db/database/archive">Download</a></li>
+<li><a href="http://www.objectdb.com/database/forum">Forum</a></li>
+<li><a href="http://www.objectdb.com/user/login" id="login" class="guest">Login</a></li>
+<li><a href="http://www.objectdb.com/user" id="account" class="user">My Account</a></li>
+<li><a href="http://www.objectdb.com/logout" id="logout" class="user">Logout</a></li>
+</ul></div>  </div>
+
+  <div class="footer"></div>
+
+</div>
+
+<div id="block-odbmenu-0" class="block ">
+
+  
+  <div class="content">
+    <div id="superfish"><ul class="menu sf-menu"><li class="expanded first"><a href="http://www.objectdb.com/object/db/database/overview">ObjectDB</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/object/db/database/overview" class="image page">Overview</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/object/db/database/features" class="image features">Features</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/object/db/database/download" class="image download">Download</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/object/db/database/purchase" class="image page">License</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/object/db/database/company" class="image page">Company</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/tutorial">Tutorials</a><ul class="menu"><li class="expanded first"><a href="http://www.objectdb.com/tutorial/jpa/start" class=" image tutorial">Quick Start with JPA</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/tutorial/jpa/eclipse" class=" image eclipse">Eclipse JPA Tutorial...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/tutorial/jpa/netbeans" class=" image netbeans">NetBeans JPA Tutorial...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/tutorial/jpa/start/maven" class=" image download">Download and Run...</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/tutorial/tool/report/birt" class=" image eclipse">BIRT Report Generator...</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/tutorial/jpa/web" class=" image tutorial">JPA Web App (Tomcat)</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/tutorial/jpa/eclipse/web" class=" image eclipse">Eclipse JPA Web App...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/tutorial/jpa/netbeans/web" class=" image netbeans">NetBeans JPA Web App...</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/tutorial/jpa/web/maven" class=" image download">Download and Run...</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/tutorial/jpa/ee" class=" image tutorial">Java EE JPA (GlassFish)</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/tutorial/jpa/eclipse/ee" class=" image eclipse">Eclipse JPA Java EE...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/tutorial/jpa/netbeans/ee" class=" image netbeans">NetBeans JPA Java EE...</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/tutorial/jpa/ee/maven" class=" image download">Download and Run...</a></li>
+</ul></li>
+<li class="expanded last"><a href="http://www.objectdb.com/tutorial/jpa/spring" class=" image tutorial">Spring MVC and JPA</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/tutorial/jpa/eclipse/spring" class=" image eclipse">Eclipse JPA Spring...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/tutorial/jpa/netbeans/spring" class=" image netbeans">NetBeans JPA Spring...</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/tutorial/jpa/spring/maven" class=" image download">Download and Run...</a></li>
+</ul></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/java/jpa">Manual</a><ul class="menu"><li class="expanded first"><a href="http://www.objectdb.com/java/jpa/getting/started" class=" image book">1&nbsp;&nbsp;Quick Tour</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/java/jpa/start/entity" class=" image page">Entity Class</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/start/connection" class=" image page">Database Connection</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/start/crud" class=" image page">CRUD Operations</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/java/jpa/start/tools" class=" image page">What is Next?</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/java/jpa/entity" class=" image book">2&nbsp;&nbsp;Entity Classes</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/java/jpa/entity/types" class=" image page">Persistable Types</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/entity/fields" class=" image page">Entity Fields</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/entity/id" class=" image page">Primary Key</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/entity/generated" class=" image page">Generated Values</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/entity/index" class=" image page">Index Definition</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/entity/schema" class=" image page">Schema Evolution</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/java/jpa/entity/persistence-unit" class=" image page">Persistence Unit</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/java/jpa/persistence" class=" image book">3&nbsp;&nbsp;Using JPA</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/java/jpa/persistence/overview" class=" image page">Database Connection</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/persistence/managed" class=" image page">Managed Entity Objects</a></li>
+<li class="expanded"><a href="http://www.objectdb.com/java/jpa/persistence/crud" class=" image section">CRUD Operations</a><ul class="menu"><li class="leaf first"><a href="./Using JPA to persist (store) Java entity objects in the database_files/Using JPA to persist (store) Java entity objects in the database.htm" class=" image page">Storing Entities</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/persistence/retrieve" class=" image page">Retrieving Entities</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/persistence/update" class=" image page">Updating Entities</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/java/jpa/persistence/delete" class=" image page">Deleting Entities</a></li>
+</ul></li>
+<li class="expanded last"><a href="http://www.objectdb.com/java/jpa/persistence/advanced" class=" image section">Advanced Topics</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/java/jpa/persistence/detach" class=" image page">Detached Entities</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/persistence/lock" class=" image page">Lock Management</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/persistence/event" class=" image page">Lifecycle Events</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/persistence/cache" class=" image page">Shared L2 Cache</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/java/jpa/persistence/metamodel" class=" image page">Metamodel API</a></li>
+</ul></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/java/jpa/query" class=" image book">4&nbsp;&nbsp;JPA Queries</a><ul class="menu"><li class="expanded first"><a href="http://www.objectdb.com/java/jpa/query/api" class=" image section">Query API</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/java/jpa/query/execute" class=" image page">Running Queries</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/parameter" class=" image page">Query Parameters</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/named" class=" image page">Named Queries</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/criteria" class=" image page">Criteria Query API</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/java/jpa/query/setting" class=" image page">Setting &amp; Tuning</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/java/jpa/query/jpql/structure" class=" image section">Query Structure</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/java/jpa/query/jpql/select" class=" image page">JPQL SELECT</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/from" class=" image page">JPQL FROM</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/where" class=" image page">JPQL WHERE</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/group" class=" image page">JPQL GROUP BY</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/order" class=" image page">JPQL ORDER BY</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/delete" class=" image page">DELETE Queries</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/java/jpa/query/jpql/update" class=" image page">UPDATE Queries</a></li>
+</ul></li>
+<li class="expanded last"><a href="http://www.objectdb.com/java/jpa/query/jpql/expression" class=" image section">Query Expressions</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/java/jpa/query/jpql/literal" class=" image page">JPQL Literals</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/path" class=" image page">JPQL Paths and Types</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/arithmetic" class=" image page">Numbers in JPQL</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/string" class=" image page">Strings in JPQL</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/date" class=" image page">Date and Time in JPQL</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/collection" class=" image page">Collections in JPQL</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/query/jpql/comparison" class=" image page">Comparison Operators</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/java/jpa/query/jpql/logical" class=" image page">Logical Operators</a></li>
+</ul></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/java/jpa/tool" class=" image book">5&nbsp;&nbsp;Tools and Utilities</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/java/jpa/tool/explorer" class=" image page">Database Explorer</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/tool/server" class=" image page">Database Server</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/tool/enhancer" class=" image page">Class Enhancer</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/tool/replication" class=" image page">Replication (Cluster)</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/tool/backup" class=" image page">Online Backup</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/tool/doctor" class=" image page">Database Doctor</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/tool/replayer" class=" image page">Transaction Replayer</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/java/jpa/tool/birt" class=" image page">BIRT Reports Driver</a></li>
+</ul></li>
+<li class="expanded last"><a href="http://www.objectdb.com/java/jpa/setting" class=" image book">6&nbsp;&nbsp;Configuration</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/java/jpa/setting/general" class=" image page">General and Logging</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/setting/database" class=" image page">Database Management</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/setting/entities" class=" image page">Entity Management</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/setting/schema" class=" image page">Schema Update</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/setting/server" class=" image page">Server Configuration</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/setting/users" class=" image page">Server User List</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/java/jpa/setting/ssl" class=" image page">SSL Configuration</a></li>
+</ul></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa">JPA</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/Persistence" class=" image class">Persistence</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/EntityManagerFactory" class=" image interface">EntityManagerFactory</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/EntityManager" class=" image interface">EntityManager</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/EntityTransaction" class=" image interface">EntityTransaction</a></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa/annotations" class=" image category">Annotations</a><ul class="menu"><li class="expanded first"><a href="http://www.objectdb.com/api/java/jpa/annotations/class" class=" image category">Class Modifiers</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/Cacheable" class=" image annotation">Cacheable</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/Embeddable" class=" image annotation">Embeddable</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/Entity" class=" image annotation">Entity</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/EntityListeners" class=" image annotation">EntityListeners</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/ExcludeDefaultListeners" class=" image annotation">ExcludeDefaultListeners</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/ExcludeSuperclassListeners" class=" image annotation">ExcludeSuperclassListeners</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/IdClass" class=" image annotation">IdClass</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/MappedSuperclass" class=" image annotation">MappedSuperclass</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa/annotations/field" class=" image category">Field Modifiers</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/Basic" class=" image annotation">Basic</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/Embedded" class=" image annotation">Embedded</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/ElementCollection" class=" image annotation">ElementCollection</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/Id" class=" image annotation">Id</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/EmbeddedId" class=" image annotation">EmbeddedId</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/Version" class=" image annotation">Version</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/Transient" class=" image annotation">Transient</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/Enumerated" class=" image annotation">Enumerated</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/MapKeyEnumerated" class=" image annotation">MapKeyEnumerated</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/EnumType" class=" image enum">EnumType</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/Temporal" class=" image annotation">Temporal</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/TemporalType" class=" image enum">TemporalType</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/MapKeyTemporal" class=" image annotation">MapKeyTemporal</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa/annotations/relationship" class=" image category">Relationships</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/ManyToMany" class=" image annotation">ManyToMany</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/ManyToOne" class=" image annotation">ManyToOne</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/OneToMany" class=" image annotation">OneToMany</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/OneToOne" class=" image annotation">OneToOne</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/OrderBy" class=" image annotation">OrderBy</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/MapKey" class=" image annotation">MapKey</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/CascadeType" class=" image enum">CascadeType</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/FetchType" class=" image enum">FetchType</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa/annotations/access" class=" image category">Access Modes</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/Access" class=" image annotation">Access</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/AccessType" class=" image enum">AccessType</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa/annotations/value" class=" image category">Value Generation</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/GeneratedValue" title="javax.persistence.GeneratedValue - JPA annotation" class=" image annotation">GeneratedValue</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/GenerationType" title="javax.persistence.GenerationType - JPA enum" class=" image enum">GenerationType</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/SequenceGenerator" title="javax.persistence.SequenceGenerator - JPA annotation" class=" image annotation">SequenceGenerator</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/TableGenerator" title="javax.persistence.TableGenerator - JPA annotation" class=" image annotation">TableGenerator</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa/annotations/callback" class=" image category">Callback Methods</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/PrePersist" title="javax.persistence.PrePersist - JPA annotation" class=" image annotation">PrePersist</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/PreRemove" title="javax.persistence.PreRemove - JPA annotation" class=" image annotation">PreRemove</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/PreUpdate" title="javax.persistence.PreUpdate - JPA annotation" class=" image annotation">PreUpdate</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/PostLoad" title="javax.persistence.PostLoad - JPA annotation" class=" image annotation">PostLoad</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/PostPersist" title="javax.persistence.PostPersist - JPA annotation" class=" image annotation">PostPersist</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/PostRemove" title="javax.persistence.PostRemove - JPA annotation" class=" image annotation">PostRemove</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/PostUpdate" title="javax.persistence.PostUpdate - JPA annotation" class=" image annotation">PostUpdate</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa/annotations/jpql" class=" image category">JPQL Queries</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/NamedQueries" title="javax.persistence.NamedQueries - JPA annotation" class=" image annotation">NamedQueries</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/NamedQuery" title="javax.persistence.NamedQuery - JPA annotation" class=" image annotation">NamedQuery</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/QueryHint" class=" image annotation">QueryHint</a></li>
+</ul></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/annotations/ee" class=" image category">Java EE...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/annotations/orm" class=" image category">Mapping (ORM)...</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/annotations/sql" class=" image category">SQL Queries...</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa/queries" class=" image category">Queries</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/Query" class=" image interface">Query</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/TypedQuery" class=" image interface">TypedQuery</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/Parameter" class=" image interface">Parameter</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/criteria/CriteriaBuilder" class=" image interface">CriteriaBuilder</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/criteria/CriteriaQuery" class=" image interface">CriteriaQuery</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/query/criteria/select" class=" image category">Selection and Results...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/query/criteria/from" class=" image category">Criteria From Elements...</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/queries/criteria" class=" image category">Criteria Expressions...</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa/metamodel" class=" image category">Metamodel</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/metamodel/Metamodel" class=" image interface">Metamodel</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/metamodel/types" class=" image category">Metamodel Types...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/metamodel/members" class=" image category">Metamodel Attributes...</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/metamodel/Bindable" class=" image interface">Bindable...</a></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jpa/misc" class=" image category">Miscellaneous</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/PersistenceUtil" class=" image interface">PersistenceUtil</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/PersistenceUnitUtil" class=" image interface">PersistenceUnitUtil</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/Cache" class=" image interface">Cache...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/CacheRetrieveMode" class=" image enum">CacheRetrieveMode</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/CacheStoreMode" class=" image enum">CacheStoreMode</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/FlushModeType" class=" image enum">FlushModeType</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/LockModeType" class=" image enum">LockModeType</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/PessimisticLockScope" class=" image enum">PessimisticLockScope</a></li>
+</ul></li>
+<li class="expanded last"><a href="http://www.objectdb.com/api/java/jpa/exceptions" class=" image category">Exceptions</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jpa/EntityExistsException" class=" image exception">EntityExistsException</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/EntityNotFoundException" class=" image exception">EntityNotFoundException</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/LockTimeoutException" class=" image exception">LockTimeoutException</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/NonUniqueResultException" class=" image exception">NonUniqueResultException</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/NoResultException" class=" image exception">NoResultException</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/OptimisticLockException" class=" image exception">OptimisticLockException</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/PersistenceException" class=" image exception">PersistenceException</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/PessimisticLockException" class=" image exception">PessimisticLockException</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/QueryTimeoutException" class=" image exception">QueryTimeoutException</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jpa/RollbackException" class=" image exception">RollbackException</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jpa/TransactionRequiredException" class=" image exception">TransactionRequiredExc...</a></li>
+</ul></li>
+</ul></li>
+<li class="expanded"><a href="http://www.objectdb.com/api/java/jdo">JDO</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/api/java/jdo/JDOHelper" class=" image class">JDOHelper</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jdo/PersistenceManagerFactory" class=" image interface">PersistenceManagerFactory</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jdo/PersistenceManager" class=" image interface">PersistenceManager</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jdo/Transaction" class=" image interface">Transaction</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jdo/Query" class=" image interface">Query</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jdo/Extent" class=" image interface">Extent</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jdo/annotations" class=" image category">Annotations...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jdo/event/callbacks" class=" image category">Callbacks...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jdo/event/listeners" class=" image category">Listeners...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jdo/id/classes" class=" image category">Predefined ID Classes...</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/api/java/jdo/misc" class=" image category">Miscellaneous...</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/api/java/jdo/exceptions" class=" image category">Exceptions...</a></li>
+</ul></li>
+<li class="expanded last"><a href="http://www.objectdb.com/object/db/database/faq">Support</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/object/db/database/faq" class="image faq">FAQ</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/object/db/database/knowledge" class="image knowledge">Knowledge Base</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/database/forum" class="image forum">Forum</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/database/issue" class="image issue">Issue Tracking</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/database/support/new" class="image support">Help Desk</a></li>
+</ul></li>
+</ul></div>  </div>
+
+  <div class="footer"></div>
+
+</div>
+
+<div id="block-block-17" class="block ">
+
+  
+  <div class="content">
+    <form id="search-box" method="get" action="http://www.objectdb.com/search.php"> <input name="q" id="search-text" title="Enter the terms you wish to search for." type="text"> <input id="search-submit" value="" type="submit"> </form>  </div>
+
+  <div class="footer"></div>
+
+</div>
+        </div>
+      
+      <!-- The user (navigation) menu black strip -->
+      <div id="user-menu-strip">&nbsp;</div>
+
+    </div> <!-- /#header -->
+
+    <!-- Main -->
+    <div id="main" class="clear-block">
+
+      <!-- Main Top -->
+      
+      <!-- Content -->
+      <div id="content">
+
+        <!-- Content Top -->
+                  <div id="content-top" class="region region-content-top">
+            
+<div id="block-odbdoc-1" class="block ">
+
+  
+  <div class="content">
+    <div id="share" class="addthis_toolbox addthis_default_style"><a class="addthis_button_facebook at300b" title="Facebook" href="http://www.objectdb.com/java/jpa/persistence/store#"><span class="at16nc at300bs at15nc at15t_facebook at16t_facebook"><span class="at_a11y">Share on facebook</span></span></a><a class="addthis_button_twitter at300b" title="Tweet" href="http://www.objectdb.com/java/jpa/persistence/store#"><span class="at16nc at300bs at15nc at15t_twitter at16t_twitter"><span class="at_a11y">Share on twitter</span></span></a><a class="addthis_button_email at300b" target="_blank" title="Email" href="http://www.objectdb.com/java/jpa/persistence/store#"><span class="at16nc at300bs at15nc at15t_email at16t_email"><span class="at_a11y">Share on email</span></span></a><a class="addthis_button_print at300b" title="Print" href="http://www.objectdb.com/java/jpa/persistence/store#"><span class="at16nc at300bs at15nc at15t_print at16t_print"><span class="at_a11y">Share on print</span></span></a><a class="addthis_button_compact at300m" href="http://www.objectdb.com/java/jpa/persistence/store#"><span class="at16nc at300bs at15nc at15t_compact at16t_compact"><span class="at_a11y">More Sharing Services</span></span></a><div class="atclear"></div></div><div id="_atssh" style="visibility: hidden; height: 1px; width: 1px; position: absolute; z-index: 100000;"><iframe id="_atssh299" title="AddThis utility frame" style="height: 1px; width: 1px; position: absolute; z-index: 100000; border: 0px; left: 0px; top: 0px;"></iframe></div>  </div>
+
+  <div class="footer"></div>
+
+</div>
+
+<div id="block-odbutil-0" class="block ">
+
+  
+  <div class="content">
+    <div class="breadcrumb"><a href="http://www.objectdb.com/">Home</a> » <a href="http://www.objectdb.com/java/jpa">Manual</a> » <a href="http://www.objectdb.com/java/jpa/persistence">Using JPA</a> » <a href="http://www.objectdb.com/java/jpa/persistence/crud">CRUD Operations</a> » Storing Entities</div><div class="tabs"><form class="tabs primary"> <select id="tab-select" onchange="location=$(&#39;#tab-select&#39;).val()" class="tabs primary">
+<option class="view" selected="" value="/java/jpa/persistence/store">View</option>
+<option class="edit" value="/node/54/edit">Edit</option>
+<option class="new" value="/node/54/child">New</option>
+<option class="revisions" value="/node/54/revisions">Revisions</option>
+</select></form>
+</div><hr>  </div>
+
+  <div class="footer"></div>
+
+</div>
+
+<div id="block-odbdoc-0" class="block ">
+
+  
+  <div class="content">
+    <span id="word-count" class="super">1024 words</span>  </div>
+
+  <div class="footer"></div>
+
+</div>
+          </div>
+        
+        <!-- Content Header -->
+        <div id="content-header">
+
+          <!-- Title -->
+                      <h1 class="title">Storing JPA Entity Objects</h1>
+          
+          <!-- Messages -->
+          
+          <!-- Instructions (Help) -->
+          
+        </div> <!-- /#content-header -->
+
+        <!-- Content Area -->
+        <div id="content-area">
+          <div id="node-54" class="node clear-block">
+
+
+
+  <div class="meta">
+  
+    </div>
+
+  <div class="content">
+    
+<p>
+  New entity objects can be stored in the database either explicitly by invoking the <a href="http://www.objectdb.com/api/java/jpa/EntityManager/persist_Object" class="tooltip code"><span class="code"><code>persist</code></span><span class="tooltip"><span><b>persist(entity)</b></span><span><b>EntityManager's method</b></span><span>Make an instance managed and persistent.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> method or implicitly as a result of a cascade operation.
+</p>
+<p>
+  </p><div class="toc" id="toc">
+<div class="toc-title">This page covers the following topics:</div>
+<div class="toc-list">
+<ul>
+  <li class="toc-level-1"><a href="http://www.objectdb.com/java/jpa/persistence/store#Explicit_Persist_">
+  Explicit Persist
+</a></li>
+  <li class="toc-level-1"><a href="http://www.objectdb.com/java/jpa/persistence/store#Referenced_Embedded_Objects_">
+  Referenced Embedded Objects
+</a></li>
+  <li class="toc-level-1"><a href="http://www.objectdb.com/java/jpa/persistence/store#Referenced_Entity_Objects_">
+  Referenced Entity Objects
+</a></li>
+  <li class="toc-level-1"><a href="http://www.objectdb.com/java/jpa/persistence/store#Cascading_Persist_">
+  Cascading Persist
+</a></li>
+  <li class="toc-level-1"><a href="http://www.objectdb.com/java/jpa/persistence/store#Global_Cascading_Persist_">
+  Global Cascading Persist
+</a></li>
+  <li class="toc-level-1"><a href="http://www.objectdb.com/java/jpa/persistence/store#Batch_Store_">
+  Batch Store
+</a></li>
+</ul>
+</div>
+</div>
+<p></p>
+<h2 id="Explicit_Persist_">
+  Explicit Persist
+</h2>
+<p>
+  The following code stores an instance of the <code>Employee</code> entity class in the database:
+</p>
+<div class="geshifilter"><pre class="odb_sjava geshifilter-odb_sjava">  Employee employee <span class="sy0">=</span> <span class="kw1">new</span> Employee<span class="br0">(</span><span class="st0">"Samuel"</span>, <span class="st0">"Joseph"</span>, <span class="st0">"Wurzelbacher"</span><span class="br0">)</span><span class="sy0">;</span>
+  em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/getTransaction" class="tooltip code">getTransaction<span class="tooltip"><span><b>getTransaction()</b></span><span><b>EntityManager's method</b></span><span>Return the resource-level EntityTransaction object.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span>.<a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/begin" class="tooltip code">begin<span class="tooltip"><span><b>begin()</b></span><span><b>EntityTransaction's method</b></span><span>Start a resource transaction.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+  em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/persist_Object" class="tooltip code">persist<span class="tooltip"><span><b>persist(entity)</b></span><span><b>EntityManager's method</b></span><span>Make an instance managed and persistent.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span>employee<span class="br0">)</span><span class="sy0">;</span>
+  em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/getTransaction" class="tooltip code">getTransaction<span class="tooltip"><span><b>getTransaction()</b></span><span><b>EntityManager's method</b></span><span>Return the resource-level EntityTransaction object.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span>.<a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/commit" class="tooltip code">commit<span class="tooltip"><span><b>commit()</b></span><span><b>EntityTransaction's method</b></span><span>Commit the current resource transaction, writing any unflushed changes to the database.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span></pre></div>
+<p>
+  The <code>Employee</code> instance is constructed as an ordinary Java object and its initial <a href="http://www.objectdb.com/java/jpa/persistence/overview#Entity_Life_Cycle">state</a> is New. An explicit call to <a href="http://www.objectdb.com/api/java/jpa/EntityManager/persist_Object" class="tooltip code"><span class="code"><code>persist</code></span><span class="tooltip"><span><b>persist(entity)</b></span><span><b>EntityManager's method</b></span><span>Make an instance managed and persistent.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> associates the object with an owner <code><a href="http://www.objectdb.com/api/java/jpa/EntityManager" class="tooltip code"><span class="code">EntityManager</span><span class="tooltip"><span><b>javax.persistence.EntityManager</b></span><span><b>JPA interface</b></span><span>Interface used to interact with the persistence context.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> em</code> and changes its state to Managed. The new entity object is stored in the database when the transaction is committed.
+</p>
+<p>
+  An <code>IllegalArgumentException</code> is thrown by <a href="http://www.objectdb.com/api/java/jpa/EntityManager/persist_Object" class="tooltip code"><span class="code"><code>persist</code></span><span class="tooltip"><span><b>persist(entity)</b></span><span><b>EntityManager's method</b></span><span>Make an instance managed and persistent.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> if the argument is not an instance of an entity class. Only instances of entity classes can be stored in the database independently. Objects of other persistable types can only be stored in the database embedded in containing entities (as field values).
+</p>
+<p>
+  A <a href="http://www.objectdb.com/api/java/jpa/TransactionRequiredException" class="tooltip code"><code>TransactionRequiredException</code><span class="tooltip"><span><b>javax.persistence.TransactionRequiredException</b></span><span><b>JPA exception</b></span><span>Thrown by the persistence provider when a transaction is required but is not active.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> is thrown if there is no active transaction when <code>persist</code> is called because operations that modify the database require an active transaction.
+</p>
+<p>
+  If the database already contains another entity of the same type with the same primary key, an <a href="http://www.objectdb.com/api/java/jpa/EntityExistsException" class="tooltip code"><code>EntityExistsException</code><span class="tooltip"><span><b>javax.persistence.EntityExistsException</b></span><span><b>JPA exception</b></span><span>Thrown by the persistence provider when EntityManager.persist(Object) is called and the entity already exists.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> is thrown. The exception is thrown either by <a href="http://www.objectdb.com/api/java/jpa/EntityManager/persist_Object" class="tooltip code"><span class="code"><code>persist</code></span><span class="tooltip"><span><b>persist(entity)</b></span><span><b>EntityManager's method</b></span><span>Make an instance managed and persistent.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> (if that existing entity object is currently managed by the <code>EntityManager</code>) or by <a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/commit" class="tooltip code"><code>commit</code><span class="tooltip"><span><b>commit()</b></span><span><b>EntityTransaction's method</b></span><span>Commit the current resource transaction, writing any unflushed changes to the database.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a>.
+</p>
+<h2 id="Referenced_Embedded_Objects_">
+  Referenced Embedded Objects
+</h2>
+<p>
+  The following code stores an <code>Employee</code> instance with a reference to an <code>Address</code> instance:
+</p>
+<div class="geshifilter"><pre class="odb_sjava geshifilter-odb_sjava">  Employee employee <span class="sy0">=</span> <span class="kw1">new</span> Employee<span class="br0">(</span><span class="st0">"Samuel"</span>, <span class="st0">"Joseph"</span>, <span class="st0">"Wurzelbacher"</span><span class="br0">)</span><span class="sy0">;</span>
+  Address address <span class="sy0">=</span> <span class="kw1">new</span> Address<span class="br0">(</span><span class="st0">"Holland"</span>, <span class="st0">"Ohio"</span><span class="br0">)</span><span class="sy0">;</span>
+  employee.<span class="me1">setAddress</span><span class="br0">(</span>address<span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+  em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/getTransaction" class="tooltip code">getTransaction<span class="tooltip"><span><b>getTransaction()</b></span><span><b>EntityManager's method</b></span><span>Return the resource-level EntityTransaction object.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span>.<a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/begin" class="tooltip code">begin<span class="tooltip"><span><b>begin()</b></span><span><b>EntityTransaction's method</b></span><span>Start a resource transaction.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+  em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/persist_Object" class="tooltip code">persist<span class="tooltip"><span><b>persist(entity)</b></span><span><b>EntityManager's method</b></span><span>Make an instance managed and persistent.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span>employee<span class="br0">)</span><span class="sy0">;</span>
+  em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/getTransaction" class="tooltip code">getTransaction<span class="tooltip"><span><b>getTransaction()</b></span><span><b>EntityManager's method</b></span><span>Return the resource-level EntityTransaction object.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span>.<a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/commit" class="tooltip code">commit<span class="tooltip"><span><b>commit()</b></span><span><b>EntityTransaction's method</b></span><span>Commit the current resource transaction, writing any unflushed changes to the database.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span></pre></div>
+<p>
+  Instances of <a href="http://www.objectdb.com/java/jpa/entity/types">persistable types</a> other than entity classes are automatically stored embedded in containing entity objects. Therefore, if <code>Address</code> is defined as an <a href="http://www.objectdb.com/java/jpa/entity/types#Embeddable_Classes">embeddable class</a> the <code>Employee</code> entity object is automatically stored in the database with its <code>Address</code> instance as an embedded object.
+</p>
+<p>
+  Notice that embedded objects cannot be shared by multiple entity objects. Each containing entity object should have its own embedded objects.
+</p>
+<h2 id="Referenced_Entity_Objects_">
+  Referenced Entity Objects
+</h2>
+<p>
+  On the other hand, suppose that the <code>Address</code> class in the code above is defined as an entity class. In this case, the referenced <code>Address</code> instance is not stored in the database automatically with the referencing <code>Employee</code> instance.
+</p>
+<p>
+  To avoid a dangling reference in the database, an <code>IllegalStateException</code> is thrown on commit if a persisted entity object has to be stored in the database in a transaction and it references another entity object that is not expected to be stored in the database at the end of that transaction.
+</p>
+<p>
+  It is the application's responsibility to verify that when an object is stored in the database, the entire closure of entity objects that are reachable from that object by navigation through persistent reference fields is also stored in the database. This can be done either by explicit persist of every reachable object or alternatively by setting automatic cascading persist.
+</p>
+<h2 id="Cascading_Persist_">
+  Cascading Persist
+</h2>
+<p>
+  Marking a reference field with <span class="code"><code><a href="http://www.objectdb.com/api/java/jpa/CascadeType" class="tooltip code">CascadeType<span class="tooltip"><span><b>javax.persistence.CascadeType</b></span><span><b>JPA enum</b></span><span>Defines the set of cascadable operations that are propagated to the associated entity.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a>.</code></span><code><a href="http://www.objectdb.com/api/java/jpa/CascadeType/PERSIST" class="tooltip code">PERSIST<span class="tooltip"><span><b>CascadeType.PERSIST</b></span><span><b>enum constant</b></span><span>Cascade persist operation<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a></code> (or <code><span class="code"><a href="http://www.objectdb.com/api/java/jpa/CascadeType" class="tooltip code">CascadeType<span class="tooltip"><span><b>javax.persistence.CascadeType</b></span><span><b>JPA enum</b></span><span>Defines the set of cascadable operations that are propagated to the associated entity.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a>.<a href="http://www.objectdb.com/api/java/jpa/CascadeType/ALL" class="tooltip code">AL<span class="tooltip"><span><b>CascadeType.ALL</b></span><span><b>enum constant</b></span><span>Cascade all operations<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a></span><a href="http://www.objectdb.com/api/java/jpa/CascadeType/ALL" class="tooltip code">L<span class="tooltip"><span><b>CascadeType.ALL</b></span><span><b>enum constant</b></span><span>Cascade all operations<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a></code> that also covers <code><a href="http://www.objectdb.com/api/java/jpa/CascadeType/PERSIST" class="tooltip code">PERSIST<span class="tooltip"><span><b>CascadeType.PERSIST</b></span><span><b>enum constant</b></span><span>Cascade persist operation<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a></code>) indicates that <a href="http://www.objectdb.com/api/java/jpa/EntityManager/persist_Object" class="tooltip code">persist<span class="tooltip"><span><b>persist(entity)</b></span><span><b>EntityManager's method</b></span><span>Make an instance managed and persistent.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> operations should be cascaded automatically to entity objects that are referenced by that field (multiple entity objects can be referenced by a collection field):
+</p>
+<div class="geshifilter"><pre class="odb_sjava geshifilter-odb_sjava"><a href="http://www.objectdb.com/api/java/jpa/Entity" class="tooltip code">@Entity<span class="tooltip"><span><b>javax.persistence.Entity</b></span><span><b>JPA annotation</b></span><span>Specifies that the class is an entity.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a>
+<span class="kw1">class</span> Employee <span class="br0">{</span>
+     <span class="sy0">:</span>
+    <a href="http://www.objectdb.com/api/java/jpa/OneToOne" class="tooltip code">@OneToOne<span class="tooltip"><span><b>javax.persistence.OneToOne</b></span><span><b>JPA annotation</b></span><span>Defines a single-valued association to another entity that has one-to-one multiplicity.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><a href="http://www.objectdb.com/api/java/jpa/OneToOne/cascade" class="tooltip code">cascade<span class="tooltip"><span><b>OneToOne.cascade</b></span><span><b>annotation element</b></span><span>(Optional) The operations that must be cascaded to the target of the association.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="sy0">=</span><a href="http://www.objectdb.com/api/java/jpa/CascadeType" class="tooltip code">CascadeType<span class="tooltip"><span><b>javax.persistence.CascadeType</b></span><span><b>JPA enum</b></span><span>Defines the set of cascadable operations that are propagated to the associated entity.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a>.<code><a href="http://www.objectdb.com/api/java/jpa/CascadeType/PERSIST" class="tooltip code">PERSIST<span class="tooltip"><span><b>CascadeType.PERSIST</b></span><span><b>enum constant</b></span><span>Cascade persist operation<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a></code><span class="br0">)</span>
+    <span class="kw1">private</span> Address address<span class="sy0">;</span>
+     <span class="sy0">:</span>
+<span class="br0">}</span></pre></div>
+<p>
+  In the example above, the <span class="code">Employee</span> entity class contains an <span class="code">address</span> field that references an instance of <span class="code">Address</span>, which is another entity class. Due to the <span class="code"><code>CascadeType.PERSIST</code></span> setting, when an <code>Employee</code> instance is persisted the operation is automatically cascaded to the referenced <code>Address</code> instance which is then automatically persisted without the need for a separate <span class="code">persist</span> call for <span class="code">Address</span>. Cascading may continue recursively when applicable (e.g. to entity objects that the <span class="code">Address</span> object references, etc.).
+</p>
+<h2 id="Global_Cascading_Persist_">
+  Global Cascading Persist
+</h2>
+<p>
+  Instead of specifying <code><a href="http://www.objectdb.com/api/java/jpa/CascadeType" class="tooltip code">CascadeType<span class="tooltip"><span><b>javax.persistence.CascadeType</b></span><span><b>JPA enum</b></span><span>Defines the set of cascadable operations that are propagated to the associated entity.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a>.<a href="http://www.objectdb.com/api/java/jpa/CascadeType/PERSIST" class="tooltip code">PERSIST<span class="tooltip"><span><b>CascadeType.PERSIST</b></span><span><b>enum constant</b></span><span>Cascade persist operation<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a></code> individually for every relevant reference field, it can be specified globally for any persistent reference, either by setting the <a href="http://www.objectdb.com/java/jpa/setting/entities#The_cascade-persist_element">ObjectDB configuration</a> or in a JPA portable way, by specifying the <code>cascade-persist</code> XML element in the XML mapping file:
+</p>
+<div class="geshifilter"><pre class="odb_config geshifilter-odb_config"><span class="re0">&lt;entity-mappings</span> <span class="re2">xmlns</span>=<span class="st0">"http://java.sun.com/xml/ns/persistence/orm"</span>
+ <span class="re2">xmlns:xsi</span>=<span class="st0">"http://www.w3.org/2001/XMLSchema-instance"</span>
+ <span class="re2">xsi:schemaLocation</span>=<span class="st0">"http://java.sun.com/xml/ns/persistence/orm
+ http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"</span> <span class="re2">version</span>=<span class="st0">"1.0"</span><span class="re1">&gt;</span>
+   <span class="re0">&lt;persistence-unit-metadata<span class="re1">&gt;</span></span>
+     <span class="re0">&lt;persistence-unit-defaults<span class="re1">&gt;</span></span>
+       <span class="re0">&lt;cascade-persist</span><span class="re1">/&gt;</span>
+     <span class="re0">&lt;/persistence-unit-defaults<span class="re1">&gt;</span></span>
+   <span class="re0">&lt;/persistence-unit-metadata<span class="re1">&gt;</span></span>
+<span class="re0">&lt;/entity-mappings<span class="re1">&gt;</span></span></pre></div>
+<p>
+  The mapping file has to be located either in the default location, <code>META-INF/orm.xml</code>, or in another location that is specified explicitly in the <a href="http://www.objectdb.com/java/jpa/entity/persistence-unit">persistence unit</a> definition (in <code>persistence.xml</code>).
+</p>
+<h2 id="Batch_Store_">
+  Batch Store
+</h2>
+<p>
+  Storing a large number of entity objects requires special consideration. The combination of the <code>clear</code> and <code>flush</code> methods can be used to save memory in large transactions:
+</p>
+<div class="geshifilter"><pre class="odb_sjava geshifilter-odb_sjava">  em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/getTransaction" class="tooltip code">getTransaction<span class="tooltip"><span><b>getTransaction()</b></span><span><b>EntityManager's method</b></span><span>Return the resource-level EntityTransaction object.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span>.<a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/begin" class="tooltip code">begin<span class="tooltip"><span><b>begin()</b></span><span><b>EntityTransaction's method</b></span><span>Start a resource transaction.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+  <span class="kw1">for</span> <span class="br0">(</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span> i &lt;<span class="sy0">=</span> <span class="nu0">1000000</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">)</span> <span class="br0">{</span>
+      Point point <span class="sy0">=</span> <span class="kw1">new</span> Point<span class="br0">(</span>i, i<span class="br0">)</span><span class="sy0">;</span>
+      em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/persist_Object" class="tooltip code">persist<span class="tooltip"><span><b>persist(entity)</b></span><span><b>EntityManager's method</b></span><span>Make an instance managed and persistent.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span>point<span class="br0">)</span><span class="sy0">;</span>
+      <span class="kw1">if</span> <span class="br0">(</span><span class="br0">(</span>i <span class="sy0">%</span> <span class="nu0">10000</span><span class="br0">)</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">)</span> <span class="br0">{</span>
+          em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/flush" class="tooltip code">flush<span class="tooltip"><span><b>flush()</b></span><span><b>EntityManager's method</b></span><span>Synchronize the persistence context to the underlying database.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+          em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/clear" class="tooltip code">clear<span class="tooltip"><span><b>clear()</b></span><span><b>EntityManager's method</b></span><span>Clear the persistence context, causing all managed entities to become detached.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+      <span class="br0">}</span>
+  <span class="br0">}</span>
+  em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/getTransaction" class="tooltip code">getTransaction<span class="tooltip"><span><b>getTransaction()</b></span><span><b>EntityManager's method</b></span><span>Return the resource-level EntityTransaction object.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span>.<a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/commit" class="tooltip code">commit<span class="tooltip"><span><b>commit()</b></span><span><b>EntityTransaction's method</b></span><span>Commit the current resource transaction, writing any unflushed changes to the database.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span></pre></div>
+<p>
+  Managed entity objects consume more memory than ordinary non managed Java objects. Therefore, holding 1,000,000 managed <code>Point</code> instances in the <a href="http://www.objectdb.com/java/jpa/persistence/managed#The_Persistence_Context">persistence context</a> might consume too much memory. The sample code above clears the persistence context after every 10,000 persists. Updates are flushed to the database before clearing, otherwise they would be lost.
+</p>
+<p>
+  Updates that are sent to the database using <span class="code"><a href="http://www.objectdb.com/api/java/jpa/EntityManager/flush" class="tooltip code"><code>flush</code><span class="tooltip"><span><b>flush()</b></span><span><b>EntityManager's method</b></span><span>Synchronize the persistence context to the underlying database.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a></span> are considered temporary and are only visible to the owner <a href="http://www.objectdb.com/api/java/jpa/EntityManager" class="tooltip code"><span class="code"><code>EntityManager</code></span><span class="tooltip"><span><b>javax.persistence.EntityManager</b></span><span><b>JPA interface</b></span><span>Interface used to interact with the persistence context.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> until a commit. With no explicit <a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/commit" class="tooltip code"><span class="code"><code>commit</code></span><span class="tooltip"><span><b>commit()</b></span><span><b>EntityTransaction's method</b></span><span>Commit the current resource transaction, writing any unflushed changes to the database.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a>, these updates are later discarded. The combination of <a href="http://www.objectdb.com/api/java/jpa/EntityManager/clear" class="tooltip code"><code>clear</code><span class="tooltip"><span><b>clear()</b></span><span><b>EntityManager's method</b></span><span>Clear the persistence context, causing all managed entities to become detached.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> and <a href="http://www.objectdb.com/api/java/jpa/EntityManager/flush" class="tooltip code"><code>flush</code><span class="tooltip"><span><b>flush()</b></span><span><b>EntityManager's method</b></span><span>Synchronize the persistence context to the underlying database.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a> enables moving the temporary updates from memory to the database.
+</p>
+<p>
+  <span>Note:</span> Flushing updates to the database is sometimes also useful <a href="http://www.objectdb.com/java/jpa/query/setting#Flush_Mode_setFlushMode">before executing queries</a> in order to get up to date results.
+</p>
+<p>
+  Storing large amount of entity objects can also be performed by multiple transactions:
+</p>
+<div class="geshifilter"><pre class="odb_sjava geshifilter-odb_sjava">  em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/getTransaction" class="tooltip code">getTransaction<span class="tooltip"><span><b>getTransaction()</b></span><span><b>EntityManager's method</b></span><span>Return the resource-level EntityTransaction object.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span>.<a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/begin" class="tooltip code">begin<span class="tooltip"><span><b>begin()</b></span><span><b>EntityTransaction's method</b></span><span>Start a resource transaction.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+  <span class="kw1">for</span> <span class="br0">(</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span> i &lt;<span class="sy0">=</span> <span class="nu0">1000000</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">)</span> <span class="br0">{</span>
+      Point point <span class="sy0">=</span> <span class="kw1">new</span> Point<span class="br0">(</span>i, i<span class="br0">)</span><span class="sy0">;</span>
+      em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/persist_Object" class="tooltip code">persist<span class="tooltip"><span><b>persist(entity)</b></span><span><b>EntityManager's method</b></span><span>Make an instance managed and persistent.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span>point<span class="br0">)</span><span class="sy0">;</span>
+      <span class="kw1">if</span> <span class="br0">(</span><span class="br0">(</span>i <span class="sy0">%</span> <span class="nu0">10000</span><span class="br0">)</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">)</span> <span class="br0">{</span>
+          em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/getTransaction" class="tooltip code">getTransaction<span class="tooltip"><span><b>getTransaction()</b></span><span><b>EntityManager's method</b></span><span>Return the resource-level EntityTransaction object.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span>.<a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/commit" class="tooltip code">commit<span class="tooltip"><span><b>commit()</b></span><span><b>EntityTransaction's method</b></span><span>Commit the current resource transaction, writing any unflushed changes to the database.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+          em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/clear" class="tooltip code">clear<span class="tooltip"><span><b>clear()</b></span><span><b>EntityManager's method</b></span><span>Clear the persistence context, causing all managed entities to become detached.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>          
+          em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/getTransaction" class="tooltip code">getTransaction<span class="tooltip"><span><b>getTransaction()</b></span><span><b>EntityManager's method</b></span><span>Return the resource-level EntityTransaction object.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span>.<a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/begin" class="tooltip code">begin<span class="tooltip"><span><b>begin()</b></span><span><b>EntityTransaction's method</b></span><span>Start a resource transaction.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+      <span class="br0">}</span>
+  <span class="br0">}</span>
+  em.<a href="http://www.objectdb.com/api/java/jpa/EntityManager/getTransaction" class="tooltip code">getTransaction<span class="tooltip"><span><b>getTransaction()</b></span><span><b>EntityManager's method</b></span><span>Return the resource-level EntityTransaction object.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span>.<a href="http://www.objectdb.com/api/java/jpa/EntityTransaction/commit" class="tooltip code">commit<span class="tooltip"><span><b>commit()</b></span><span><b>EntityTransaction's method</b></span><span>Commit the current resource transaction, writing any unflushed changes to the database.<br><span class="read-more">See JavaDoc Reference Page...</span></span></span></a><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span></pre></div>
+<p>
+  Splitting a batch store into multiple transactions is more efficient than using one transaction with multiple invocations of the <span class="code">flush</span> and <span class="code">clear</span> methods. So using multiple transactions is preferred when applicable.
+</p>
+  </div>
+
+  </div>        </div>
+
+        <!-- Content Bottom -->
+                  <div id="content-bottom" class="region region-content-bottom">
+            
+<div id="block-odbmenu-2" class="block ">
+
+  
+  <div class="content">
+    <div id="book-navigation-block"><div class="book-links clear-block"><a href="http://www.objectdb.com/java/jpa/persistence/crud" class="page-previous" title="Go to previous page">&lt; CRUD Operations</a><a href="http://www.objectdb.com/java/jpa/persistence/crud" class="page-up" title="Go to parent page">^ CRUD Operations</a><a href="http://www.objectdb.com/java/jpa/persistence/retrieve" class="page-next" title="Go to next page">Retrieving Entities &gt;</a></div></div>  </div>
+
+  <div class="footer"></div>
+
+</div>
+
+<div id="block-block-32" class="block ">
+
+  
+  <div class="content">
+    <div style="text-align:center; font-size:10px; line-height:16px">
+  <hr>
+  <p>
+    This documentation explains how to use JPA in the context of the ObjectDB Object Database&nbsp;but mostly relevant<br>
+    also for ORM JPA implementations, such as&nbsp;Hibernate (and HQL), EclipseLink, TopLink, OpenJPA and DataNucleus.<br>
+    ObjectDB is not an ORM JPA implementation but an Object Database (ODBMS) for Java with built in JPA 2 support.
+  </p>
+</div>
+<p>
+  &nbsp;
+</p>
+  </div>
+
+  <div class="footer"></div>
+
+</div>
+          </div>
+        
+        
+      </div> <!-- /#content -->
+
+      <!-- Left Sidebar -->
+              <div id="sidebar-left" class="region region-left">
+          
+<div id="block-odbmenu-1" class="block ">
+
+  
+  <div class="content">
+    <div id="book-menu"><div id="book-header"><p><a href="http://www.objectdb.com/java/jpa">ObjectDB Manual</a></p></div><ul class="menu"><li class="collapsed first"><a href="http://www.objectdb.com/java/jpa/getting/started" class=" image book">1&nbsp;&nbsp;Quick Tour</a></li>
+<li class="collapsed"><a href="http://www.objectdb.com/java/jpa/entity" class=" image book">2&nbsp;&nbsp;Entity Classes</a></li>
+<li class="expanded active-trail"><a href="http://www.objectdb.com/java/jpa/persistence" class=" image book">3&nbsp;&nbsp;Using JPA</a><ul class="menu"><li class="leaf first"><a href="http://www.objectdb.com/java/jpa/persistence/overview" class=" image page">Database Connection</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/persistence/managed" class=" image page">Managed Entity Objects</a></li>
+<li class="expanded active-trail"><a href="http://www.objectdb.com/java/jpa/persistence/crud" class=" image section">CRUD Operations</a><ul class="menu"><li class="leaf first active-trail"><a href="./Using JPA to persist (store) Java entity objects in the database_files/Using JPA to persist (store) Java entity objects in the database.htm" class=" image page active">Storing Entities</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/persistence/retrieve" class=" image page">Retrieving Entities</a></li>
+<li class="leaf"><a href="http://www.objectdb.com/java/jpa/persistence/update" class=" image page">Updating Entities</a></li>
+<li class="leaf last"><a href="http://www.objectdb.com/java/jpa/persistence/delete" class=" image page">Deleting Entities</a></li>
+</ul></li>
+<li class="collapsed last"><a href="http://www.objectdb.com/java/jpa/persistence/advanced" class=" image section">Advanced Topics</a></li>
+</ul></li>
+<li class="collapsed"><a href="http://www.objectdb.com/java/jpa/query" class=" image book">4&nbsp;&nbsp;JPA Queries</a></li>
+<li class="collapsed"><a href="http://www.objectdb.com/java/jpa/tool" class=" image book">5&nbsp;&nbsp;Tools and Utilities</a></li>
+<li class="collapsed last"><a href="http://www.objectdb.com/java/jpa/setting" class=" image book">6&nbsp;&nbsp;Configuration</a></li>
+</ul></div>  </div>
+
+  <div class="footer"></div>
+
+</div>
+
+<div id="block-block-30" class="block ">
+
+      <h2>Which JPA is Faster?</h2>
+    <div class="header-image"></div>
+  
+  <div class="content">
+    <p>
+  <img height="100" src="./Using JPA to persist (store) Java entity objects in the database_files/jpab185.png" width="185" alt="">
+</p>
+<p>
+  See a comparison of&nbsp;<a class="ext" href="http://www.jpab.org/Hibernate.html" target="_blank">Hibernate</a>, <a class="ext" href="http://www.jpab.org/EclipseLink.html" target="_blank">EclipseLink</a>, <a class="ext" href="http://www.jpab.org/OpenJPA.html" target="_blank">OpenJPA</a>, <a class="ext" href="http://www.jpab.org/DataNucleus.html" target="_blank">DataNucleus</a>, <a class="ext" href="http://www.jpab.org/MySQL.html" target="_blank">MySQL</a>, <a class="ext" href="http://www.jpab.org/PostgreSQL.html" target="_blank">PostgreSQL</a>, <a class="ext" href="http://www.jpab.org/Derby.html" target="_blank">Derby</a>, <a class="ext" href="http://www.jpab.org/HSQLDB.html" target="_blank">HSQLDB</a>, <a class="ext" href="http://www.jpab.org/DB4O.html" target="_blank">DB4O&nbsp;by Versant</a>, <a class="ext" href="http://www.jpab.org/H2.html" target="_blank">H2 Database</a>, <a class="ext" href="http://www.jpab.org/SQLite.html" target="_blank">SQLite</a> and <a class="ext" href="http://www.jpab.org/ObjectDB.html" target="_blank">ObjectDB</a>
+</p>
+<div id="jpab">
+  <p>
+    in the <a href="http://www.jpab.org/All/All/All.html" target="_blank" class="ext">JPA Benchmark</a><span class="ext"></span>.
+  </p>
+</div>
+<p>
+  &nbsp;
+</p>
+  </div>
+
+  <div class="footer"></div>
+
+</div>
+
+<div id="block-odbsearch-1" class="block ">
+
+  
+  <div class="content">
+    <div id="page-tags-block"><h2>Related Tags</h2><span class=" tag tag3"><a href="http://www.objectdb.com/object/database/CRUD">CRUD</a></span> <span class=" tag tag1"><a href="http://www.objectdb.com/object/database/EntityManager">EntityManager</a></span> <span class=" tag tag3"><a href="http://www.objectdb.com/object/database/EntityNotFoundException">EntityNotFoundException</a></span> <span class=" tag tag1"><a href="http://www.objectdb.com/object/database/EntityTransaction">EntityTransaction</a></span> <span class=" tag tag4"><a href="http://www.objectdb.com/object/database/INSERT%20INTO">INSERT INTO</a></span> <span class=" tag tag3"><a href="http://www.objectdb.com/object/database/TransactionRequiredException">TransactionRequiredException</a></span> <span class=" tag tag1"><a href="http://www.objectdb.com/object/database/batch">batch</a></span> <span class=" tag tag2"><a href="http://www.objectdb.com/object/database/cascade">cascade</a></span> <span class=" tag tag3"><a href="http://www.objectdb.com/object/database/commit">commit</a></span> <span class=" tag tag4"><a href="http://www.objectdb.com/object/database/create">create</a></span> <span class=" tag tag1"><a href="http://www.objectdb.com/object/database/embedded">embedded</a></span> <span class=" tag tag2"><a href="http://www.objectdb.com/object/database/entity">entity</a></span> <span class=" tag tag3"><a href="http://www.objectdb.com/object/database/flush">flush</a></span> <span class=" tag tag5"><a href="http://www.objectdb.com/object/database/persist">persist</a></span> <span class=" tag tag5"><a href="http://www.objectdb.com/object/database/store">store</a></span> <span class=" tag tag3"><a href="http://www.objectdb.com/object/database/transaction">transaction</a></span> </div>  </div>
+
+  <div class="footer"></div>
+
+</div>
+        </div>
+      
+      <!-- Right Sidebar -->
+      
+    </div> <!-- /#main -->
+
+    <!-- Footer -->
+    <div id="footer" class="region region-footer">
+      
+<div id="block-odbmenu-5" class="block ">
+
+  
+  <div class="content">
+    <script language="javascript" type="text/javascript">odbSetRef("/java/jpa/persistence/crud");</script>  </div>
+
+  <div class="footer"></div>
+
+</div>
+      <div id="footer-message">
+                Copyright © 2010-2014 ObjectDB Software -
+        All rights reserved - <div id="terms"><a href="http://www.objectdb.com/terms">Terms of Use</a></div>
+        <br>
+      </div> <!-- /#footer-message -->
+      <div id="cache" class="super">2014-03-31 15:03:58</div>
+    </div>
+
+  </div></div><canvas style="display: none;"></canvas> <!--/#page -->
+
+  <!-- Closure -->
+    
+      <!--[if (IE 6)]>
+        <script type="text/javascript">
+          var IE6UPDATE_OPTIONS = {
+            icons_path: "http://www.objectdb.com/sites/all/modules/public/util/ie6update-6.x-1.5/ie6update/images/",
+            message: "Internet Explorer is missing updates required to view this site. Click here to update... ",
+            url: "http://www.microsoft.com/windows/internet-explorer/default.aspx"
+          }
+        </script>
+        <script type="text/javascript" src="http://www.objectdb.com/sites/all/modules/public/util/ie6update-6.x-1.5/ie6update/ie6update.js"></script>
+      <![endif]-->
+    <script type="text/javascript" src="./Using JPA to persist (store) Java entity objects in the database_files/js_4b8babbd1d451e3d408a903375664f54.jsmin.js"></script>  <style type="text/css">  .sb, .sbi, .sb *, .sbi * { position:relative; z-index:1; }  * html .sb, * html .sbi { height:1%; }  .sbi { display:inline-block; }  .sb-inner { background:#ddd; }  .sb-shadow { background:#000; }  .sb-border { background:#bbb; }  </style>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var _gaq = _gaq || [];_gaq.push(["_setAccount", "UA-634683-1"]);_gaq.push(["_trackPageview"]);(function() {var ga = document.createElement("script");ga.type = "text/javascript";ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga, s);})();
+//--><!]]>
+</script>
+
+  <div id="empty" style="width: 0; height: 0;"></div>
+
+  <!-- Clicky -->
+  <script type="text/javascript">
+    var ca = document.cookie.split(';');
+    for(var i=0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ')
+        c = c.substring(1, c.length); //delete spaces
+        if (c.indexOf("odbid=") == 0) {
+          var odbid = c.substring("odbid=".length, c.length);
+          var odbids = odbid.split('%3C%24%40%3E');
+          var clicky_custom = {
+            session: {
+              User: odbids[0],
+              Name: odbids[1],
+              Company: odbids[2],
+              Country: odbids[3]
+            }
+        };
+      }
+    }
+  </script>
+  <script src="./Using JPA to persist (store) Java entity objects in the database_files/js" type="text/javascript"></script>
+  <script type="text/javascript">try{ clicky.init(66369915); }catch(err){}</script>
+  <noscript>&lt;p&gt;&lt;img alt="Clicky" width="1" height="1" src="http://in.getclicky.com/66369915ns.gif" /&gt;&lt;/p&gt;</noscript>
+
+<!--[if IE 7]></div><![endif]-->
+<!--[if IE 6]></div><![endif]-->
+<!--[if IE]></div><![endif]-->
+
+
+<!-- Page cached @ 2014-03-31 15:03:58, expires @ 2014-03-31 15:03:58-->
+</body></html>

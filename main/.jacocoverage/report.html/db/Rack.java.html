@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Rack.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;main&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">db</a> &gt; <span class="el_source">Rack.java</span></div><h1>Rack.java</h1><pre class="source lang-java linenums">
+
+package db;
+
+import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+
+
+@Entity
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = &quot;Rack.findAll&quot;, query = &quot;SELECT r FROM Rack r&quot;),
+    @NamedQuery(name = &quot;Rack.findByNumber&quot;, query = &quot;SELECT r FROM Rack r WHERE r.number = :number&quot;),
+    @NamedQuery(name = &quot;Rack.findByIntitial&quot;, query = &quot;SELECT r FROM Rack r WHERE r.intitial = :intitial&quot;),
+    @NamedQuery(name = &quot;Rack.findByFinal1&quot;, query = &quot;SELECT r FROM Rack r WHERE r.final1 = :final1&quot;)})
+public class Rack implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    private Integer number;
+    private Character intitial;
+    @Column(name = &quot;FINAL&quot;)
+    private Character final1;
+    @OneToMany(mappedBy = &quot;rack&quot;)
+    private Collection&lt;Racksection&gt; racksectionCollection;
+
+<span class="fc" id="L37">    public Rack() {</span>
+<span class="fc" id="L38">    }</span>
+
+<span class="nc" id="L40">    public Rack(Integer number) {</span>
+<span class="nc" id="L41">        this.number = number;</span>
+<span class="nc" id="L42">    }</span>
+
+    public Integer getNumber() {
+<span class="nc" id="L45">        return number;</span>
+    }
+
+    public void setNumber(Integer number) {
+<span class="nc" id="L49">        this.number = number;</span>
+<span class="nc" id="L50">    }</span>
+
+    public Character getIntitial() {
+<span class="nc" id="L53">        return intitial;</span>
+    }
+
+    public void setIntitial(Character intitial) {
+<span class="nc" id="L57">        this.intitial = intitial;</span>
+<span class="nc" id="L58">    }</span>
+
+    public Character getFinal1() {
+<span class="nc" id="L61">        return final1;</span>
+    }
+
+    public void setFinal1(Character final1) {
+<span class="nc" id="L65">        this.final1 = final1;</span>
+<span class="nc" id="L66">    }</span>
+
+    @XmlTransient
+    public Collection&lt;Racksection&gt; getRacksectionCollection() {
+<span class="nc" id="L70">        return racksectionCollection;</span>
+    }
+
+    public void setRacksectionCollection(Collection&lt;Racksection&gt; racksectionCollection) {
+<span class="nc" id="L74">        this.racksectionCollection = racksectionCollection;</span>
+<span class="nc" id="L75">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L79">        int hash = 0;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        hash += (number != null ? number.hashCode() : 0);</span>
+<span class="nc" id="L81">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (!(object instanceof Rack)) {</span>
+<span class="nc" id="L88">            return false;</span>
+        }
+<span class="nc" id="L90">        Rack other = (Rack) object;</span>
+<span class="nc bnc" id="L91" title="All 8 branches missed.">        if ((this.number == null &amp;&amp; other.number != null) || (this.number != null &amp;&amp; !this.number.equals(other.number))) {</span>
+<span class="nc" id="L92">            return false;</span>
+        }
+<span class="nc" id="L94">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L99">        return &quot;db.Rack[ number=&quot; + number + &quot; ]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.0.201403182114</span></div></body></html>
