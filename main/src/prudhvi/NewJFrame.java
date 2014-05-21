@@ -9,7 +9,7 @@ package prudhvi;
 import java.util.ArrayList;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import test.SearchBoxModel;
+import gui.SearchBoxModel;
 
 /**
  *

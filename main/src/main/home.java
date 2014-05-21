@@ -6,6 +6,22 @@
 
 package main;
 
+import gui.AuthorSuggest;
+import gui.BookSuggest;
+import gui.manager.statistics;
+import gui.showbookintable;
+import gui.customer.cart;
+import gui.manager.order;
+import gui.login;
+import gui.employeedetails;
+import gui.clerk.clerkpanel;
+import gui.manager.ShowRequest;
+import gui.manager.booksbelowthreshold;
+import gui.bookdetails;
+import gui.Request;
+import gui.IncompleteBooks;
+import gui.customer.CustomerRegister;
+import gui.employee.CompleteBooks;
 import db.*;
 import dbfunctions.*;
 import feature.*;
