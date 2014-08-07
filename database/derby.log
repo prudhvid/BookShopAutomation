@@ -1,0 +1,19 @@
+Sat Apr 19 15:41:48 IST 2014 : Apache Derby Network Server - 10.8.3.0 - (1405108) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Sat Apr 19 15:41:49 IST 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.3.0 - (1405108): instance a816c00e-0145-7978-6e30-00001abfc257 
+on database directory F:\DC\arduino\java\Projects\bookshop-automation-software\database\bas  with class loader sun.misc.Launcher$AppClassLoader@631d75b9 
+Loaded from file:/C:/Program%20Files/Java/jdk1.7.0_45/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_51-b13
+user.dir=C:\Program Files\Java\jdk1.7.0_45\db
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=F:\DC\arduino\java\Projects\bookshop-automation-software\database
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Sun Apr 20 00:11:30 IST 2014: Shutting down Derby engine
+----------------------------------------------------------------
+Sun Apr 20 00:11:30 IST 2014:
+Shutting down instance a816c00e-0145-7978-6e30-00001abfc257 on database directory F:\DC\arduino\java\Projects\bookshop-automation-software\database\bas with class loader sun.misc.Launcher$AppClassLoader@631d75b9 
